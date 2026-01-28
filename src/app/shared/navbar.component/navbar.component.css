@@ -1,16 +1,12 @@
-nav{
-  width: 250px;
+nav {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: #141C21 ;
+  background-color: #141C21;
   padding: 20px;
-  top: 0;
-  left: 0;
-  height: 100vh;
   overflow-y: auto;
-  transition: width 0.3s ease-in-out;
-  position: fixed;
 }
+
 
 
 nav ul{
@@ -158,22 +154,17 @@ nav.collapse-nav .btn-logout {
   padding: 0 !important;
 }
 
-nav.collapse-nav{
-  width: 80px !important;
-}
 
+/* importante para detecta el hostbinding*/
 
-nav {
+:host {
+  display: block;
   width: 250px;
   transition: width 0.3s ease-in-out;
-  display: flex;
-  flex-direction: column;
-  background-color: #141C21;
-  height: 100vh;
-  position: fixed;
-  padding: 20px;
 }
 
-nav.collapse-nav {
+:host.collapse-nav {
   width: 80px;
 }
+
+

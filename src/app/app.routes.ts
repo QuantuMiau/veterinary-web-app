@@ -16,17 +16,20 @@ import {
 } from './pages/dashboard.component/patients.component/patient-list.component/patient-list.component';
 import {ServicesComponent} from './pages/dashboard.component/services.component/services.component';
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
+import {NotFoundComponent} from './pages/not-found.component/not-found.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: AuthLayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent }
+      {path: '', redirectTo: 'login', pathMatch: 'full'},
+      { path: 'login', component: LoginComponent },
+
     ]
   },
   {
-    path: '',
+    path: 'dashboard',
     component: MainLayoutComponent,
     children: [{ path: '', component: DashboardComponent,
       children: [
@@ -44,6 +47,10 @@ export const routes: Routes = [
         {path: 'iot', component: IotComponent}
       ]
     }
+    ]
+  }, {
+  path: '**', component: AuthLayoutComponent, children: [
+      {path: '', component: NotFoundComponent},
     ]
   }
 ];
