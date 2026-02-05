@@ -1,8 +1,8 @@
-import { Component, EventEmitter, HostBinding, Output} from '@angular/core';
+import { Component, EventEmitter, HostBinding, inject, Output} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'navbar',
   standalone: true,
   imports: [
     RouterLink,
@@ -12,16 +12,15 @@ import {Router, RouterLink, RouterLinkActive} from '@angular/router';
   styleUrl: './navbar.component.css',
 })
 export class NavbarComponent {
+  // injection de servicio router para poder usar router y no tener que hacer constructores
+  private router = inject(Router);
+
   isCollapsed = false;
 
+  // host binding para detectar el cambio de cuando se collapsa
   @HostBinding('class.collapse-nav') get collapsed() {
     return this.isCollapsed;
   }
-
-  /// se ocupa el constructor para inyectar el servicio router
-  // asi poder usar las rutas de routerlink etc.
-  constructor(private router: Router) {}
-
 
   // funcion del logout y se usa this para esta instancia / componente
   logout() {
