@@ -1,0 +1,26 @@
+<form [formGroup]="loginForm" (ngSubmit)="submit()">
+
+  <div>
+    <label >Email</label>
+    <input type="email" formControlName="email">
+
+    @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+      <small>Email inválido</small>
+    }
+
+  </div>
+
+  <div>
+    <label>Password</label>
+    <input type="password" formControlName="password">
+
+    @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+      <small> minimo 6 caracteres</small>
+    }
+  </div>
+
+  <button type="submit" [disabled]="loginForm.invalid">
+    Iniciar sesión
+  </button>
+
+</form>
