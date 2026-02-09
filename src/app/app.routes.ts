@@ -17,6 +17,7 @@ import {
 import {ServicesComponent} from './pages/dashboard.component/services.component/services.component';
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
 import {NotFoundComponent} from './pages/not-found.component/not-found.component';
+import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
 
 export const routes: Routes = [
   {
@@ -44,7 +45,8 @@ export const routes: Routes = [
         {path: 'ordenes', component: OrdersComponent},
         {path: 'inventario', component: InventoryComponent},
         {path: 'servicios', component: ServicesComponent},
-        {path: 'iot', component: IotComponent}
+        {path: 'iot', component: IotComponent},
+        {path: 'empleados', component: UsersComponent},
       ]
     }
     ]
