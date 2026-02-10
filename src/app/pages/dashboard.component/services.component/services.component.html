@@ -1,1 +1,66 @@
-<p>services.component works!</p>
+<div class="services-container">
+  <div class="services-title">Servicios</div>
+
+  <div class="flex flex-wrap items-stretch gap-2 mb-3 mt-3 ml-3">
+    <div class="flex flex-grow gap-2 items-stretch w-full md:w-auto">
+      <div class="flex w-[60%]">
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Nombre"
+          aria-label="Nombre"
+          class="flex-grow border border-gray-300 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        />
+        <button
+          id="searchbar-btn"
+          type="button"
+          class="bg-gray-100 border border-gray-300 text-gray-700 text-sm px-3 py-1.5 rounded-r-md hover:bg-gray-200"
+        >
+          Buscar
+        </button>
+      </div>
+
+      <select
+        class="flex-shrink-0 text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        aria-label="Small select example"
+      >
+        <option value="1" selected>Todos</option>
+        <option value="2">Recientes</option>
+      </select>
+    </div>
+
+    <button
+      type="button"
+      data-bs-toggle="modal"
+      data-bs-target="#editClientModal"
+      class="ml-auto mr-3 bg-green-500 text-white text-sm px-3 py-1.5 rounded-md hover:bg-green-600"
+    >
+      Agregar servicio
+    </button>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table id="services-table" class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+      <thead class="bg-gray-100 text-gray-700">
+      <tr>
+        <th class="px-4 py-2 text-left">Servicio</th>
+        <th class="px-4 py-2 text-left">Categoría</th>
+        <th class="px-4 py-2 text-left">Precio</th>
+        <th class="px-4 py-2 text-left">Duración</th>
+        <th class="px-4 py-2 text-left"></th>
+      </tr>
+      </thead>
+
+      <tbody class="divide-y divide-gray-200">
+      <tr class="hover:bg-gray-50 even:bg-gray-50">
+        <td class="px-4 py-2">Baño y corte de pelo - Perro</td>
+        <td class="px-4 py-2">Estética</td>
+        <td class="px-4 py-2">$250</td>
+        <td class="px-4 py-2">3 horas</td>
+        <td class="px-4 py-2 text-right">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
