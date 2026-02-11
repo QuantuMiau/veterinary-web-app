@@ -11,12 +11,13 @@ import {Router} from '@angular/router';
 export class LoginFormComponent {
 
   private formBuilder = inject(FormBuilder);
-  private router = inject(Router)
+
+  private router = inject(Router);
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
-  })
+  });
 
 
   submit() {

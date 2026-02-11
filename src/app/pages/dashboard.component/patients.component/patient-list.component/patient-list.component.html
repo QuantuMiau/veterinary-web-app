@@ -1,1 +1,146 @@
-<p>patient-list.component works!</p>
+<div class="patients-container">
+  <div class="patients-title">Pacientes</div>
+
+  <!-- search header -->
+  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
+
+    <div class="flex flex-col sm:flex-row gap-2 flex-1">
+      <div class="flex w-full sm:w-3/5">
+        <input
+          type="text"
+          placeholder="Nombre"
+          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
+        >
+          Buscar
+        </button>
+      </div>
+
+      <select
+        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option selected>Todos</option>
+        <option>Recientes</option>
+      </select>
+    </div>
+
+    <button
+      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
+    >
+      Agregar paciente
+    </button>
+  </div>
+
+  <!-- tble -->
+  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
+    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
+      <thead>
+      <tr class="text-left text-gray-500">
+        <th class="px-4 py-2">Nombre</th>
+        <th class="px-4 py-2">Especie</th>
+        <th class="px-4 py-2">Raza</th>
+        <th class="px-4 py-2">Sexo</th>
+        <th class="px-4 py-2">Dueño</th>
+        <th class="px-4 py-2">Última visita</th>
+        <th class="px-4 py-2 text-right"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+          Bichin
+        </td>
+        <td class="px-4 py-3">Gato</td>
+        <td class="px-4 py-3">Común americano</td>
+        <td class="px-4 py-3">
+          <span
+            class="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
+          >
+            Macho
+          </span>
+        </td>
+        <td class="px-4 py-3">Mauricio Esperon</td>
+        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
+        <td class="px-4 py-3 text-right rounded-r-lg">
+          <div class="flex justify-end gap-2">
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+          Bichin
+        </td>
+        <td class="px-4 py-3">Gato</td>
+        <td class="px-4 py-3">Común americano</td>
+        <td class="px-4 py-3">
+          <span
+            class="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
+          >
+            Macho
+          </span>
+        </td>
+        <td class="px-4 py-3">Mauricio Esperon</td>
+        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
+        <td class="px-4 py-3 text-right rounded-r-lg">
+          <div class="flex justify-end gap-2">
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+          Bichin
+        </td>
+        <td class="px-4 py-3">Gato</td>
+        <td class="px-4 py-3">Común americano</td>
+        <td class="px-4 py-3">
+          <span
+            class="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
+          >
+            Macho
+          </span>
+        </td>
+        <td class="px-4 py-3">Mauricio Esperon</td>
+        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
+        <td class="px-4 py-3 text-right rounded-r-lg">
+          <div class="flex justify-end gap-2">
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <i class="fa-solid fa-eye"></i>
+            </button>
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+              <i class="fa-solid fa-pencil"></i>
+            </button>
+            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
