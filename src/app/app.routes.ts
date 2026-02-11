@@ -34,9 +34,9 @@ export const routes: Routes = [
     children: [{ path: '', component: DashboardComponent,
       children: [
         {path: 'home', component: HomeComponent},
-        { path: '', component: PatientsComponent,
+        { path: 'pacientes', component: PatientsComponent,
           children: [
-            {path: 'pacientes', component: PatientListComponent},
+            {path: 'lista', component: PatientListComponent},
             {path: 'info-paciente', component: PatientInfoComponent}
           ]
         },
