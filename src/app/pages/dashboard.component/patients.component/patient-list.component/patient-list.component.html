@@ -29,7 +29,7 @@
 
     <button
       class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
-      (click)="openModal()"
+      (click)="openNewPatient()"
     >
       Agregar paciente
     </button>
@@ -71,69 +71,14 @@
             <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
               <i class="fa-solid fa-eye"></i>
             </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
+            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+                    (click)="openEditPatientModal()"
+            >
               <i class="fa-solid fa-pencil"></i>
             </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Bichin
-        </td>
-        <td class="px-4 py-3">Gato</td>
-        <td class="px-4 py-3">Común americano</td>
-        <td class="px-4 py-3">
-          <span
-            class="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
-          >
-            Macho
-          </span>
-        </td>
-        <td class="px-4 py-3">Mauricio Esperon</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Bichin
-        </td>
-        <td class="px-4 py-3">Gato</td>
-        <td class="px-4 py-3">Común americano</td>
-        <td class="px-4 py-3">
-          <span
-            class="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
-          >
-            Macho
-          </span>
-        </td>
-        <td class="px-4 py-3">Mauricio Esperon</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
+            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
+                    (click)="openDeletePatientModal()"
+            >
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -151,4 +96,14 @@
   <app-patient-add-modal
     (close)="closeModal()"
   />
+}
+
+@if (showEditPatientModal) {
+  <app-patient-edit-modal
+    (close)="closeModal()"
+  />
+}
+
+@if (showDeletePatientModal) {
+  <app-patient-delete-modal (close)="closeModal()"/>
 }
