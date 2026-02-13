@@ -76,7 +76,9 @@
             >
               <i class="fa-solid fa-pencil"></i>
             </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
+            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
+                    (click)="openDeletePatientModal()"
+            >
               <i class="fa-solid fa-trash"></i>
             </button>
           </div>
@@ -100,4 +102,8 @@
   <app-patient-edit-modal
     (close)="closeModal()"
   />
+}
+
+@if (showDeletePatientModal) {
+  <app-patient-delete-modal (close)="closeModal()"/>
 }
