@@ -1,65 +1,14 @@
 <div class="content-wrapper">
-
-  <div
-    class="modal fade"
-    id="addEventModal"
-    tabindex="-1"
-    aria-hidden="true"
-  >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Nuevo Evento</h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal">
-          </button>
-        </div>
-
-        <div class="modal-body">
-          <form>
-            <div class="mb-3">
-              <label class="form-label">Tipo de evento</label>
-              <input type="text" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Fecha</label>
-              <input type="date" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Hora</label>
-              <input type="time" class="form-control" />
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Descripción</label>
-              <textarea class="form-control" rows="3"></textarea>
-            </div>
-
-            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-              Guardar
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+  @if (showAddEventModal) {
+    <app-add-event-modal (close)="closeModal()"></app-add-event-modal>
+  }
 
   <!-- CALENDARIO PRINCIPAL -->
   <div class="calendar">
-
     <div class="calendar-header">
       <h2 class="calendar-title">Febrero 2026</h2>
 
-      <button
-        class="new-event btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#addEventModal">
-        Nuevo evento
-      </button>
+      <button class="new-event btn btn-primary" (click)="openAddEventModal()">Nuevo evento</button>
     </div>
 
     <table>
@@ -121,11 +70,7 @@
           <td>27</td>
           <td>28</td>
         </tr>
-
       </tbody>
     </table>
-
   </div>
-
 </div>
-
