@@ -1,0 +1,33 @@
+<div class="rounded-lg bg-white p-4 shadow">
+  <div class="flex items-center gap-3 mb-4">
+    <button
+      class="rounded-md bg-gray-100 p-2 hover:bg-gray-200 transition"
+      (click)="goBack()"
+      aria-label="Regresar"
+    >
+      <img
+        src="assets/icons/sidebar/arrow.svg"
+        alt="Regresar"
+        class="h-5 w-5 invert"
+      />
+    </button>
+
+    <h2 class="text-lg font-semibold">Información del paciente</h2>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+
+    <div class="space-y-1">
+      <p><span class="font-medium">Nombre:</span> {{ patient.name }}</p>
+      <p><span class="font-medium">Especie:</span> {{ patient.species }}</p>
+      <p><span class="font-medium">Raza:</span> {{ patient.breed }}</p>
+      <p><span class="font-medium">Sexo:</span> {{ patient.sex }}</p>
+      <p><span class="font-medium">Dueño:</span> {{ patient.owner }}</p>
+    </div>
+
+    <div class="space-y-1">
+      <p><span class="font-medium">Última visita:</span> {{ patient.lastVisit }}</p>
+    </div>
+
+  </div>
+</div>

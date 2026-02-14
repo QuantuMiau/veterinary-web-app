@@ -1,0 +1,122 @@
+/* Fuente */
+@font-face {
+  font-family: 'PoppinsSemi';
+  src: url('/assets/fonts/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* 🔥 Hace que el componente ocupe toda la altura disponible */
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: calc(100vh - 80px); /* Ajusta si tienes navbar superior */
+  padding: 20px;
+  background-color: #f5f6fa;
+  box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.content-wrapper {
+  display: flex;
+  flex: 1; /* 🔥 Hace que crezca */
+  gap: 20px;
+}
+
+/* Calendario */
+.calendar {
+  background-color: #ffffff;
+  flex: 1; /* 🔥 Llena el espacio vertical */
+  border-radius: 14px;
+  padding: 15px;
+  font-family: 'PoppinsSemi', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tabla ocupa el espacio restante */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  flex: 1; /* 🔥 Esto elimina el espacio vacío */
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+/*td {
+  aspect-ratio: 1 / 1;
+  vertical-align: top;
+}*/
+
+td {
+  height: 120px;       /* Altura fija */
+  width: 14.28%;       /* 100% / 7 días */
+  vertical-align: top;
+  overflow: hidden;    /* No permite que crezca */
+  position: relative;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+/* Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.calendar-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Botón */
+.new-event {
+  padding: 8px 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s ease;
+}
+
+.new-event:hover {
+  background-color: #45a049;
+}
+
+/* Eventos
+.event {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 4px;
+  margin-top: 4px;
+  font-size: 12px;
+}*/
+
+.event {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 4px;
+  margin-top: 4px;
+  font-size: 12px;
+  max-height: 70px;     /* Evita que crezca demasiado */
+  overflow-y: auto;     /* Scroll si hay muchos eventos */
+}
+
+
+.event-title {
+  font-weight: bold;
+}
