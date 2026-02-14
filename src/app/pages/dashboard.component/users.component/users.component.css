@@ -1,4 +1,4 @@
-.services-container{
+.users-container{
   background-color: #ffffff;
   flex: 1 1 calc(25% - 40px);
   box-sizing: border-box;
@@ -13,13 +13,13 @@
   padding-left: 150px;
 }
 
-.services-container{
+.users-container{
   border-radius: 15px;
   height: 100%;
   align-items: center;
 }
 
-.services-title{
+.users-title{
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   background-color: hsla(209, 44%, 19%, 0.50);

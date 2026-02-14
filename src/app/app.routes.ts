@@ -17,6 +17,28 @@ import {
 import {ServicesComponent} from './pages/dashboard.component/services.component/services.component';
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
 import {NotFoundComponent} from './pages/not-found.component/not-found.component';
+import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
+import {
+  ModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/modals-services.component';
+import {
+  AddModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/add-modals-services.component/add-modals-services.component';
+import {
+  EditModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/edit-modals-services.component/edit-modals-services.component';
+import {
+  DeleteModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/delete-modals-services.component/delete-modals-services.component';
+import {
+  AddUserModalComponent
+} from './pages/dashboard.component/users.component/modals/add-user-modal.component/add-user-modal.component';
+import {
+  EditUserModalComponent
+} from './pages/dashboard.component/users.component/modals/edit-user-modal.component/edit-user-modal.component';
+import {
+  DeleteUserModalComponent
+} from './pages/dashboard.component/users.component/modals/delete-user-modal.component/delete-user-modal.component';
 
 export const routes: Routes = [
   {
@@ -44,13 +66,15 @@ export const routes: Routes = [
         {path: 'ordenes', component: OrdersComponent},
         {path: 'inventario', component: InventoryComponent},
         {path: 'servicios', component: ServicesComponent},
-        {path: 'iot', component: IotComponent}
+        {path: 'iot', component: IotComponent},
+        {path: 'empleados', component: UsersComponent},
       ]
     }
     ]
-  }, {
+  },
+  {
   path: '**', component: AuthLayoutComponent, children: [
-      {path: '', component: NotFoundComponent},
+      {path: '', component: DeleteUserModalComponent},
     ]
   }
 ];
