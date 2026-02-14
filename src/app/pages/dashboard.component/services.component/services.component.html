@@ -1,1 +1,119 @@
-<p>services.component works!</p>
+<div class="services-container">
+  <div class="services-title">Servicios</div>
+
+  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
+    <div class="flex flex-col sm:flex-row gap-2 flex-1">
+      <div class="flex w-full sm:w-3/5">
+        <input
+          type="text"
+          placeholder="Nombre"
+          [(ngModel)]="searchTerm"
+          (input)="searchService()"
+          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
+          (click)="searchService()"
+        >
+          Buscar
+        </button>
+      </div>
+
+      <select
+        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      >
+        <option selected>Todos</option>
+        <option>Recientes</option>
+      </select>
+    </div>
+
+    <button
+      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
+      (click)="openNewService()"
+    >
+      Agregar servicio
+    </button>
+  </div>
+
+  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
+    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
+      <thead>
+        <tr class="text-left text-gray-500">
+          <th class="px-4 py-2">Servicio</th>
+          <th class="px-4 py-2">Categoría</th>
+          <th class="px-4 py-2">Precio</th>
+          <th class="px-4 py-2">Duración</th>
+          <th class="px-4 py-2 text-right"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (service of filteredServices; track service.id) {
+          <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+            <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+              {{ service.name }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ service.category }}
+            </td>
+
+            <td class="px-4 py-3">${{ service.price }}</td>
+
+            <td class="px-4 py-3">
+              {{ service.duration }}
+            </td>
+
+            <td class="px-4 py-3 text-right rounded-r-lg">
+              <div class="flex justify-end gap-2">
+                <button
+                  class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+                  (click)="OpenEditService(service)"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+
+                <button
+                  class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
+                  (click)="OpenDeleteService(service)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+@if (showAddService) {
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
+      <app-add-modals-services (close)="closeModal()"></app-add-modals-services>
+    </div>
+  </div>
+}
+
+@if (showEditService) {
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
+      <app-edit-modals-services
+        [service]="selectedService"
+        (close)="closeModal()"
+      ></app-edit-modals-services>
+    </div>
+  </div>
+}
+
+@if (showDeleteService) {
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
+      <app-delete-modals-services
+        [serviceId]="selectedService?.id"
+        (close)="closeModal()"
+      ></app-delete-modals-services>
+    </div>
+  </div>
+}

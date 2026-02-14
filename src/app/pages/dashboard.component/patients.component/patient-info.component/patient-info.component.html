@@ -1,1 +1,8 @@
-<p>patient-info.component works!</p>
+@if (patient) {
+  <div class="h-full flex flex-col gap-4">
+    <app-patient-header [patient]="patient"></app-patient-header>
+    <app-patient-tabs class="flex-1 min-h-0"></app-patient-tabs>
+  </div>
+} @else {
+  <p class="text-gray-500">Paciente no encontrado</p>
+}

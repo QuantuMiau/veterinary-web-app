@@ -1,22 +1,25 @@
 import { Component, inject} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'login-form',
-  imports: [ReactiveFormsModule],
+  standalone: true,
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css',
 })
 export class LoginFormComponent {
 
   private formBuilder = inject(FormBuilder);
-  private router = inject(Router)
+
+  private router = inject(Router);
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
-  })
+  });
 
 
   submit() {
