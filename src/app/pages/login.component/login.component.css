@@ -1,1 +1,35 @@
+:host {
+  display: block;
+  height: 100vh;
+  background-image: url('/assets/icons/sidebar/loginfondo.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.wrapper {
+  display: flex;
+  border-radius: 15px 0 0 15px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  background: rgba(255, 255, 255, 0.5);
+  padding: 2rem;
+  height: 483px;
+}
+
+.imagen img {
+  /*height: 100%;*/
+  border-radius: 0 15px 15px 0px;
+  width: 100%;
+  height: auto;
+  max-width: 400px;
+  object-fit: cover;
+}
 

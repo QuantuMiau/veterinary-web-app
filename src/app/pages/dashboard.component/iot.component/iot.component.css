@@ -1,0 +1,48 @@
+.patients-container{
+  background-color: #ffffff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.edit-icon{
+  width: 30px;
+  height: auto;
+  padding-right: 12px;
+  padding-left: 150px;
+}
+.patients-title{
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: hsla(209, 44%, 19%, 0.50);
+  text-align: left;
+  padding: 15px;
+  padding-left: 20px;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+}
+
+.search-container{
+  width: calc(100% - 22px);
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.search-container .input-group,
+.search-container select,
+.search-container .btn {
+  height: 30px;
+}
+
+
+.item-info{
+  font-family: Roman, Helvetica, sans-serif;
+  font-size: 14px;
+  color: hsla(0, 4%, 56%, 0.736);
+}

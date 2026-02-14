@@ -1,0 +1,61 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
+
+    <h2 class="text-lg font-semibold mb-4">Editar paciente</h2>
+
+    <form [formGroup]="patientEditForm" (ngSubmit)="submit()" class="space-y-4">
+
+      <input
+        formControlName="name"
+        placeholder="Nombre"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <input
+        formControlName="species"
+        placeholder="Especie"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <input
+        formControlName="breed"
+        placeholder="Raza"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <select
+        formControlName="sex"
+        class="w-full border rounded px-3 py-2"
+      >
+        <option value="">Sexo</option>
+        <option value="Macho">Macho</option>
+        <option value="Hembra">Hembra</option>
+      </select>
+
+      <input
+        formControlName="owner"
+        placeholder="Dueño"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <div class="flex justify-end gap-2 pt-4">
+        <button
+          type="button"
+          class="px-4 py-2 rounded border"
+          (click)="close.emit()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="px-4 py-2 rounded bg-green-600 text-white"
+          [disabled]="patientEditForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

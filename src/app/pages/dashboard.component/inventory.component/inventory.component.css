@@ -1,0 +1,23 @@
+.inventory-container {
+  background-color: #ffffff;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+.inventory-title {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: hsla(209, 44%, 19%, 0.5);
+  text-align: left;
+  padding: 15px;
+  padding-left: 20px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  color: white;
+}

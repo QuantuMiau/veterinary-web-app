@@ -17,7 +17,9 @@ import {
 import {ServicesComponent} from './pages/dashboard.component/services.component/services.component';
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
 import {NotFoundComponent} from './pages/not-found.component/not-found.component';
+import { ClientsComponent } from './pages/clients.component/clients.component';
 
+import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
 export const routes: Routes = [
   {
     path: '',
@@ -34,21 +36,24 @@ export const routes: Routes = [
     children: [{ path: '', component: DashboardComponent,
       children: [
         {path: 'home', component: HomeComponent},
-        { path: '', component: PatientsComponent,
+        { path: 'pacientes', component: PatientsComponent,
           children: [
-            {path: 'pacientes', component: PatientListComponent},
-            {path: 'info-paciente', component: PatientInfoComponent}
+            {path: 'lista', component: PatientListComponent},
+            {path: 'paciente/:id', component: PatientInfoComponent}
           ]
         },
         {path: 'calendario', component: CalendarComponent},
         {path: 'ordenes', component: OrdersComponent},
         {path: 'inventario', component: InventoryComponent},
         {path: 'servicios', component: ServicesComponent},
-        {path: 'iot', component: IotComponent}
+        {path: 'iot', component: IotComponent},
+        {path: 'clients', component: ClientsComponent},
+        {path: 'empleados', component: UsersComponent},
       ]
     }
     ]
-  }, {
+  },
+  {
   path: '**', component: AuthLayoutComponent, children: [
       {path: '', component: NotFoundComponent},
     ]

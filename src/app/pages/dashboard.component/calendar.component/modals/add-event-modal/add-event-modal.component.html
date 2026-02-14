@@ -1,0 +1,43 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold">Nuevo Evento</h2>
+      <button class="btn-close" type="button" (click)="close.emit()"></button>
+    </div>
+
+    <form class="space-y-4">
+      <div>
+        <label class="form-label">Tipo de evento</label>
+        <input type="text" class="form-control" />
+      </div>
+
+      <div>
+        <label class="form-label">Fecha</label>
+        <input type="date" class="form-control" />
+      </div>
+
+      <div>
+        <label class="form-label">Hora</label>
+        <input type="time" class="form-control" />
+      </div>
+
+      <div>
+        <label class="form-label">Descripción</label>
+        <textarea class="form-control" rows="3"></textarea>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-4">
+        <button type="button" class="px-4 py-2 rounded border" (click)="close.emit()">
+          Cerrar
+        </button>
+        <button
+          type="button"
+          class="px-4 py-2 rounded bg-green-600 text-white"
+          (click)="close.emit()"
+        >
+          Guardar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
