@@ -1,0 +1,58 @@
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
+
+    <h2 class="text-lg font-semibold mb-4">Agregar usuario</h2>
+
+    <form [formGroup]="userForm"  (ngSubmit)="submit()" class="space-y-4">
+
+      <input
+        formControlName="name"
+        placeholder="Nombre"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <select
+        formControlName="role"
+        class="w-full border rounded px-3 py-2"
+      >
+        <option value="">Seleccione el rol</option>
+        <option value="admin">Administrador</option>
+        <option value="employee">Empleado</option>
+      </select>
+
+      <input
+        formControlName="email"
+        placeholder="Correo electrónico"
+        class="w-full border rounded px-3 py-2"
+        type="email"
+      />
+
+      <input
+        formControlName="phone"
+        placeholder="Teléfono"
+        class="w-full border rounded px-3 py-2"
+        type="text"
+      />
+
+      <div class="flex justify-end gap-2 pt-4">
+        <button
+          type="button"
+          class="px-4 py-2 rounded border"
+          (click)="close.emit()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="px-4 py-2 rounded bg-green-600 text-white"
+          [disabled]="userForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

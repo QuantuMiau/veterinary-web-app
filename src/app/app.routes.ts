@@ -30,6 +30,15 @@ import {
 import {
   DeleteModalsServicesComponent
 } from './pages/dashboard.component/services.component/modals-services.component/delete-modals-services.component/delete-modals-services.component';
+import {
+  AddUserModalComponent
+} from './pages/dashboard.component/users.component/modals/add-user-modal.component/add-user-modal.component';
+import {
+  EditUserModalComponent
+} from './pages/dashboard.component/users.component/modals/edit-user-modal.component/edit-user-modal.component';
+import {
+  DeleteUserModalComponent
+} from './pages/dashboard.component/users.component/modals/delete-user-modal.component/delete-user-modal.component';
 
 export const routes: Routes = [
   {
@@ -65,7 +74,7 @@ export const routes: Routes = [
   },
   {
   path: '**', component: AuthLayoutComponent, children: [
-      {path: '', component: DeleteModalsServicesComponent},
+      {path: '', component: DeleteUserModalComponent},
     ]
   }
 ];
