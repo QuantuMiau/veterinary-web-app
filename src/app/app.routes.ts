@@ -18,6 +18,18 @@ import {ServicesComponent} from './pages/dashboard.component/services.component/
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
 import {NotFoundComponent} from './pages/not-found.component/not-found.component';
 import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
+import {
+  ModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/modals-services.component';
+import {
+  AddModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/add-modals-services.component/add-modals-services.component';
+import {
+  EditModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/edit-modals-services.component/edit-modals-services.component';
+import {
+  DeleteModalsServicesComponent
+} from './pages/dashboard.component/services.component/modals-services.component/delete-modals-services.component/delete-modals-services.component';
 
 export const routes: Routes = [
   {
@@ -50,9 +62,10 @@ export const routes: Routes = [
       ]
     }
     ]
-  }, {
+  },
+  {
   path: '**', component: AuthLayoutComponent, children: [
-      {path: '', component: NotFoundComponent},
+      {path: '', component: DeleteModalsServicesComponent},
     ]
   }
 ];

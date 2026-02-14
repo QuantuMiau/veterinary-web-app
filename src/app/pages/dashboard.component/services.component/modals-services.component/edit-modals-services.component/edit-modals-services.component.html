@@ -1,0 +1,55 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
+
+    <h2 class="text-lg font-semibold mb-4">Editar servicio</h2>
+
+    <form [formGroup]="serviceForm" (ngSubmit)="submit()"  class="space-y-4">
+
+      <input
+        formControlName="name"
+        placeholder="Nombre"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <input
+        formControlName="category"
+        placeholder="Categoría"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <input
+        formControlName="price"
+        placeholder="Precio"
+        class="w-full border rounded px-3 py-2"
+        type="number"
+        min="1"
+      />
+
+
+      <input
+        formControlName="duration"
+        placeholder="Duración"
+        class="w-full border rounded px-3 py-2"
+      />
+
+      <div class="flex justify-end gap-2 pt-4">
+        <button
+          type="button"
+          class="px-4 py-2 rounded border"
+          (click)="close.emit()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="px-4 py-2 rounded bg-green-600 text-white"
+          [disabled]="serviceForm.invalid"
+        >
+          Guardar
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>
