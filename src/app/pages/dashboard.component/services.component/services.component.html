@@ -31,8 +31,7 @@
 
     <button
       type="button"
-      data-bs-toggle="modal"
-      data-bs-target="#editClientModal"
+      (click)="openNewService()"
       class="ml-auto mr-3 bg-green-500 text-white text-sm px-3 py-1.5 rounded-md hover:bg-green-600"
     >
       Agregar servicio
@@ -40,27 +39,67 @@
   </div>
 
   <div class="overflow-x-auto">
-    <table id="services-table" class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
+    <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
       <thead class="bg-gray-100 text-gray-700">
-      <tr>
-        <th class="px-4 py-2 text-left">Servicio</th>
-        <th class="px-4 py-2 text-left">Categoría</th>
-        <th class="px-4 py-2 text-left">Precio</th>
-        <th class="px-4 py-2 text-left">Duración</th>
-        <th class="px-4 py-2 text-left"></th>
-      </tr>
+        <tr>
+          <th class="px-4 py-2 text-left">Servicio</th>
+          <th class="px-4 py-2 text-left">Categoría</th>
+          <th class="px-4 py-2 text-left">Precio</th>
+          <th class="px-4 py-2 text-left">Duración</th>
+          <th class="px-4 py-2 text-left"></th>
+        </tr>
       </thead>
-
       <tbody class="divide-y divide-gray-200">
-      <tr class="hover:bg-gray-50 even:bg-gray-50">
-        <td class="px-4 py-2">Baño y corte de pelo - Perro</td>
-        <td class="px-4 py-2">Estética</td>
-        <td class="px-4 py-2">$250</td>
-        <td class="px-4 py-2">3 horas</td>
-        <td class="px-4 py-2 text-right">
-        </td>
-      </tr>
+        @for (service of filteredServices; track service.id) {
+          <tr class="hover:bg-gray-50 even:bg-gray-50">
+            <td class="px-4 py-2">{{ service.name }}</td>
+            <td class="px-4 py-2">{{ service.category }}</td>
+            <td class="px-4 py-2">${{ service.price }}</td>
+            <td class="px-4 py-2">{{ service.duration }}</td>
+            <td class="px-4 py-2 text-right">
+              <button (click)="OpenEditService(service)" class="text-blue-600 hover:underline">
+                Editar
+              </button>
+              <button
+                (click)="OpenDeleteService(service)"
+                class="ml-2 text-red-600 hover:underline"
+              >
+                Eliminar
+              </button>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </div>
 </div>
+
+@if (showAddService) {
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
+      <app-add-modals-services (close)="closeModal()"></app-add-modals-services>
+    </div>
+  </div>
+}
+
+@if (showEditService) {
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
+      <app-edit-modals-services
+        [service]="selectedService"
+        (close)="closeModal()"
+      ></app-edit-modals-services>
+    </div>
+  </div>
+}
+
+@if (showDeleteService) {
+  <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
+      <app-delete-modals-services
+        [serviceId]="selectedService?.id"
+        (close)="closeModal()"
+      ></app-delete-modals-services>
+    </div>
+  </div>
+}
