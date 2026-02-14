@@ -7,29 +7,29 @@ export class ServiceService {
   services: Service[] = [
     {
       id: 1,
-      name: "Baño y corte",
-      category: "Estetica",
+      name: 'Baño y corte',
+      category: 'Estetica',
       price: 412.12,
-      duration: "3 horas"
-    }
-  ]
+      duration: '3 horas',
+    },
+  ];
 
-  addService(service: Service){
-    this.services.push(service)
+  addService(service: Service) {
+    this.services.push(service);
   }
-  getServices(){
+  getServices() {
     return this.services;
   }
 
   deleteService(id: number) {
-    const index = this.services.findIndex(p => p.id === id);
+    const index = this.services.findIndex((p) => p.id === id);
     if (index !== -1) {
       this.services.splice(index, 1);
     }
   }
 
   updateService(updateService: Service) {
-    const index = this.services.findIndex(p => p.id === updateService.id);
+    const index = this.services.findIndex((p) => p.id === updateService.id);
 
     if (index !== -1) {
       this.services[index] = updateService;
@@ -37,11 +37,10 @@ export class ServiceService {
   }
 }
 
-export interface Service{
+export interface Service {
   id: number;
   name: string;
   category: string;
   price: number;
-  duration: String;
+  duration: string;
 }
-

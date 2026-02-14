@@ -1,18 +1,12 @@
 import { Component } from '@angular/core';
-import {Service, ServiceService} from '../../../services/service.service';
-import {
-  AddModalsServicesComponent
-} from './modals-services.component/add-modals-services.component/add-modals-services.component';
-import {
-  DeleteModalsServicesComponent
-} from './modals-services.component/delete-modals-services.component/delete-modals-services.component';
+import { Service, ServiceService } from '../../../services/service.service';
+import { AddModalsServicesComponent } from './modals-services.component/add-modals-services.component/add-modals-services.component';
+import { EditModalsServicesComponent } from './modals-services.component/edit-modals-services.component/edit-modals-services.component';
+import { DeleteModalsServicesComponent } from './modals-services.component/delete-modals-services.component/delete-modals-services.component';
 
 @Component({
   selector: 'app-services',
-  imports: [
-    AddModalsServicesComponent,
-    DeleteModalsServicesComponent
-  ],
+  imports: [AddModalsServicesComponent, EditModalsServicesComponent, DeleteModalsServicesComponent],
   templateUrl: './services.component.html',
   styleUrl: './services.component.css',
 })
@@ -23,7 +17,7 @@ export class ServicesComponent {
 
   services: Service[] = [];
 
-  searchTerm = "";
+  searchTerm = '';
   filteredServices: Service[] = [];
 
   constructor(private serviceService: ServiceService) {
@@ -31,21 +25,23 @@ export class ServicesComponent {
     this.filteredServices = [...this.services];
   }
 
-  openNewService(){
+  openNewService() {
     this.showAddService = true;
   }
 
-  selectedService: Service | null = null;
+  selectedService?: Service;
+
   OpenEditService(service: Service) {
     this.selectedService = service;
     this.showEditService = true;
   }
+
   OpenDeleteService(service: Service) {
     this.selectedService = service;
     this.showDeleteService = true;
   }
 
-  closeModal(){
+  closeModal() {
     this.showDeleteService = false;
     this.showAddService = false;
     this.showEditService = false;
@@ -59,7 +55,6 @@ export class ServicesComponent {
     this.closeModal();
   }
 
-
   searchService() {
     const term = this.searchTerm.toLowerCase().trim();
 
@@ -68,9 +63,8 @@ export class ServicesComponent {
       return;
     }
 
-    this.filteredServices = this.services.filter(service =>
-      service.name.toLowerCase().includes(term)
+    this.filteredServices = this.services.filter((service) =>
+      service.name.toLowerCase().includes(term),
     );
   }
-
 }
