@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Output, Input} from '@angular/core';
+import {Patient} from '../../../../../../services/patient-service';
 
 @Component({
   selector: 'app-patient-delete-modal',
@@ -7,15 +8,14 @@ import { Component, EventEmitter, Output} from '@angular/core';
   styleUrl: './patient-delete-modal.css',
 })
 export class PatientDeleteModal {
+  @Input() patient!: Patient;
 
   @Output() close = new EventEmitter<void>();
-
-  @Output() confirmDelete = new EventEmitter<string>();
-
-  constructor() {}
+  @Output() confirmDelete = new EventEmitter<number>();
 
   confirm() {
-    console.log("eliminado")
+    console.log("hola")
+    this.confirmDelete.emit(this.patient.id);
     this.close.emit();
   }
 

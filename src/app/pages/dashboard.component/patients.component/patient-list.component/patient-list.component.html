@@ -51,40 +51,68 @@
       </thead>
 
       <tbody>
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Bichin
-        </td>
-        <td class="px-4 py-3">Gato</td>
-        <td class="px-4 py-3">Común americano</td>
-        <td class="px-4 py-3">
-          <span
-            class="rounded-full bg-blue-100 px-3 py-1 text-xs font-medium text-blue-700"
-          >
-            Macho
-          </span>
-        </td>
-        <td class="px-4 py-3">Mauricio Esperon</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
-                    (click)="openEditPatientModal()"
-            >
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
-                    (click)="openDeletePatientModal()"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
+        @for (patient of patients; track patient.id) {
+          <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
 
+            <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+              {{ patient.name }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ patient.species }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ patient.breed }}
+            </td>
+
+            <td class="px-4 py-3">
+      <span
+        class="rounded-full px-3 py-1 text-xs font-medium"
+        [ngClass]="{
+          'bg-blue-100 text-blue-700': patient.sex === 'Macho',
+          'bg-pink-100 text-pink-700': patient.sex === 'Hembra'
+        }"
+      >
+        {{ patient.sex }}
+      </span>
+            </td>
+
+            <td class="px-4 py-3">
+              {{ patient.owner }}
+            </td>
+
+            <td class="px-4 py-3 text-gray-600">
+             {{ patient.lastVisit }}
+            </td>
+
+            <td class="px-4 py-3 text-right rounded-r-lg">
+              <div class="flex justify-end gap-2">
+
+                <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+                >
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+
+                <button
+                  class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+                  (click)="openEditPatientModal(patient)"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+
+                <button
+                  class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
+                  (click)="openDeletePatientModal(patient)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+
+              </div>
+            </td>
+
+          </tr>
+        }
       </tbody>
     </table>
   </div>
@@ -100,10 +128,16 @@
 
 @if (showEditPatientModal) {
   <app-patient-edit-modal
+    [patient]="selectedPatient"
     (close)="closeModal()"
+    (save)="updatePatient($event)"
   />
 }
 
 @if (showDeletePatientModal) {
-  <app-patient-delete-modal (close)="closeModal()"/>
+  <app-patient-delete-modal
+    [patient]="selectedPatient"
+    (close)="closeModal()"
+    (confirmDelete)="deletePatient($event)"
+  />
 }

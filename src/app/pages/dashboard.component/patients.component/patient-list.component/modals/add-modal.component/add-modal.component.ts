@@ -1,5 +1,6 @@
 import { Component, EventEmitter, inject, Output} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {PatientService} from '../../../../../../services/patient-service';
 
 @Component({
   selector: 'app-patient-add-modal',
@@ -11,6 +12,11 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 })
 export class AddModalComponent {
   private fb = inject(FormBuilder);
+
+  constructor(
+    private patientService: PatientService
+  ) {}
+
 
 
   @Output() close = new EventEmitter<void>();
@@ -26,8 +32,17 @@ export class AddModalComponent {
 
   submit() {
     if (this.patientForm.invalid) return;
+    this.patientService.addPatient({
+      id: Date.now(),
+      name: this.patientForm.value.name!,
+      species: this.patientForm.value.species!,
+      breed: this.patientForm.value.breed ?? '',
+      sex: this.patientForm.value.sex!,
+      owner: this.patientForm.value.owner!
 
-    console.log(this.patientForm.value);
+    });
+
+    this.patientForm.reset();
     this.close.emit();
   }
 
