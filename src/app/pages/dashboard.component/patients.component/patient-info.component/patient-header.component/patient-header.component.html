@@ -16,19 +16,18 @@
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+
     <div class="space-y-1">
-      <p><span class="font-medium">Nombre:</span> Bichin</p>
-      <p><span class="font-medium">Especie:</span> Gato</p>
-      <p><span class="font-medium">Raza:</span> Común</p>
-      <p><span class="font-medium">Sexo:</span> Macho</p>
-      <p><span class="font-medium">Dueño:</span> Mauricio Esperon</p>
+      <p><span class="font-medium">Nombre:</span> {{ patient.name }}</p>
+      <p><span class="font-medium">Especie:</span> {{ patient.species }}</p>
+      <p><span class="font-medium">Raza:</span> {{ patient.breed }}</p>
+      <p><span class="font-medium">Sexo:</span> {{ patient.sex }}</p>
+      <p><span class="font-medium">Dueño:</span> {{ patient.owner }}</p>
     </div>
 
     <div class="space-y-1">
-      <p><span class="font-medium">Edad:</span> 2 años</p>
-      <p><span class="font-medium">Peso:</span> 4 kg</p>
-      <p><span class="font-medium">Color:</span> Blanco y negro</p>
-      <p><span class="font-medium">Contacto:</span> 2712304713</p>
+      <p><span class="font-medium">Última visita:</span> {{ patient.lastVisit }}</p>
     </div>
+
   </div>
 </div>

@@ -9,13 +9,15 @@
         <input
           type="text"
           placeholder="Nombre"
+          [(ngModel)]="searchTerm"
+          (input)="searchPatients()"
           class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
+          (click)="searchPatients()"
         >
           Buscar
-
         </button>
       </div>
 
@@ -51,7 +53,8 @@
       </thead>
 
       <tbody>
-        @for (patient of patients; track patient.id) {
+        @for (patient of filteredPatients; track patient.id)
+        {
           <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
 
             <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
@@ -90,6 +93,7 @@
               <div class="flex justify-end gap-2">
 
                 <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+                        (click)="goToDetails(patient)"
                 >
                   <i class="fa-solid fa-eye"></i>
                 </button>

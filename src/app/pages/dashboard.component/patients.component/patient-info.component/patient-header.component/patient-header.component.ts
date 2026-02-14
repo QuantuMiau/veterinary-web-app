@@ -1,5 +1,6 @@
-import { Component, inject} from '@angular/core';
+import { Component, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
+import {Patient} from '../../../../../services/patient-service';
 
 @Component({
   selector: 'app-patient-header',
@@ -8,6 +9,8 @@ import {Router} from '@angular/router';
   styleUrl: './patient-header.component.css',
 })
 export class PatientHeaderComponent {
+
+  @Input() patient!: Patient;
 
   private router = inject(Router);
 

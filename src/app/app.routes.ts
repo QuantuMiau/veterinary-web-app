@@ -37,7 +37,7 @@ export const routes: Routes = [
         { path: 'pacientes', component: PatientsComponent,
           children: [
             {path: 'lista', component: PatientListComponent},
-            {path: 'info-paciente', component: PatientInfoComponent}
+            {path: 'paciente/:id', component: PatientInfoComponent}
           ]
         },
         {path: 'calendario', component: CalendarComponent},
