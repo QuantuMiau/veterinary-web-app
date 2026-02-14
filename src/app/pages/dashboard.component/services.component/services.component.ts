@@ -3,10 +3,16 @@ import { Service, ServiceService } from '../../../services/service.service';
 import { AddModalsServicesComponent } from './modals-services.component/add-modals-services.component/add-modals-services.component';
 import { EditModalsServicesComponent } from './modals-services.component/edit-modals-services.component/edit-modals-services.component';
 import { DeleteModalsServicesComponent } from './modals-services.component/delete-modals-services.component/delete-modals-services.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-services',
-  imports: [AddModalsServicesComponent, EditModalsServicesComponent, DeleteModalsServicesComponent],
+  imports: [
+    AddModalsServicesComponent,
+    EditModalsServicesComponent,
+    DeleteModalsServicesComponent,
+    FormsModule,
+  ],
   templateUrl: './services.component.html',
   styleUrl: './services.component.css',
 })

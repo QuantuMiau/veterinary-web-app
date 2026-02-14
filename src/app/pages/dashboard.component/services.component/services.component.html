@@ -1,71 +1,85 @@
 <div class="services-container">
   <div class="services-title">Servicios</div>
 
-  <div class="flex flex-wrap items-stretch gap-2 mb-3 mt-3 ml-3">
-    <div class="flex flex-grow gap-2 items-stretch w-full md:w-auto">
-      <div class="flex w-[60%]">
+  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
+    <div class="flex flex-col sm:flex-row gap-2 flex-1">
+      <div class="flex w-full sm:w-3/5">
         <input
           type="text"
-          id="search-input"
           placeholder="Nombre"
-          aria-label="Nombre"
-          class="flex-grow border border-gray-300 rounded-l-md px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          [(ngModel)]="searchTerm"
+          (input)="searchService()"
+          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
-          id="searchbar-btn"
-          type="button"
-          class="bg-gray-100 border border-gray-300 text-gray-700 text-sm px-3 py-1.5 rounded-r-md hover:bg-gray-200"
+          class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
+          (click)="searchService()"
         >
           Buscar
         </button>
       </div>
 
       <select
-        class="flex-shrink-0 text-sm border border-gray-300 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-        aria-label="Small select example"
+        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
       >
-        <option value="1" selected>Todos</option>
-        <option value="2">Recientes</option>
+        <option selected>Todos</option>
+        <option>Recientes</option>
       </select>
     </div>
 
     <button
-      type="button"
+      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
       (click)="openNewService()"
-      class="ml-auto mr-3 bg-green-500 text-white text-sm px-3 py-1.5 rounded-md hover:bg-green-600"
     >
       Agregar servicio
     </button>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="min-w-full border border-gray-200 rounded-lg overflow-hidden">
-      <thead class="bg-gray-100 text-gray-700">
-        <tr>
-          <th class="px-4 py-2 text-left">Servicio</th>
-          <th class="px-4 py-2 text-left">Categoría</th>
-          <th class="px-4 py-2 text-left">Precio</th>
-          <th class="px-4 py-2 text-left">Duración</th>
-          <th class="px-4 py-2 text-left"></th>
+  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
+    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
+      <thead>
+        <tr class="text-left text-gray-500">
+          <th class="px-4 py-2">Servicio</th>
+          <th class="px-4 py-2">Categoría</th>
+          <th class="px-4 py-2">Precio</th>
+          <th class="px-4 py-2">Duración</th>
+          <th class="px-4 py-2 text-right"></th>
         </tr>
       </thead>
-      <tbody class="divide-y divide-gray-200">
+
+      <tbody>
         @for (service of filteredServices; track service.id) {
-          <tr class="hover:bg-gray-50 even:bg-gray-50">
-            <td class="px-4 py-2">{{ service.name }}</td>
-            <td class="px-4 py-2">{{ service.category }}</td>
-            <td class="px-4 py-2">${{ service.price }}</td>
-            <td class="px-4 py-2">{{ service.duration }}</td>
-            <td class="px-4 py-2 text-right">
-              <button (click)="OpenEditService(service)" class="text-blue-600 hover:underline">
-                Editar
-              </button>
-              <button
-                (click)="OpenDeleteService(service)"
-                class="ml-2 text-red-600 hover:underline"
-              >
-                Eliminar
-              </button>
+          <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+            <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+              {{ service.name }}
+            </td>
+
+            <td class="px-4 py-3">
+              {{ service.category }}
+            </td>
+
+            <td class="px-4 py-3">${{ service.price }}</td>
+
+            <td class="px-4 py-3">
+              {{ service.duration }}
+            </td>
+
+            <td class="px-4 py-3 text-right rounded-r-lg">
+              <div class="flex justify-end gap-2">
+                <button
+                  class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
+                  (click)="OpenEditService(service)"
+                >
+                  <i class="fa-solid fa-pencil"></i>
+                </button>
+
+                <button
+                  class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
+                  (click)="OpenDeleteService(service)"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
             </td>
           </tr>
         }

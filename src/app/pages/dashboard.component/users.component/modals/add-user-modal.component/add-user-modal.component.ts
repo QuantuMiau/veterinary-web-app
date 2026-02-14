@@ -1,5 +1,5 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-user-modal',
@@ -10,11 +10,18 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 export class AddUserModalComponent {
   private fb = inject(FormBuilder);
 
-
   @Output() close = new EventEmitter<void>();
+  @Output() save = new EventEmitter<any>();
 
   userForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3), Validators.pattern(/^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/)]],
+    name: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(/^[a-zA-ZÁÉÍÓÚáéíóúñÑ\s]+$/),
+      ],
+    ],
     role: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
@@ -23,8 +30,8 @@ export class AddUserModalComponent {
   submit() {
     if (this.userForm.invalid) return;
 
-    console.log(this.userForm.value);
+    const payload = this.userForm.value;
+    this.save.emit(payload);
     this.close.emit();
-    console.log("se guardo")
   }
 }

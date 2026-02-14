@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-delete-user-modal',
@@ -7,19 +7,19 @@ import {Component, EventEmitter, Output} from '@angular/core';
   styleUrl: './delete-user-modal.component.css',
 })
 export class DeleteUserModalComponent {
+  @Input() userId?: number;
   @Output() close = new EventEmitter<void>();
 
-  @Output() confirmDelete = new EventEmitter<string>();
+  @Output() confirmDelete = new EventEmitter<number>();
 
   constructor() {}
 
   confirm() {
-    console.log("eliminado")
+    this.confirmDelete.emit(this.userId!);
     this.close.emit();
   }
 
   cancel() {
     this.close.emit();
   }
-
 }
