@@ -51,37 +51,6 @@ ngOnInit(): void {}
     ]);
   }
 
-   /*createVentasChart() {
-    let root = am5.Root.new("chartVentas");
-    root.setThemes([am5themes_Animated.new(root)]);
-
-    let chart = root.container.children.push(am5xy.XYChart.new(root, {}));
-
-    let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
-      categoryField: "month",
-      renderer: am5xy.AxisRendererX.new(root, {})
-    }));
-
-    let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-      renderer: am5xy.AxisRendererY.new(root, {})
-    }));
-
-    let series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Ventas",
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueField: "value",
-      categoryXField: "month"
-    }));
-
-    series.data.setAll([
-      { month: "Ene", value: 10 },
-      { month: "Feb", value: 15 },
-      { month: "Mar", value: 8 },
-      { month: "Abr", value: 20 }
-    ]);
-  }
-*/
 
 createVentasChart() {
 
@@ -130,35 +99,61 @@ createVentasChart() {
 
 }
 
-
   createProductosChart() {
-    let root = am5.Root.new("chartProductos");
-    root.setThemes([am5themes_Animated.new(root)]);
 
-    let chart = root.container.children.push(am5xy.XYChart.new(root, {}));
+  let root = am5.Root.new("chartProductos");
+  //this.roots.push(root); // importante si usas dispose
 
-    let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+  root.setThemes([am5themes_Animated.new(root)]);
+
+  let chart = root.container.children.push(
+    am5xy.XYChart.new(root, {
+      panX: true,
+      panY: true,
+      wheelX: "panX",
+      wheelY: "zoomX"
+    })
+  );
+
+  // EJE X (Categorías)
+  let xAxis = chart.xAxes.push(
+    am5xy.CategoryAxis.new(root, {
       categoryField: "product",
       renderer: am5xy.AxisRendererX.new(root, {})
-    }));
+    })
+  );
 
-    let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+  // EJE Y (Valores)
+  let yAxis = chart.yAxes.push(
+    am5xy.ValueAxis.new(root, {
       renderer: am5xy.AxisRendererY.new(root, {})
-    }));
+    })
+  );
 
-    let series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Vendidos",
+  // 📊 Serie Candlestick
+  let series = chart.series.push(
+    am5xy.CandlestickSeries.new(root, {
+      name: "Movimiento",
       xAxis: xAxis,
       yAxis: yAxis,
-      valueField: "value",
+      valueYField: "close",
+      openValueYField: "open",
+      lowValueYField: "low",
+      highValueYField: "high",
       categoryXField: "product"
-    }));
+    })
+  );
 
-    series.data.setAll([
-      { product: "Nextgard 5mg", value: 120 },
-      { product: "Collar antipulgas", value: 80 },
-      { product: "Vacuna triple felina", value: 60 }
-    ]);
-  }
+  // Datos simulados
+  let data = [
+    { product: "Nextgard 5mg", open: 100, close: 120, low: 90, high: 130 },
+    { product: "Collar antipulgas", open: 70, close: 80, low: 60, high: 95 },
+    { product: "Vacuna triple felina", open: 50, close: 60, low: 45, high: 75 }
+  ];
+
+  xAxis.data.setAll(data);
+  series.data.setAll(data);
+
+}
 
 }
