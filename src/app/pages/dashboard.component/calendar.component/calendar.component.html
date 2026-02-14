@@ -1,33 +1,131 @@
-<h1> HOLA ESTAMOS EN CALENDARIO</h1>
+<div class="content-wrapper">
 
-<div class="mb-8 bg-gray-700 ">
-  <button>Este es boton para agregar cita</button>
-  <button> para cancelar cita </button>
+  <div
+    class="modal fade"
+    id="addEventModal"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Nuevo Evento</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <form>
+            <div class="mb-3">
+              <label class="form-label">Tipo de evento</label>
+              <input type="text" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Fecha</label>
+              <input type="date" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Hora</label>
+              <input type="time" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" rows="3"></textarea>
+            </div>
+
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+              Guardar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CALENDARIO PRINCIPAL -->
+  <div class="calendar">
+
+    <div class="calendar-header">
+      <h2 class="calendar-title">Febrero 2026</h2>
+
+      <button
+        class="new-event btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#addEventModal">
+        Nuevo evento
+      </button>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Dom</th>
+          <th>Lun</th>
+          <th>Mar</th>
+          <th>Mié</th>
+          <th>Jue</th>
+          <th>Vie</th>
+          <th>Sáb</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>2</td>
+          <td>
+            3
+            <div class="event">
+              <div class="event-title">Consulta</div>
+              Cirugía
+            </div>
+          </td>
+          <td>4</td>
+          <td>5</td>
+          <td>6</td>
+          <td>7</td>
+        </tr>
+
+        <tr>
+          <td>8</td>
+          <td>9</td>
+          <td>10</td>
+          <td>11</td>
+          <td>12</td>
+          <td>13</td>
+          <td>14</td>
+        </tr>
+
+        <tr>
+          <td>15</td>
+          <td>16</td>
+          <td>17</td>
+          <td>18</td>
+          <td>19</td>
+          <td>20</td>
+          <td>21</td>
+        </tr>
+
+        <tr>
+          <td>22</td>
+          <td>23</td>
+          <td>24</td>
+          <td>25</td>
+          <td>26</td>
+          <td>27</td>
+          <td>28</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+  </div>
 
 </div>
 
-<div>
-  <h1> Aqui esta el calendadrio</h1>
-  <table class="border-separate border border-gray-400 ...">
-    <thead>
-    <tr>
-      <th class="border border-gray-300 ...">State</th>
-      <th class="border border-gray-300 ...">City</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td class="border border-gray-300 ...">Indiana</td>
-      <td class="border border-gray-300 ...">Indianapolis</td>
-    </tr>
-    <tr>
-      <td class="border border-gray-300 ...">Ohio</td>
-      <td class="border border-gray-300 ...">Columbus</td>
-    </tr>
-    <tr>
-      <td class="border border-gray-300 ...">Michigan</td>
-      <td class="border border-gray-300 ...">Detroit</td>
-    </tr>
-    </tbody>
-  </table>
-</div>
