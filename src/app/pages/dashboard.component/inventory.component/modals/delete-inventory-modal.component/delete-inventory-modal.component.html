@@ -1,19 +1,51 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-  <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
-    <h2 class="text-lg font-semibold text-red-600 mb-4">Eliminar producto</h2>
-
-    <p class="text-sm text-gray-600 mb-6">
-      ¿Está seguro que desea eliminar el producto? Esta acción no se puede deshacer.
-    </p>
-
-    <div class="flex justify-end gap-2">
-      <button type="button" class="px-4 py-2 rounded border" (click)="close.emit()">
-        Cancelar
-      </button>
-
-      <button type="button" class="px-4 py-2 rounded bg-red-600 text-white" (click)="confirm()">
-        Eliminar
-      </button>
+<div class="flex flex-col h-full">
+  <!-- Header -->
+  <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-4 bg-red-50/30">
+    <div class="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg"></i>
     </div>
+    <div>
+      <h2 class="text-lg font-black text-gray-800 tracking-tight">Desactivar Producto</h2>
+      <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Confirmar acción</p>
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="p-8">
+    <!-- Messages -->
+    <div *ngIf="errorMessage" class="mb-4 p-3 rounded-xl bg-red-50 border border-red-100 text-red-600 text-xs font-bold animate-in fade-in slide-in-from-top-2">
+      <i class="fa-solid fa-circle-exclamation mr-2"></i>{{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" class="mb-4 p-3 rounded-xl bg-green-50 border border-green-100 text-green-600 text-xs font-bold animate-in fade-in slide-in-from-top-2">
+      <i class="fa-solid fa-circle-check mr-2"></i>{{ successMessage }}
+    </div>
+
+    <p class="text-gray-500 font-medium leading-relaxed mb-1">
+      ¿Estás seguro de que deseas desactivar este producto?
+    </p>
+    <p class="text-sm font-black text-gray-800 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100 inline-block uppercase">
+      {{ item?.name || 'Producto Seleccionado' }}
+    </p>
+    <p class="mt-4 text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+      * Esta acción realizará un borrado lógico (soft-delete). El producto dejará de ser visible en el catálogo activo.
+    </p>
+  </div>
+
+  <!-- Footer Actions -->
+  <div class="p-6 border-t border-gray-100 bg-gray-50/50 flex gap-3">
+    <button 
+      (click)="close.emit()" 
+      class="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-500 font-black hover:bg-white transition-all active:scale-95 text-[10px] tracking-widest uppercase"
+    >
+      CANCELAR
+    </button>
+    <button 
+      (click)="confirm()"
+      [disabled]="isSaving"
+      class="flex-1 px-4 py-3 rounded-xl bg-red-600 text-white font-black shadow-lg shadow-red-200 hover:bg-red-700 disabled:opacity-50 disabled:shadow-none transition-all active:scale-95 flex items-center justify-center gap-2 text-[10px] tracking-widest uppercase"
+    >
+      <i *ngIf="isSaving" class="fa-solid fa-spinner animate-spin"></i>
+      {{ isSaving ? 'PROCESANDO...' : 'CONFIRMAR' }}
+    </button>
   </div>
 </div>
