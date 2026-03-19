@@ -1,32 +1,58 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-  <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-[1.5px]"
+  @modalOverlayAnimation>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
 
-    <h2 class="text-lg font-semibold text-red-600 mb-4">
-      Eliminar usuario
-    </h2>
-
-    <p class="text-sm text-gray-600 mb-6">
-      ¿Está seguro que desea eliminar el usuario?
-      Esta acción no se puede deshacer.
-    </p>
-
-    <div class="flex justify-end gap-2">
-      <button
-        type="button"
-        class="px-4 py-2 rounded border"
-        (click)="close.emit()"
-      >
-        Cancelar
-      </button>
-
-      <button
-        type="button"
-        class="px-4 py-2 rounded bg-red-600 text-white"
-        (click)="confirm()"
-      >
-        Eliminar
-      </button>
+    @if (successMessage) {
+    <div class="p-10 flex flex-col items-center justify-center text-center bg-green-50">
+      <div
+        class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-5 text-green-600 text-4xl transition-all scale-110 shadow-sm">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Hecho!</h3>
+      <p class="text-green-700 font-medium text-lg">{{ successMessage }}</p>
     </div>
+    } @else {
+    <div class="p-6 text-center">
+      <div class="mb-5 flex justify-center">
+        <div class="h-16 w-16 bg-red-100 rounded-full flex items-center justify-center text-red-600 text-3xl shadow-sm">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+      </div>
 
+      <h2 class="text-2xl font-bold text-gray-800 mb-3">¿Desactivar Empleado?</h2>
+      <p class="text-gray-500 mb-6 px-2 text-sm">
+        Estás a punto de desactivar a este empleado. ¿Estás seguro de que deseas continuar? Esta acción detendrá su
+        acceso.
+      </p>
+
+      @if (errorMessage) {
+      <div
+        class="p-4 mb-6 text-sm font-medium text-red-800 bg-red-100 border border-red-200 rounded-lg animate-pulse flex items-start text-left gap-3">
+        <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+        <div>{{ errorMessage }}</div>
+      </div>
+      }
+
+      <div class="flex flex-col-reverse sm:flex-row justify-center gap-3">
+        <button type="button"
+          class="px-6 py-2.5 w-full sm:w-auto rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition disabled:opacity-50"
+          (click)="cancel()" [disabled]="isLoading">
+          Cancelar
+        </button>
+
+        <button type="button"
+          class="px-6 py-2.5 w-full sm:w-auto rounded-lg bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-medium flex items-center justify-center gap-2 transition disabled:opacity-75 disabled:cursor-not-allowed shadow-sm shadow-red-600/20"
+          (click)="confirm()" [disabled]="isLoading">
+          @if (isLoading) {
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Procesando...</span>
+          } @else {
+          <i class="fa-solid fa-user-slash"></i>
+          <span>Desactivar</span>
+          }
+        </button>
+      </div>
+    </div>
+    }
   </div>
 </div>
