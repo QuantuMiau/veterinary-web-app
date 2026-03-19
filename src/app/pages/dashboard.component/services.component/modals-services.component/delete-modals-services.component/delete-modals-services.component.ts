@@ -1,30 +1,30 @@
-import { Component, EventEmitter, Input, inject, Output } from '@angular/core';
-import { ServiceService } from '../../../../../services/service.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Service } from '../../../../../services/service.service';
+import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
   selector: 'app-delete-modals-services',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './delete-modals-services.component.html',
   styleUrl: './delete-modals-services.component.css',
+  animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class DeleteModalsServicesComponent {
-  private serviceService = inject(ServiceService);
-
+  @Input() service?: Service;
   @Input() serviceId?: number;
+  @Input() isSaving = false;
+  @Input() errorMessage = '';
+  @Input() successMessage = '';
+  
   @Output() close = new EventEmitter<void>();
   @Output() confirmDelete = new EventEmitter<number>();
 
-  constructor() {}
-
   confirm() {
-    if (this.serviceId != null) {
-      this.serviceService.deleteService(this.serviceId);
-      this.confirmDelete.emit(this.serviceId);
+    const id = this.serviceId || this.service?.concept_id;
+    if (id) {
+      this.confirmDelete.emit(id);
     }
-    this.close.emit();
-  }
-
-  cancel() {
-    this.close.emit();
   }
 }

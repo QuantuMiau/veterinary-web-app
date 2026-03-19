@@ -102,6 +102,7 @@ export class InventoryComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.showAddItem = true;
+    this.cdr.detectChanges();
   }
 
   openEditItem(item: Product) {
@@ -109,11 +110,13 @@ export class InventoryComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.showEditItem = true;
+    this.cdr.detectChanges();
   }
 
   openDeleteItem(item: Product) {
     this.selectedItem = item;
     this.showDeleteItem = true;
+    this.cdr.detectChanges();
   }
 
   closeModal() {
@@ -123,6 +126,7 @@ export class InventoryComponent implements OnInit {
     this.selectedItem = undefined;
     this.errorMessage = '';
     this.successMessage = '';
+    this.cdr.detectChanges();
     this.loadProducts();
   }
 
@@ -137,9 +141,11 @@ export class InventoryComponent implements OnInit {
   addItem(productData: Product) {
     this.isSaving = true;
     this.errorMessage = '';
+    this.cdr.detectChanges();
     this.productService.addProduct(productData).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Producto guardado exitosamente';
+        this.cdr.detectChanges();
         setTimeout(() => this.closeModal(), 1500);
       },
       error: (err) => {
@@ -156,9 +162,11 @@ export class InventoryComponent implements OnInit {
 
     this.isSaving = true;
     this.errorMessage = '';
+    this.cdr.detectChanges();
     this.productService.updateProduct(id, updatedItem).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Producto actualizado exitosamente';
+        this.cdr.detectChanges();
         setTimeout(() => this.closeModal(), 1500);
       },
       error: (err) => {
@@ -171,9 +179,11 @@ export class InventoryComponent implements OnInit {
 
   deleteItem(id: number) {
     this.isSaving = true;
+    this.cdr.detectChanges();
     this.productService.deleteProduct(id).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Producto desactivado exitosamente';
+        this.cdr.detectChanges();
         setTimeout(() => this.closeModal(), 1500);
       },
       error: (err) => {

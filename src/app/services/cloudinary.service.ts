@@ -8,9 +8,9 @@ import { Observable, map } from 'rxjs';
 export class CloudinaryService {
   private http = inject(HttpClient);
 
-  // These should ideally be in environment files
-  private cloudName = 'dwz8hazeu'; // Placeholder, replace with actual
-  private uploadPreset = 'Veterinary-mobile'; // Placeholder, replace with actual
+  // cloudinary dats
+  private cloudName = 'dwz8hazeu';
+  private uploadPreset = 'Veterinary-mobile';
   private apiUrl = `https://api.cloudinary.com/v1_1/${this.cloudName}/image/upload`;
 
   uploadImage(file: File): Observable<string> {

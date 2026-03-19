@@ -1,46 +1,46 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface Service {
+  concept_id?: number; // Primary Key
+  id?: number; // Fallback
+  name: string;
+  cost?: number | string;
+  price: number | string;
+  duration: string; // HH:MM:SS
+  active?: boolean;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ServiceService {
-  services: Service[] = [
-    {
-      id: 1,
-      name: 'Baño y corte',
-      category: 'Estetica',
-      price: 412.12,
-      duration: '3 horas',
-    },
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = 'http://localhost:3000/service';
 
-  addService(service: Service) {
-    this.services.push(service);
-  }
-  getServices() {
-    return this.services;
+  // List all services
+  getAll(): Observable<Service[]> {
+    return this.http.get<Service[]>(this.apiUrl);
   }
 
-  deleteService(id: number) {
-    const index = this.services.findIndex((p) => p.id === id);
-    if (index !== -1) {
-      this.services.splice(index, 1);
-    }
+  // Create new service
+  createService(service: Service): Observable<any> {
+    return this.http.post<any>(this.apiUrl, service);
   }
 
-  updateService(updateService: Service) {
-    const index = this.services.findIndex((p) => p.id === updateService.id);
-
-    if (index !== -1) {
-      this.services[index] = updateService;
-    }
+  // Update existing service
+  updateService(id: number, service: Partial<Service>): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, service);
   }
-}
 
-export interface Service {
-  id: number;
-  name: string;
-  category: string;
-  price: number;
-  duration: string;
+  // Soft delete service
+  deleteService(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
+
+  // Reactivate service
+  activateService(id: number): Observable<any> {
+    return this.http.patch<any>(`${this.apiUrl}/${id}/activate`, {});
+  }
 }

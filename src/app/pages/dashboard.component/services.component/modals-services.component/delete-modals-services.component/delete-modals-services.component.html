@@ -1,32 +1,67 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-  <div class="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-[2px]" @modalOverlayAnimation>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
+    
+    @if (successMessage) {
+      <div class="p-10 flex justify-center items-center flex-col text-center bg-red-50/50 min-h-[300px]">
+        <div class="h-20 w-20 bg-red-100 rounded-full flex items-center justify-center mb-6 text-red-600 text-4xl shadow-sm transition-all scale-110">
+           <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <h3 class="text-2xl font-black text-gray-800 mb-2 tracking-tight">¡Servicio Desactivado!</h3>
+        <p class="text-red-700/80 font-bold text-sm uppercase tracking-widest">{{ successMessage }}</p>
+      </div>
+    } @else {
+      <!-- Header with Warning Icon -->
+      <div class="bg-red-50 px-6 py-8 flex flex-col items-center text-center relative">
+        <button (click)="close.emit()" class="absolute top-4 right-4 text-red-300 hover:text-red-500 transition-colors z-50" [disabled]="isSaving">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
+        <div class="h-16 w-16 bg-white rounded-2xl flex items-center justify-center mb-4 text-red-500 text-3xl shadow-sm border border-red-100">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h2 class="text-xl font-black text-gray-800 tracking-tight">¿Desactivar Servicio?</h2>
+        <p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mt-1">El servicio dejará de estar disponible</p>
+      </div>
 
-    <h2 class="text-lg font-semibold text-red-600 mb-4">
-      Eliminar servicio
-    </h2>
+      <div class="p-6 text-center">
+        @if (errorMessage) {
+          <div class="p-4 mb-6 text-[11px] font-black text-red-600 bg-red-50 border border-red-100 rounded-xl animate-pulse flex items-start gap-3 uppercase tracking-wide">
+            <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+            <div>{{ errorMessage }}</div>
+          </div>
+        }
 
-    <p class="text-sm text-gray-600 mb-6">
-      ¿Está seguro que deseas eliminar el servicio?
-      Esta acción no se puede deshacer.
-    </p>
+        <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 mb-8">
+          <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Servicio seleccionado</p>
+          <p class="text-lg font-black text-gray-800 tracking-tight leading-tight">{{ service?.name }}</p>
+          <p class="text-[10px] font-bold text-gray-400 uppercase mt-1 tracking-widest">Ref: #{{ service?.concept_id }}</p>
+        </div>
 
-    <div class="flex justify-end gap-2">
-      <button
-        type="button"
-        class="px-4 py-2 rounded border"
-        (click)="close.emit()"
-      >
-        Cancelar
-      </button>
-
-      <button
-        type="button"
-        class="px-4 py-2 rounded bg-red-600 text-white"
-        (click)="confirm()"
-      >
-        Eliminar
-      </button>
-    </div>
-
+        <div class="flex flex-col gap-3">
+          <button 
+            type="button"
+            (click)="confirm()"
+            class="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl text-[11px] font-black transition-all shadow-lg shadow-red-200 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
+            [disabled]="isSaving"
+          >
+            @if (isSaving) {
+              <i class="fa-solid fa-spinner animate-spin"></i>
+              <span>Procesando...</span>
+            } @else {
+              <i class="fa-solid fa-trash-can"></i>
+              <span>Sí, Desactivar Servicio</span>
+            }
+          </button>
+          
+          <button 
+            type="button"
+            (click)="close.emit()"
+            class="w-full py-4 rounded-xl border border-gray-200 text-gray-500 text-[11px] font-black hover:bg-white bg-gray-50/50 transition-all uppercase tracking-widest"
+            [disabled]="isSaving"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    }
   </div>
 </div>
