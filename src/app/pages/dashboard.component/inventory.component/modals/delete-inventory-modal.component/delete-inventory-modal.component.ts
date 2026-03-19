@@ -1,25 +1,29 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
   selector: 'app-delete-inventory-modal',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './delete-inventory-modal.component.html',
   styleUrl: './delete-inventory-modal.component.css',
+  animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class DeleteInventoryModalComponent {
-  @Input() itemId?: number;
+  @Input() item?: any;
+  @Input() itemId?: number; // Keep for backward compatibility if needed
+  @Input() isSaving = false;
+  @Input() errorMessage = '';
+  @Input() successMessage = '';
+  
   @Output() close = new EventEmitter<void>();
-
   @Output() confirmDelete = new EventEmitter<number>();
 
-  constructor() {}
-
   confirm() {
-    this.confirmDelete.emit(this.itemId!);
-    this.close.emit();
-  }
-
-  cancel() {
-    this.close.emit();
+    const id = this.itemId || (this.item ? this.item.id : null);
+    if (id) {
+      this.confirmDelete.emit(id);
+    }
   }
 }

@@ -7,7 +7,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-  if (token) {
+  if (token && !req.url.includes('cloudinary.com')) {
     const cloned = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
