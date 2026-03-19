@@ -1,22 +1,34 @@
-<div class="flex flex-col h-full">
-  <!-- Tabs -->
-  <div class="flex gap-2 border-b mb-3">
+<div class="flex-1 flex flex-col min-h-0 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <!-- Tabs Navigation -->
+  <div class="flex items-center gap-2 p-3 bg-gray-50/50 border-b border-gray-100">
     <button
       *ngFor="let tab of tabs"
       (click)="activeTab = tab.id"
-      class="px-4 py-2 text-sm"
-      [ngClass]="activeTab === tab.id
-        ? 'border-b-2 border-blue-600 text-blue-600 font-medium'
-        : 'text-gray-500 hover:text-gray-700'"
+      class="flex items-center gap-2.5 px-6 py-3 rounded-xl text-sm font-black transition-all relative group"
+      [ngClass]="{
+        'bg-white text-green-600 shadow-sm border border-gray-200 ring-4 ring-green-500/5': activeTab === tab.id,
+        'text-gray-400 hover:text-gray-600 hover:bg-white/50 border border-transparent': activeTab !== tab.id
+      }"
     >
-      {{ tab.label }}
+      <i class="fa-solid text-base" [ngClass]="{
+        'fa-notes-medical': tab.id === 'visits',
+        'fa-xray': tab.id === 'rx',
+        'fa-flask-vial': tab.id === 'labs'
+      }"></i>
+      <span class="tracking-tight">{{ tab.label }}</span>
+      
+      <!-- Active Indicator Tip -->
+      <div *ngIf="activeTab === tab.id" class="absolute -bottom-[13px] left-1/2 -translate-x-1/2 w-8 h-1 bg-green-500 rounded-t-full shadow-[0_-2px_8px_rgba(34,197,94,0.4)]"></div>
     </button>
   </div>
 
-  <!-- Content -->
-  <div class="flex-1 min-h-0 overflow-auto">
-    <app-visits-table *ngIf="activeTab === 'visits'"></app-visits-table>
-    <app-rx-table *ngIf="activeTab === 'rx'"></app-rx-table>
-    <app-labs-table *ngIf="activeTab === 'labs'"></app-labs-table>
+  <!-- Tab Content Area -->
+  <div class="flex-1 overflow-auto p-8 bg-white/50 relative">
+    <!-- Content container with subtle backdrop -->
+    <div class="h-full">
+      <app-visits-table *ngIf="activeTab === 'visits'"></app-visits-table>
+      <app-rx-table *ngIf="activeTab === 'rx'"></app-rx-table>
+      <app-labs-table *ngIf="activeTab === 'labs'"></app-labs-table>
+    </div>
   </div>
 </div>

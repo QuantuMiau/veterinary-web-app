@@ -1,61 +1,99 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
-
-    <h2 class="text-lg font-semibold mb-4">Editar paciente</h2>
-
-    <form [formGroup]="patientEditForm" (ngSubmit)="submit()" class="space-y-4">
-
-      <input
-        formControlName="name"
-        placeholder="Nombre"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <input
-        formControlName="species"
-        placeholder="Especie"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <input
-        formControlName="breed"
-        placeholder="Raza"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <select
-        formControlName="sex"
-        class="w-full border rounded px-3 py-2"
-      >
-        <option value="">Sexo</option>
-        <option value="Macho">Macho</option>
-        <option value="Hembra">Hembra</option>
-      </select>
-
-      <input
-        formControlName="owner"
-        placeholder="Dueño"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <div class="flex justify-end gap-2 pt-4">
-        <button
-          type="button"
-          class="px-4 py-2 rounded border"
-          (click)="close.emit()"
-        >
-          Cancelar
-        </button>
-
-        <button
-          type="submit"
-          class="px-4 py-2 rounded bg-green-600 text-white"
-          [disabled]="patientEditForm.invalid"
-        >
-          Guardar
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-[2px]" @modalOverlayAnimation>
+  <div class="w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
+    
+    @if (successMessage) {
+      <div class="p-10 flex justify-center items-center flex-col text-center bg-green-50">
+        <div class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-5 text-green-600 text-4xl shadow-sm transition-all scale-110">
+           <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Actualizado!</h3>
+        <p class="text-green-700 font-medium text-lg">{{ successMessage }}</p>
+      </div>
+    } @else {
+      <div class="bg-gray-50 border-b px-6 py-4 flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-blue-600"></i> Editar Paciente
+        </h2>
+        <button class="text-gray-400 hover:text-gray-600 transition" (click)="close.emit()" [disabled]="isLoading">
+          <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
 
-    </form>
+      <div class="p-6">
+        @if (errorMessage) {
+          <div class="p-4 mb-5 text-sm font-medium text-red-800 bg-red-100 border border-red-200 rounded-lg animate-pulse flex items-start gap-3">
+            <i class="fa-solid fa-triangle-exclamation mt-0.5"></i>
+            <div>{{ errorMessage }}</div>
+          </div>
+        }
+        
+        <form [formGroup]="patientEditForm" (ngSubmit)="submit()" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-sm font-medium text-gray-700">Nombre de la mascota</label>
+              <input formControlName="name" placeholder="Ej. Firulais" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null" />
+            </div>
+            
+            <div class="space-y-1">
+              <label class="text-sm font-medium text-gray-700">Dueño (Cliente)</label>
+              <select formControlName="clientId" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
+                <option [ngValue]="null">Seleccionar dueño</option>
+                @for (client of clients; track client.id || client.client_id) {
+                  <option [ngValue]="client.id || client.client_id">{{ client.firstName || client.first_name }} {{ client.lastName || client.last_name }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-sm font-medium text-gray-700">Especie</label>
+              <select formControlName="speciesId" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
+                <option [ngValue]="null">Seleccionar especie</option>
+                @for (item of speciesList; track item.id) {
+                  <option [ngValue]="item.id">{{ item.name }}</option>
+                }
+              </select>
+            </div>
+            
+            <div class="space-y-1">
+              <label class="text-sm font-medium text-gray-700">Sexo</label>
+              <select formControlName="sex" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
+                <option value="">Seleccionar sexo</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="space-y-1">
+              <label class="text-sm font-medium text-gray-700">Raza</label>
+              <input formControlName="breed" placeholder="Ej. Poodle" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null" />
+            </div>
+            <div class="space-y-1">
+              <label class="text-sm font-medium text-gray-700">Color / Señas</label>
+              <input formControlName="color" placeholder="Ej. Café con manchas" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null" />
+            </div>
+          </div>
+
+          <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t mt-6">
+            <button type="button" class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition disabled:opacity-50" (click)="close.emit()" [disabled]="isLoading">
+              Cancelar
+            </button>
+
+            <button type="submit" class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium flex items-center justify-center gap-2 transition disabled:opacity-75 disabled:cursor-not-allowed" [disabled]="patientEditForm.invalid || isLoading">
+              @if (isLoading) {
+                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                <span>Guardando...</span>
+              } @else {
+                <i class="fa-solid fa-save"></i>
+                <span>Guardar Cambios</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    }
   </div>
 </div>
