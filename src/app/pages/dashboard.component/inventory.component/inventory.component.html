@@ -181,41 +181,32 @@
 </div>
 
 <!-- Modals -->
-<div *ngIf="showAddItem" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
-    <app-add-inventory-modal
-      [isSaving]="isSaving"
-      [errorMessage]="errorMessage"
-      [successMessage]="successMessage"
-      (close)="closeModal()"
-      (save)="addItem($event)"
-    ></app-add-inventory-modal>
-  </div>
-</div>
+<app-add-inventory-modal
+  *ngIf="showAddItem"
+  [isSaving]="isSaving"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (close)="closeModal()"
+  (save)="addItem($event)"
+></app-add-inventory-modal>
 
-<div *ngIf="showEditItem && selectedItem" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200">
-    <app-edit-inventory-modal
-      [item]="selectedItem"
-      [isSaving]="isSaving"
-      [errorMessage]="errorMessage"
-      [successMessage]="successMessage"
-      (close)="closeModal()"
-      (save)="updateItem($event)"
-    ></app-edit-inventory-modal>
-  </div>
-</div>
+<app-edit-inventory-modal
+  *ngIf="showEditItem && selectedItem"
+  [item]="selectedItem"
+  [isSaving]="isSaving"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (close)="closeModal()"
+  (save)="updateItem($event)"
+></app-edit-inventory-modal>
 
-<div *ngIf="showDeleteItem && selectedItem" class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4 animate-in fade-in duration-200">
-  <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm overflow-hidden animate-in zoom-in-95 duration-200">
-    <app-delete-inventory-modal
-      [item]="selectedItem"
-      [itemId]="selectedItem.concept_id || selectedItem.id"
-      [isSaving]="isSaving"
-      [errorMessage]="errorMessage"
-      [successMessage]="successMessage"
-      (close)="closeModal()"
-      (confirmDelete)="deleteItem($event)"
-    ></app-delete-inventory-modal>
-  </div>
-</div>
+<app-delete-inventory-modal
+  *ngIf="showDeleteItem && selectedItem"
+  [item]="selectedItem"
+  [itemId]="selectedItem.concept_id || selectedItem.id"
+  [isSaving]="isSaving"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (close)="closeModal()"
+  (confirmDelete)="deleteItem($event)"
+></app-delete-inventory-modal>

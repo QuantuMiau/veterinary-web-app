@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output, OnChanges, SimpleChange
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CloudinaryService } from '../../../../../services/cloudinary.service';
+import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
   selector: 'app-add-inventory-modal',
@@ -9,6 +10,7 @@ import { CloudinaryService } from '../../../../../services/cloudinary.service';
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './add-inventory-modal.component.html',
   styleUrl: './add-inventory-modal.component.css',
+  animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class AddInventoryModalComponent {
   private fb = inject(FormBuilder);

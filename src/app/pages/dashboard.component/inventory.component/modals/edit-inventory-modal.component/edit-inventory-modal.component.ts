@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChange
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CloudinaryService } from '../../../../../services/cloudinary.service';
+import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
   selector: 'app-edit-inventory-modal',
@@ -9,6 +10,7 @@ import { CloudinaryService } from '../../../../../services/cloudinary.service';
   imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './edit-inventory-modal.component.html',
   styleUrl: './edit-inventory-modal.component.css',
+  animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class EditInventoryModalComponent implements OnChanges {
   private fb = inject(FormBuilder);

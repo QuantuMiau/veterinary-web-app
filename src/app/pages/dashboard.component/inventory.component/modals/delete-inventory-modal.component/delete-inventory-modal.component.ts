@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
   selector: 'app-delete-inventory-modal',
@@ -7,6 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './delete-inventory-modal.component.html',
   styleUrl: './delete-inventory-modal.component.css',
+  animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class DeleteInventoryModalComponent {
   @Input() item?: any;

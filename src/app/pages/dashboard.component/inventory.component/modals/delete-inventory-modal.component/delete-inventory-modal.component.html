@@ -1,51 +1,64 @@
-<div class="flex flex-col h-full">
-  <!-- Header -->
-  <div class="px-6 py-5 border-b border-gray-100 flex items-center gap-4 bg-red-50/30">
-    <div class="h-10 w-10 rounded-full bg-red-100 flex items-center justify-center shrink-0">
-      <i class="fa-solid fa-triangle-exclamation text-red-600 text-lg"></i>
-    </div>
-    <div>
-      <h2 class="text-lg font-black text-gray-800 tracking-tight">Desactivar Producto</h2>
-      <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Confirmar acción</p>
-    </div>
-  </div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-[2px]" @modalOverlayAnimation>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
+    
+    @if (successMessage) {
+      <div class="p-10 flex justify-center items-center flex-col text-center bg-red-50/50 min-h-[300px]">
+        <div class="h-20 w-20 bg-red-100 rounded-full flex items-center justify-center mb-6 text-red-600 text-4xl shadow-sm transition-all scale-110">
+           <i class="fa-solid fa-trash-can"></i>
+        </div>
+        <h3 class="text-2xl font-black text-gray-800 mb-2 tracking-tight">¡Producto Eliminado!</h3>
+        <p class="text-red-700/80 font-bold text-sm uppercase tracking-widest">{{ successMessage }}</p>
+      </div>
+    } @else {
+      <!-- Header with Warning Icon -->
+      <div class="bg-red-50 px-6 py-8 flex flex-col items-center text-center">
+        <div class="h-16 w-16 bg-white rounded-2xl flex items-center justify-center mb-4 text-red-500 text-3xl shadow-sm border border-red-100">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <h2 class="text-xl font-black text-gray-800 tracking-tight">¿Eliminar Producto?</h2>
+        <p class="text-[10px] font-bold text-red-400 uppercase tracking-widest mt-1">Esta acción es irreversible</p>
+      </div>
 
-  <!-- Body -->
-  <div class="p-8">
-    <!-- Messages -->
-    <div *ngIf="errorMessage" class="mb-4 p-3 rounded-xl bg-red-50 border border-red-100 text-red-600 text-xs font-bold animate-in fade-in slide-in-from-top-2">
-      <i class="fa-solid fa-circle-exclamation mr-2"></i>{{ errorMessage }}
-    </div>
-    <div *ngIf="successMessage" class="mb-4 p-3 rounded-xl bg-green-50 border border-green-100 text-green-600 text-xs font-bold animate-in fade-in slide-in-from-top-2">
-      <i class="fa-solid fa-circle-check mr-2"></i>{{ successMessage }}
-    </div>
+      <div class="p-6 text-center">
+        @if (errorMessage) {
+          <div class="p-4 mb-6 text-[11px] font-black text-red-600 bg-red-50 border border-red-100 rounded-xl animate-pulse flex items-start gap-3 uppercase tracking-wide">
+            <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+            <div>{{ errorMessage }}</div>
+          </div>
+        }
 
-    <p class="text-gray-500 font-medium leading-relaxed mb-1">
-      ¿Estás seguro de que deseas desactivar este producto?
-    </p>
-    <p class="text-sm font-black text-gray-800 bg-gray-50 px-3 py-2 rounded-lg border border-gray-100 inline-block uppercase">
-      {{ item?.name || 'Producto Seleccionado' }}
-    </p>
-    <p class="mt-4 text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
-      * Esta acción realizará un borrado lógico (soft-delete). El producto dejará de ser visible en el catálogo activo.
-    </p>
-  </div>
+        <div class="bg-gray-50 rounded-2xl p-5 border border-gray-100 mb-8">
+          <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5">Producto seleccionado</p>
+          <p class="text-lg font-black text-gray-800 tracking-tight leading-tight">{{ item?.name }}</p>
+          <p class="text-[10px] font-bold text-gray-400 uppercase mt-1 tracking-widest">{{ item?.product_id }}</p>
+        </div>
 
-  <!-- Footer Actions -->
-  <div class="p-6 border-t border-gray-100 bg-gray-50/50 flex gap-3">
-    <button 
-      (click)="close.emit()" 
-      class="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-gray-500 font-black hover:bg-white transition-all active:scale-95 text-[10px] tracking-widest uppercase"
-    >
-      CANCELAR
-    </button>
-    <button 
-      (click)="confirm()"
-      [disabled]="isSaving"
-      class="flex-1 px-4 py-3 rounded-xl bg-red-600 text-white font-black shadow-lg shadow-red-200 hover:bg-red-700 disabled:opacity-50 disabled:shadow-none transition-all active:scale-95 flex items-center justify-center gap-2 text-[10px] tracking-widest uppercase"
-    >
-      <i *ngIf="isSaving" class="fa-solid fa-spinner animate-spin"></i>
-      {{ isSaving ? 'PROCESANDO...' : 'CONFIRMAR' }}
-    </button>
+        <div class="flex flex-col gap-3">
+          <button 
+            type="button"
+            (click)="confirm()"
+            class="w-full py-4 bg-red-600 hover:bg-red-700 text-white rounded-xl text-[11px] font-black transition-all shadow-lg shadow-red-200 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
+            [disabled]="isSaving"
+          >
+            @if (isSaving) {
+              <i class="fa-solid fa-spinner animate-spin"></i>
+              <span>Eliminando...</span>
+            } @else {
+              <i class="fa-solid fa-trash-can"></i>
+              <span>Sí, Eliminar de Inventario</span>
+            }
+          </button>
+          
+          <button 
+            type="button"
+            (click)="close.emit()"
+            class="w-full py-4 rounded-xl border border-gray-200 text-gray-500 text-[11px] font-black hover:bg-white bg-gray-50/50 transition-all uppercase tracking-widest"
+            [disabled]="isSaving"
+          >
+            Cancelar
+          </button>
+        </div>
+      </div>
+    }
   </div>
 </div>
