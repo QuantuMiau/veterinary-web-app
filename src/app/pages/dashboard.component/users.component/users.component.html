@@ -4,12 +4,9 @@
   <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
     <div class="flex flex-col sm:flex-row gap-2 flex-1">
       <div class="flex w-full sm:w-3/5">
-        <input type="text" placeholder="Nombre, email o ID" [(ngModel)]="searchTerm" (input)="searchUsers()"
-          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
-        <button class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
-          (click)="searchUsers()">
-          Buscar
-        </button>
+        <input #searchInput type="text" placeholder="Nombre, email o ID"
+          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          (input)="updateSearch(searchInput.value)" />
       </div>
 
       <select
@@ -19,9 +16,9 @@
       </select>
     </div>
 
-    <button class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
+    <button class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 font-medium transition flex items-center gap-2"
       (click)="openNewUser()">
-      Agregar usuario
+      <i class="fa-solid fa-plus"></i> Agregar Usuario
     </button>
   </div>
 
@@ -33,42 +30,47 @@
           <th class="px-4 py-2">Rol</th>
           <th class="px-4 py-2">Email</th>
           <th class="px-4 py-2">Teléfono</th>
-          <th class="px-4 py-2 text-right"></th>
+          <th class="px-4 py-2 text-right">Acciones</th>
         </tr>
       </thead>
 
       <tbody>
         @for (user of filteredUsers; track $index) {
         <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-          <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+          <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg border-l-4 border-l-transparent hover:border-l-blue-500 transition-all">
             {{ user.first_name }} {{ user.last_name }} {{ user.mother_name }}
           </td>
 
           <td class="px-4 py-3">
-            {{ user.role }}
+            <span class="px-2 py-0.5 bg-gray-100 rounded text-gray-600 text-xs font-semibold">{{ user.role }}</span>
           </td>
 
-          <td class="px-4 py-3">
+          <td class="px-4 py-3 text-gray-600">
             {{ user.email }}
           </td>
 
-          <td class="px-4 py-3">
+          <td class="px-4 py-3 text-gray-600">
             {{ user.phone }}
           </td>
 
           <td class="px-4 py-3 text-right rounded-r-lg">
             <div class="flex justify-end gap-2">
-              <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200" (click)="openEditUser(user)">
-                <i class="fa-solid fa-eye"></i>
-              </button>
-
-              <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200" (click)="openEditUser(user)">
+              <button class="rounded-md bg-blue-50 text-blue-600 p-2 hover:bg-blue-100 transition shadow-sm border border-blue-200" (click)="openEditUser(user)" title="Editar">
                 <i class="fa-solid fa-pencil"></i>
               </button>
 
-              <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200" (click)="openDeleteUser(user)">
+              <button class="rounded-md bg-red-50 text-red-600 p-2 hover:bg-red-100 transition shadow-sm border border-red-200" (click)="openDeleteUser(user)" title="Eliminar">
                 <i class="fa-solid fa-trash"></i>
               </button>
+            </div>
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="5" class="px-4 py-10 text-center text-gray-500 bg-white shadow-sm rounded-lg">
+            <div class="flex flex-col items-center justify-center">
+              <i class="fa-solid fa-user-gear text-4xl text-gray-300 mb-3 animate-bounce"></i>
+              <p>No se encontraron empleados registrados en la plataforma.</p>
             </div>
           </td>
         </tr>

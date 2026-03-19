@@ -2,151 +2,96 @@
   <div class="patients-title">Clientes</div>
 
   <!-- search header -->
-  <!-- <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
-
+  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
     <div class="flex flex-col sm:flex-row gap-2 flex-1">
       <div class="flex w-full sm:w-3/5">
         <input
+          #searchInput
           type="text"
-          placeholder="Nombre"
-          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Buscar cliente..."
+          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+          (input)="updateSearch(searchInput.value)"
         />
-        <button
-          class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
-        >
-          Buscar
-
-        </button>
       </div>
 
       <select
-        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
       >
         <option selected>Todos</option>
         <option>Recientes</option>
       </select>
     </div>
 
-     <button
-      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
-      (click)="openModal()"
+    <button
+      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 font-medium transition flex items-center gap-2"
+      (click)="openAddModal()"
     >
-      Agregar paciente
-    </button> -->
-  <!-- </div> -->
+      <i class="fa-solid fa-plus"></i> Agregar Cliente
+    </button>
+  </div>
 
-  <!-- tble -->
+  <!-- table -->
   <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
     <table class="min-w-full border-separate border-spacing-y-2 text-sm">
       <thead>
       <tr class="text-left text-gray-500">
-        <th class="px-4 py-2">Nombre</th>
-        <th class="px-4 py-2">Telefono</th>
+        <th class="px-4 py-2">Nombre completo</th>
+        <th class="px-4 py-2">Teléfono</th>
         <th class="px-4 py-2">Ciudad</th>
-        <th class="px-4 py-2">Direccion</th>
-        <th class="px-4 py-2">Correo electonico</th>
-        <th class="px-4 py-2">Última visita</th>
-        <th class="px-4 py-2 text-right"></th>
+        <th class="px-4 py-2">Dirección</th>
+        <th class="px-4 py-2 text-right">Acciones</th>
       </tr>
       </thead>
 
       <tbody>
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Pedro Perez Arias
-        </td>
-        <td class="px-4 py-3">271 113 98 02</td>
-        <td class="px-4 py-3">Cordoba</td>
-        <td class="px-4 py-3">
-
-        <span>
-            <td class="px-4 py-3">Av 15 1005, Federal, 94570 Córdoba, Ver.
-        </span>
-
-        </td>
-        <td class="px-4 py-3">Pedro@gmail.com</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
-
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Fernanda Lagunes Perez
-        </td>
-        <td class="px-4 py-3">271 345 35 43</td>
-        <td class="px-4 py-3">Fortin</td>
-        <td class="px-4 py-3">
-          <span>
-            <td class="px-4 py-3">Fortuna 1005, Federal, 94570 Fortin, Ver.
-        </span>
-        </td>
-        <td class="px-4 py-3">Fernanda@gmail.com</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Mauricio Esperon
-        </td>
-        <td class="px-4 py-3">271 456 98 76</td>
-        <td class="px-4 py-3">Monte Blanco</td>
-        <td class="px-4 py-3">
-         <span>
-            <td class="px-4 py-3">94466 Monte Blanco, Ver.
-        </span>
-        </td>
-        <td class="px-4 py-3">Mauricio@gmail.com</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
+      @for (client of filteredClients; track client.id || client.client_id || client.clientId || $index) {
+        <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
+          <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
+            {{ client.firstName || client.first_name }} {{ client.lastName || client.last_name }} {{ client.motherName || client.mother_name || '' }}
+          </td>
+          <td class="px-4 py-3">{{ client.phone }}</td>
+          <td class="px-4 py-3">{{ client.city }}</td>
+          <td class="px-4 py-3">{{ client.address }}</td>
+          <td class="px-4 py-3 text-right rounded-r-lg">
+            <div class="flex justify-end gap-2">
+              <button class="rounded-md bg-green-50 text-green-700 p-2 hover:bg-green-100 transition shadow-sm border border-green-200" (click)="openEditModal(client)" title="Editar">
+                <i class="fa-solid fa-pencil"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="5" class="px-4 py-10 text-center text-gray-500 bg-white shadow-sm rounded-lg">
+            <div class="flex flex-col items-center justify-center">
+              <i class="fa-solid fa-users text-4xl text-gray-300 mb-3 animate-bounce"></i>
+              <p>No se encontraron clientes registrados en la base de datos.</p>
+            </div>
+          </td>
+        </tr>
+      }
       </tbody>
     </table>
   </div>
-
-
 </div>
 
-<!-- @if (showAddPatientModal) {
-  <app-patient-add-modal
+@if (showAddClient) {
+  <app-add-client-modal
+    [errorMessage]="errorMessage"
+    [successMessage]="successMessage"
+    [isLoading]="isSaving"
     (close)="closeModal()"
+    (save)="addClient($event)"
   />
-} -->
+}
+
+@if (showEditClient) {
+  <app-edit-client-modal
+    [client]="selectedClient"
+    [errorMessage]="errorMessage"
+    [successMessage]="successMessage"
+    [isLoading]="isSaving"
+    (close)="closeModal()"
+    (save)="updateClient($event)"
+  />
+}

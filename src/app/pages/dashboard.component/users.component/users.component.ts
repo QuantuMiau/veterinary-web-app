@@ -17,12 +17,24 @@ export class UsersComponent implements OnInit {
   showDeleteUser = false;
 
   users: User[] = [];
-  filteredUsers: User[] = [];
   searchTerm = '';
   selectedUser?: User;
   errorMessage = '';
   successMessage = '';
   isSaving = false;
+
+  get filteredUsers(): User[] {
+    if (!this.searchTerm.trim()) return this.users;
+    const term = this.searchTerm.toLowerCase().trim();
+    return this.users.filter(
+      (u) =>
+        (u.first_name || '').toLowerCase().includes(term) ||
+        (u.last_name || '').toLowerCase().includes(term) ||
+        (u.email || '').toLowerCase().includes(term) ||
+        (u.role || '').toLowerCase().includes(term) ||
+        (u.phone || '').includes(term),
+    );
+  }
 
   constructor(
     private userService: UserService,
@@ -38,11 +50,15 @@ export class UsersComponent implements OnInit {
       next: (response: any) => {
         const users = Array.isArray(response) ? response : (response.data || response.empleados || response);
         this.users = users;
-        this.filteredUsers = [...users];
         this.cdr.detectChanges();
       },
       error: (err) => console.error('Error loading users', err)
     });
+  }
+
+  updateSearch(term: string) {
+    this.searchTerm = term;
+    this.cdr.detectChanges();
   }
 
   openNewUser() {
@@ -155,21 +171,5 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  searchUsers() {
-    const term = this.searchTerm.toLowerCase().trim();
 
-    if (!term) {
-      this.filteredUsers = [...this.users];
-      return;
-    }
-
-    this.filteredUsers = this.users.filter(
-      (u) =>
-        (u.first_name || '').toLowerCase().includes(term) ||
-        (u.last_name || '').toLowerCase().includes(term) ||
-        (u.email || '').toLowerCase().includes(term) ||
-        (u.role || '').toLowerCase().includes(term) ||
-        (u.phone || '').includes(term),
-    );
-  }
 }

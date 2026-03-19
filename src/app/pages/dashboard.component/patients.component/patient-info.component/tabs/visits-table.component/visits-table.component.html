@@ -1,18 +1,42 @@
-<table class="min-w-full text-sm">
-  <thead class="border-b text-gray-500">
-  <tr>
-    <th class="text-left px-3 py-2">Fecha</th>
-    <th class="text-left px-3 py-2">Motivo</th>
-    <th class="text-left px-3 py-2">Peso</th>
-    <th class="text-left px-3 py-2">Diagnóstico</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr class="border-b hover:bg-gray-50">
-    <td class="px-3 py-2">2024-11-21</td>
-    <td class="px-3 py-2">Control</td>
-    <td class="px-3 py-2">4 kg</td>
-    <td class="px-3 py-2">Parámetros normales</td>
-  </tr>
-  </tbody>
-</table>
+<div class="overflow-hidden rounded-2xl border border-gray-100 shadow-sm bg-white">
+  <table class="min-w-full divide-y divide-gray-100">
+    <thead class="bg-gray-50/80">
+      <tr>
+        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Fecha</th>
+        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Motivo</th>
+        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Peso</th>
+        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Diagnóstico</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-50">
+      <tr class="hover:bg-green-50/30 transition-colors group cursor-default">
+        <td class="px-6 py-5 whitespace-nowrap">
+          <div class="flex items-center gap-3">
+            <div class="h-8 w-8 rounded-lg bg-green-50 text-green-500 flex items-center justify-center">
+              <i class="fa-solid fa-calendar-day text-xs"></i>
+            </div>
+            <span class="text-sm font-bold text-gray-700">21 Nov 2024</span>
+          </div>
+        </td>
+        <td class="px-6 py-5">
+          <span class="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-tighter border border-blue-100/50">
+            Control General
+          </span>
+        </td>
+        <td class="px-6 py-5 whitespace-nowrap">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-black text-gray-800">4.2</span>
+            <span class="text-[10px] font-bold text-gray-400 uppercase">kg</span>
+          </div>
+        </td>
+        <td class="px-6 py-5">
+          <div class="max-w-md">
+            <p class="text-sm text-gray-500 leading-relaxed line-clamp-2">
+              El paciente presenta parámetros vitales estables. Se recomienda continuar con la dieta actual y programar refuerzo de vacunas.
+            </p>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

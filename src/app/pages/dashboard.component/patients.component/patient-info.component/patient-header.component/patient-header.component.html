@@ -1,32 +1,104 @@
-<div class="rounded-lg bg-white p-4 shadow">
-  <div class="flex items-center gap-3 mb-4">
-    <button
-      class="rounded-md bg-gray-100 p-2 hover:bg-gray-200 transition"
-      (click)="goBack()"
-      aria-label="Regresar"
-    >
-      <img
-        src="assets/icons/sidebar/arrow.svg"
-        alt="Regresar"
-        class="h-5 w-5 invert"
-      />
-    </button>
+<div class="rounded-2xl bg-white p-8 shadow-md border border-gray-100 transition-all hover:shadow-lg">
+  <div class="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-10">
+    
+    <div class="flex flex-col sm:flex-row items-center sm:items-start gap-8 w-full lg:w-auto">
+      <!-- Back Button -->
+      <button
+        class="group flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-50 text-gray-400 hover:bg-green-50 hover:text-green-600 transition-all shadow-sm border border-gray-100"
+        (click)="goBack()"
+        aria-label="Regresar"
+      >
+        <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform text-lg"></i>
+      </button>
 
-    <h2 class="text-lg font-semibold">Información del paciente</h2>
-  </div>
+      <!-- Patient Avatar/Icon -->
+      <div class="relative shrink-0">
+        <div class="flex h-28 w-28 items-center justify-center rounded-3xl bg-gradient-to-br from-green-50 to-green-100 text-green-600 shadow-inner border border-green-200/50">
+          <i class="fa-solid fa-paw text-5xl"></i>
+        </div>
+        <div 
+          class="absolute -bottom-1 -right-1 h-10 w-10 rounded-xl border-4 border-white flex items-center justify-center text-sm shadow-md"
+          [ngClass]="{
+            'bg-blue-500 text-white': patient.sex === 'Macho',
+            'bg-pink-500 text-white': patient.sex === 'Hembra'
+          }"
+        >
+          <i class="fa-solid" [ngClass]="{'fa-mars': patient.sex === 'Macho', 'fa-venus': patient.sex === 'Hembra'}"></i>
+        </div>
+      </div>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-
-    <div class="space-y-1">
-      <p><span class="font-medium">Nombre:</span> {{ patient.name }}</p>
-      <p><span class="font-medium">Especie:</span> {{ patient.species }}</p>
-      <p><span class="font-medium">Raza:</span> {{ patient.breed }}</p>
-      <p><span class="font-medium">Sexo:</span> {{ patient.sex }}</p>
-      <p><span class="font-medium">Dueño:</span> {{ patient.owner }}</p>
+      <!-- Main info -->
+      <div class="space-y-3 text-center sm:text-left flex-1 min-w-0">
+        <div class="flex flex-col gap-1">
+          <h1 class="text-4xl font-black text-gray-900 leading-none tracking-tight truncate">
+            {{ patient.name }}
+          </h1>
+          <p class="text-gray-400 font-bold text-sm tracking-widest uppercase px-1">Expediente Central</p>
+        </div>
+        
+        <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3">
+          <span class="px-4 py-1.5 rounded-xl bg-green-50 text-green-700 text-xs font-black border border-green-200 shadow-sm uppercase tracking-wide">
+            {{ patient.species }}
+          </span>
+          <span class="text-gray-300">•</span>
+          <span class="text-gray-600 text-sm font-bold bg-gray-50 px-3 py-1 rounded-lg border border-gray-100">
+            {{ patient.breed || 'Mestizo' }}
+          </span>
+        </div>
+      </div>
     </div>
 
-    <div class="space-y-1">
-      <p><span class="font-medium">Última visita:</span> {{ patient.lastVisit }}</p>
+    <!-- Stats/Cards Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 gap-4 w-full">
+      <div class="flex flex-col rounded-2xl bg-gray-50/50 p-4 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 group-hover:text-green-500 transition-colors">Dueño</span>
+        <div class="flex items-center gap-3 text-gray-700">
+          <div class="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300">
+            <i class="fa-solid fa-user-circle"></i>
+          </div>
+          <span class="text-sm font-black truncate">{{ patient.owner || 'No asignado' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-2xl bg-gray-50/50 p-4 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 group-hover:text-green-500 transition-colors">Contacto</span>
+        <div class="flex items-center gap-3 text-gray-700">
+          <div class="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+          <span class="text-sm font-black">{{ patient.telefono || 'Sin registro' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-2xl bg-gray-50/50 p-4 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 group-hover:text-green-500 transition-colors">Ubicación</span>
+        <div class="flex items-center gap-3 text-gray-700">
+          <div class="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <span class="text-sm font-black truncate">{{ patient.ciudad || 'No definido' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-2xl bg-gray-50/50 p-4 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 group-hover:text-green-500 transition-colors">Color</span>
+        <div class="flex items-center gap-3 text-gray-700">
+          <div class="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300">
+            <i class="fa-solid fa-palette"></i>
+          </div>
+          <span class="text-sm font-black truncate">{{ patient.color || 'No definido' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-2xl bg-gray-50/50 p-4 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 group-hover:text-green-500 transition-colors">Visita</span>
+        <div class="flex items-center gap-3 text-gray-700">
+          <div class="h-8 w-8 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <span class="text-sm font-black">{{ patient.lastVisit || 'Hoy' }}</span>
+        </div>
+      </div>
     </div>
 
   </div>
