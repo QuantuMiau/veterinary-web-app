@@ -19,9 +19,9 @@ export class AddClientModalComponent {
   private fb = inject(FormBuilder);
 
   clientForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    motherName: [''],
+    first_name: ['', Validators.required],
+    last_name: ['', Validators.required],
+    mother_name: [''],
     phone: ['', [Validators.required, Validators.maxLength(15)]],
     address: ['', Validators.required],
     city: ['', Validators.required]

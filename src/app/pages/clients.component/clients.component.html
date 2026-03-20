@@ -55,7 +55,7 @@
             </thead>
 
             <tbody class="divide-y divide-gray-50">
-              @for (client of filteredClients; track client.id || client.client_id || client.clientId || $index) {
+              @for (client of filteredClients; track client.client_id || $index) {
                 <tr class="hover:bg-blue-50/30 transition-colors group">
                   <td class="px-6 py-5 whitespace-nowrap">
                     <div class="flex items-center gap-3">
@@ -63,7 +63,7 @@
                         <i class="fa-solid fa-user-tie"></i>
                       </div>
                       <span class="font-black text-gray-800 tracking-tight">
-                        {{ client.firstName || client.first_name }} {{ client.lastName || client.last_name }} {{ client.motherName || client.mother_name || '' }}
+                        {{ client.first_name }} {{ client.last_name }} {{ client.mother_name || '' }}
                       </span>
                     </div>
                   </td>

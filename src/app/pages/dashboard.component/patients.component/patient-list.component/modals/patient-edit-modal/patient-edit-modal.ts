@@ -1,8 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Patient } from '../../../../../../services/patient-service';
-import { ClientService, Client } from '../../../../../../services/client.service';
+import { Patient, PatientDetailed } from '../../../../../../models/patient.model';
+import { ClientService } from '../../../../../../services/client.service';
+import { Client } from '../../../../../../models/client.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../../shared/animations';
 
 @Component({
@@ -13,7 +14,7 @@ import { modalContentAnimation, modalOverlayAnimation } from '../../../../../../
   animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class PatientEditModal implements OnChanges, OnInit {
-  @Input() patient: Patient | null = null;
+  @Input() patient: PatientDetailed | null = null;
   @Input() errorMessage = '';
   @Input() successMessage = '';
   @Input() isLoading = false;
@@ -33,10 +34,10 @@ export class PatientEditModal implements OnChanges, OnInit {
     { id: 4, name: 'Ave' }
   ];
 
-  patientEditForm = this.fb.group({
+  patientForm = this.fb.group({
     name: ['', Validators.required],
-    clientId: [null as number | null, Validators.required],
-    speciesId: [null as number | null, Validators.required],
+    client_id: [null as number | null, Validators.required],
+    species_id: [null as number | null, Validators.required],
     breed: [''],
     color: [''],
     sex: ['', Validators.required]
@@ -59,31 +60,34 @@ export class PatientEditModal implements OnChanges, OnInit {
     if (changes['patient'] && this.patient) {
       console.log('Patient to edit:', this.patient);
 
-      let sId = this.patient.speciesId || this.patient.species_id || (this.patient as any).id_especie;
-      if (!sId && (this.patient.species || (this.patient as any).species_name)) {
-        const sName = (this.patient.species || (this.patient as any).species_name || '').toLowerCase();
-        const found = this.speciesList.find(s => s.name.toLowerCase() === sName);
-        if (found) sId = found.id;
+      let sId = this.patient.species_id;
+      const speciesName = this.patient.species;
+      if (!sId && speciesName) {
+        const s = speciesName.toLowerCase();
+        if(s === 'perro') sId = 1;
+        else if(s === 'gato') sId = 2;
+        else if(s === 'conejo') sId = 3;
+        else if(s === 'ave') sId = 4;
       }
 
-      const cId = this.patient.clientId || this.patient.client_id || (this.patient as any).id_cliente;
+      const cId = this.patient.client_id;
 
-      this.patientEditForm.patchValue({
-        name: this.patient.name || (this.patient as any).patient_name || (this.patient as any).nombre || '',
-        clientId: cId ? Number(cId) : null,
-        speciesId: sId ? Number(sId) : null,
-        breed: this.patient.breed || (this.patient as any).raza || '',
+      this.patientForm.patchValue({
+        name: this.patient.name || '',
+        client_id: cId ? Number(cId) : null,
+        species_id: sId ? Number(sId) : null,
+        breed: this.patient.breed || '',
         color: this.patient.color || '',
-        sex: this.patient.sex || (this.patient as any).sexo || ''
+        sex: this.patient.sex || ''
       });
     }
   }
 
   submit() {
-    if (this.patientEditForm.valid && this.patient) {
+    if (this.patientForm.valid && this.patient) {
       const updatedPatient: Patient = {
         ...this.patient,
-        ...this.patientEditForm.value as any
+        ...this.patientForm.value as any
       };
       this.save.emit(updatedPatient);
     }

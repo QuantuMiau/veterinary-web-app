@@ -135,6 +135,6 @@
 }
 
 @if (showDeleteUser) {
-<app-delete-user-modal [errorMessage]="errorMessage" [successMessage]="successMessage" [isLoading]="isSaving" [userId]="selectedUser?.employee_id || selectedUser?.employeeId || selectedUser?.id" (close)="closeModal()"
+<app-delete-user-modal [errorMessage]="errorMessage" [successMessage]="successMessage" [isLoading]="isSaving" [userId]="selectedUser?.employee_id" (close)="closeModal()"
   (confirmDelete)="deleteUser($event)"></app-delete-user-modal>
 }

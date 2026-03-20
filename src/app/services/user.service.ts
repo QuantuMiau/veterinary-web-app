@@ -3,13 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface User {
-  id?: number;
   employee_id?: number;
-  employeeId?: number;
   name?: string;
-  firstName?: string;
-  lastName?: string;
-  motherName?: string;
   first_name?: string;
   last_name?: string;
   mother_name?: string;
@@ -33,7 +28,7 @@ export class UserService {
   }
 
   updateUser(user: User): Observable<User> {
-    const targetId = user.employee_id || user.employeeId || user.id;
+    const targetId = user.employee_id;
     return this.http.put<User>(`${this.apiUrl}/update/${targetId}`, user);
   }
 

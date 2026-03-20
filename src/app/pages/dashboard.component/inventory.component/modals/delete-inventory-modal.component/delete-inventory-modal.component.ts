@@ -21,7 +21,7 @@ export class DeleteInventoryModalComponent {
   @Output() confirmDelete = new EventEmitter<number>();
 
   confirm() {
-    const id = this.itemId || (this.item ? this.item.id : null);
+    const id = this.itemId || (this.item ? this.item.concept_id : null);
     if (id) {
       this.confirmDelete.emit(id);
     }

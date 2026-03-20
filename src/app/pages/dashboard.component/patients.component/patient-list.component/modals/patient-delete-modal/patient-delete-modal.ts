@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Patient } from '../../../../../../services/patient-service';
+import { PatientDetailed } from '../../../../../../models/patient.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../../shared/animations';
 
 @Component({
@@ -11,7 +11,7 @@ import { modalContentAnimation, modalOverlayAnimation } from '../../../../../../
   animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class PatientDeleteModal {
-  @Input() patient!: Patient;
+  @Input() patient!: PatientDetailed;
   @Input() errorMessage = '';
   @Input() successMessage = '';
   @Input() isSaving = false;
@@ -20,7 +20,7 @@ export class PatientDeleteModal {
   @Output() confirmDelete = new EventEmitter<number>();
 
   confirm() {
-    const id = this.patient.id || (this.patient as any).patientId || (this.patient as any).patient_id;
+    const id = this.patient.patient_id;
     if (id) {
       this.confirmDelete.emit(id);
     }

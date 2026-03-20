@@ -35,8 +35,8 @@ export class ClientsComponent implements OnInit {
     }
     const t = this.searchTerm.toLowerCase();
     return this.clients.filter(c => 
-      (c.firstName || c.first_name || '').toLowerCase().includes(t) ||
-      (c.lastName || c.last_name || '').toLowerCase().includes(t) ||
+      (c.first_name || '').toLowerCase().includes(t) ||
+      (c.last_name || '').toLowerCase().includes(t) ||
       (c.phone || '').includes(t)
     );
   }
@@ -129,7 +129,7 @@ export class ClientsComponent implements OnInit {
     this.successMessage = '';
     this.isSaving = true;
 
-    const targetId = updatedClient.clientId || updatedClient.id || (updatedClient as any).client_id;
+    const targetId = updatedClient.client_id;
     if (!targetId) {
       this.isSaving = false;
       this.errorMessage = 'ID de cliente no encontrado';

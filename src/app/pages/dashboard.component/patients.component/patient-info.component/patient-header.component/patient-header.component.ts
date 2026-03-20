@@ -1,6 +1,6 @@
 import { Component, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
-import {Patient} from '../../../../../services/patient-service';
+import { PatientDetailed } from '../../../../../models/patient.model';
 import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
@@ -12,7 +12,7 @@ import { CommonModule, NgClass } from '@angular/common';
 })
 export class PatientHeaderComponent {
 
-  @Input() patient!: Patient;
+  @Input() patient!: PatientDetailed;
 
   private router = inject(Router);
 

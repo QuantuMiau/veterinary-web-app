@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OrderService, Order } from '../../../services/order.service';
+import { OrderService } from '../../../services/order.service';
+import { Order } from '../../../models/order.model';
 
 @Component({
   selector: 'app-orders',

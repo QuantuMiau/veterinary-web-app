@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Service } from '../../../../../services/service.service';
+import { Service } from '../../../../../models/service.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({

@@ -41,25 +41,19 @@
       }
 
       <form [formGroup]="userForm" (ngSubmit)="submit()" class="space-y-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="space-y-1">
             <label class="text-sm font-medium text-gray-700">Nombre</label>
-            <input formControlName="firstName" placeholder="Ej. Juan"
-              class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
-              [attr.disabled]="isLoading ? '' : null" />
+            <input formControlName="first_name" placeholder="Ej. Ana" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400" [attr.disabled]="isLoading ? '' : null" />
           </div>
           <div class="space-y-1">
-            <label class="text-sm font-medium text-gray-700">Apellido Paterno</label>
-            <input formControlName="lastName" placeholder="Ej. Pérez"
-              class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
-              [attr.disabled]="isLoading ? '' : null" />
+            <label class="text-sm font-medium text-gray-700">A. Paterno</label>
+            <input formControlName="last_name" placeholder="Ej. García" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400" [attr.disabled]="isLoading ? '' : null" />
           </div>
-        </div>
-        <div class="space-y-1">
-          <label class="text-sm font-medium text-gray-700">Apellido Materno</label>
-          <input formControlName="motherName" placeholder="Ej. López"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
-            [attr.disabled]="isLoading ? '' : null" />
+          <div class="space-y-1">
+            <label class="text-sm font-medium text-gray-700">A. Materno</label>
+            <input formControlName="mother_name" placeholder="Ej. López" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400" [attr.disabled]="isLoading ? '' : null" />
+          </div>
         </div>
 
         <div class="space-y-1">

@@ -1,7 +1,8 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Service, ServiceService } from '../../../services/service.service';
+import { ServiceService } from '../../../services/service.service';
+import { Service } from '../../../models/service.model';
 import { AddModalsServicesComponent } from './modals-services.component/add-modals-services.component/add-modals-services.component';
 import { EditModalsServicesComponent } from './modals-services.component/edit-modals-services.component/edit-modals-services.component';
 import { DeleteModalsServicesComponent } from './modals-services.component/delete-modals-services.component/delete-modals-services.component';

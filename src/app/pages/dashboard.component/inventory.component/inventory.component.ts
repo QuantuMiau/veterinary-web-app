@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductService, Product } from '../../../services/product.service';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../models/product.model';
 import { AddInventoryModalComponent } from './modals/add-inventory-modal.component/add-inventory-modal.component';
 import { EditInventoryModalComponent } from './modals/edit-inventory-modal.component/edit-inventory-modal.component';
 import { DeleteInventoryModalComponent } from './modals/delete-inventory-modal.component/delete-inventory-modal.component';
@@ -46,8 +47,8 @@ export class InventoryComponent implements OnInit {
       filtered = filtered.filter(
         (i) =>
           (i.name || '').toLowerCase().includes(term) ||
-          (i.product_id || i.productId || '').toLowerCase().includes(term) ||
-          (i.category || i.category_name || '').toLowerCase().includes(term) ||
+          (i.product_id || '').toLowerCase().includes(term) ||
+          (i.category_name || i.category || '').toLowerCase().includes(term) ||
           (i.description || '').toLowerCase().includes(term)
       );
     }
@@ -156,10 +157,13 @@ export class InventoryComponent implements OnInit {
   }
 
   updateItem(updatedItem: Product) {
-    const id = updatedItem.concept_id || updatedItem.id;
-    if (!id) return;
-
     this.isSaving = true;
+    
+    const id = updatedItem.concept_id;
+    if (!id) {
+      return;
+    }
+
     this.errorMessage = '';
     this.cdr.detectChanges();
     this.productService.updateProduct(id, updatedItem).subscribe({

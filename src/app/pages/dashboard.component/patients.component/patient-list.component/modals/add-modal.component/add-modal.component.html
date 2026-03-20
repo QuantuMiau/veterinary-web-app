@@ -47,10 +47,10 @@
             
             <div class="space-y-1">
               <label class="text-sm font-medium text-gray-700">Dueño (Cliente)</label>
-              <select formControlName="clientId" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
-                <option [ngValue]="null">Seleccionar dueño</option>
-                @for (client of clients; track client.id || client.client_id) {
-                  <option [ngValue]="client.id || client.client_id">{{ client.firstName || client.first_name }} {{ client.lastName || client.last_name }}</option>
+              <select formControlName="client_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
+                <option [ngValue]="null" disabled>Seleccione un dueño</option>
+                @for (client of clients; track client.client_id || $index) {
+                  <option [ngValue]="client.client_id">{{ client.first_name }} {{ client.last_name }}</option>
                 }
               </select>
             </div>
@@ -59,7 +59,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-1">
               <label class="text-sm font-medium text-gray-700">Especie</label>
-              <select formControlName="speciesId" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
+              <select formControlName="species_id" class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-green-500/20 focus:border-green-500 outline-none transition disabled:bg-gray-50" [attr.disabled]="isLoading ? '' : null">
                 <option [ngValue]="null">Seleccionar especie</option>
                 @for (item of speciesList; track item.id) {
                   <option [ngValue]="item.id">{{ item.name }}</option>

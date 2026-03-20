@@ -3,8 +3,10 @@ import { CommonModule } from '@angular/common';
 import { AddModalComponent } from './modals/add-modal.component/add-modal.component';
 import { PatientEditModal } from './modals/patient-edit-modal/patient-edit-modal';
 import { PatientDeleteModal } from './modals/patient-delete-modal/patient-delete-modal';
-import { Patient, PatientService } from '../../../../services/patient-service';
-import { ClientService, Client } from '../../../../services/client.service';
+import { PatientDetailed, Patient } from '../../../../models/patient.model';
+import { PatientService } from '../../../../services/patient-service';
+import { Client } from '../../../../models/client.model';
+import { ClientService } from '../../../../services/client.service';
 import { NgClass } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -30,7 +32,7 @@ export class PatientListComponent implements OnInit {
   private cdr = inject(ChangeDetectorRef);
   private router = inject(Router);
 
-  patients: Patient[] = [];
+  patients: PatientDetailed[] = [];
   clients: Client[] = [];
   searchTerm: string = '';
 
@@ -38,19 +40,19 @@ export class PatientListComponent implements OnInit {
   showEditPatientModal = false;
   showDeletePatientModal = false;
 
-  selectedPatient: Patient | null = null;
+  selectedPatient: PatientDetailed | null = null;
 
   isSaving = false;
   isLoading = false;
   errorMessage = '';
   successMessage = '';
 
-  get filteredPatients(): Patient[] {
+  get filteredPatients(): PatientDetailed[] {
     if (!this.searchTerm.trim()) return this.patients;
 
     const t = this.searchTerm.toLowerCase();
     return this.patients.filter(p => {
-      const pName = (p.name || (p as any).patient_name || (p as any).nombre || '').toLowerCase();
+      const pName = (p.name || '').toLowerCase();
       const pBreed = (p.breed || '').toLowerCase();
       const pOwner = this.getOwnerName(p).toLowerCase();
 
@@ -58,9 +60,9 @@ export class PatientListComponent implements OnInit {
     });
   }
 
-  getSpeciesColor(patient: Patient): string {
-    const sId = patient.speciesId || patient.species_id;
-    const sName = (patient.species || (patient as any).species_name || '').toLowerCase();
+  getSpeciesColor(patient: PatientDetailed): string {
+    const sId = patient.species_id;
+    const sName = (patient.species || '').toLowerCase();
 
     if (sId === 1 || sName.includes('perro')) return 'bg-blue-100 text-blue-700 border-blue-200';
     if (sId === 2 || sName.includes('gato')) return 'bg-orange-100 text-orange-700 border-orange-200';
@@ -106,14 +108,15 @@ export class PatientListComponent implements OnInit {
     });
   }
 
-  getOwnerName(patient: Patient): string {
-    if (patient.owner) return patient.owner;
+  getOwnerName(patient: PatientDetailed): string {
+    if (patient.owner_name) return patient.owner_name;
+    if (patient.full_name) return patient.full_name;
 
-    const clientId = patient.clientId || patient.client_id;
+    const clientId = patient.client_id;
     if (clientId) {
-      const client = this.clients.find(c => (c.id || c.client_id) === clientId);
+      const client = this.clients.find(c => c.client_id === clientId);
       if (client) {
-        return `${client.firstName || client.first_name || ''} ${client.lastName || client.last_name || ''}`.trim();
+        return `${client.first_name || ''} ${client.last_name || ''}`.trim();
       }
     }
 
@@ -197,7 +200,7 @@ export class PatientListComponent implements OnInit {
     this.successMessage = '';
     this.isSaving = true;
 
-    const targetId = updatedPatient.patientId || updatedPatient.id || updatedPatient.patient_id;
+    const targetId = updatedPatient.patient_id;
     if (!targetId) {
       this.isSaving = false;
       this.errorMessage = 'ID de paciente no encontrado';
@@ -224,7 +227,7 @@ export class PatientListComponent implements OnInit {
   }
 
   goToDetails(patient: Patient) {
-    const id = patient.patientId || patient.id || patient.patient_id;
+    const id = patient.patient_id;
     this.router.navigate(['/dashboard/pacientes/paciente', id]);
   }
 
