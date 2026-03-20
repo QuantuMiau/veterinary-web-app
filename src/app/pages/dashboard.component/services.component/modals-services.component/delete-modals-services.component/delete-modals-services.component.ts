@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Service } from '../../../../../services/service.service';
+import { Service } from '../../../../../models/service.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({

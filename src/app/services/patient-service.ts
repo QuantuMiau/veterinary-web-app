@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Patient, PatientDetailed } from '../models/patient.model';
 
 @Injectable({
@@ -11,15 +11,30 @@ export class PatientService {
   private apiUrl = 'http://localhost:3000/patient';
 
   getPatients(): Observable<PatientDetailed[]> {
-    return this.http.get<PatientDetailed[]>(this.apiUrl);
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(patients => patients.map(p => ({
+        ...p,
+        name: p.name || p.patient_name
+      })))
+    );
   }
 
   getPatientById(id: number): Observable<PatientDetailed> {
-    return this.http.get<PatientDetailed>(`${this.apiUrl}/${id}`);
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(p => ({
+        ...p,
+        name: p.name || p.patient_name
+      }))
+    );
   }
 
   getByClient(clientId: number): Observable<PatientDetailed[]> {
-    return this.http.get<PatientDetailed[]>(`${this.apiUrl}/client/${clientId}`);
+    return this.http.get<any[]>(`${this.apiUrl}/client/${clientId}`).pipe(
+      map(patients => patients.map(p => ({
+        ...p,
+        name: p.name || p.patient_name
+      })))
+    );
   }
 
   addPatient(patient: Patient): Observable<Patient> {

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../shared/animations';
-import { Client } from '../../../../services/client.service';
+import { Client } from '../../../../models/client.model';
 
 @Component({
   selector: 'app-edit-client-modal',

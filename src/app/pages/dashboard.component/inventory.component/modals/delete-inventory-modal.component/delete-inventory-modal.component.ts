@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
+import { Product } from '../../../../../models/product.model';
 
 @Component({
   selector: 'app-delete-inventory-modal',
@@ -11,7 +12,7 @@ import { modalContentAnimation, modalOverlayAnimation } from '../../../../../sha
   animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class DeleteInventoryModalComponent {
-  @Input() item?: any;
+  @Input() item?: Product;
   @Input() itemId?: number; // Keep for backward compatibility if needed
   @Input() isSaving = false;
   @Input() errorMessage = '';

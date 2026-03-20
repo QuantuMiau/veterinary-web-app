@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ClientService, Client } from '../../services/client.service';
+import { ClientService } from '../../services/client.service';
+import { Client } from '../../models/client.model';
 import { AddClientModalComponent } from './modals/add-client-modal.component/add-client-modal.component';
 import { EditClientModalComponent } from './modals/edit-client-modal.component/edit-client-modal.component';
 

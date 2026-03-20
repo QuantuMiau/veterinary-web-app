@@ -1,6 +1,7 @@
 export interface Product {
   concept_id?: number;
   product_id: string;
+  name: string;
   description?: string;
   cost?: number | string;
   price: number | string;

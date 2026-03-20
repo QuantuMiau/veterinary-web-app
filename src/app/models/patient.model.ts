@@ -16,6 +16,7 @@ export interface PatientDetailed extends Patient {
   owner_name?: string;
   owner_phone?: string;
   full_name?: string;
+  phone?: string;
   address?: string;
   city?: string;
   last_visit?: string;
