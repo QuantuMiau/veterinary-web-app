@@ -69,7 +69,7 @@
       <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
         <div class="overflow-auto flex-1">
           <table class="min-w-full divide-y divide-gray-100 text-sm">
-            <thead class="bg-[#334155]/60 sticky top-0 z-10 backdrop-blur-md">
+            <thead class="bg-[#1e293b]/90 sticky top-0 z-10 backdrop-blur-md">
               <tr>
                 <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Código / SKU</th>
                 <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Producto</th>
@@ -81,20 +81,20 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-50">
-              @for (item of filteredItems; track item.id) {
+              @for (item of filteredItems; track item.concept_id) {
                 <tr class="hover:bg-green-50/30 transition-colors group" [ngClass]="{'opacity-60 bg-gray-50/30': item.active === false}">
                   <td class="px-6 py-5 whitespace-nowrap">
                     <span class="text-xs font-black text-gray-700 bg-gray-50 px-2.5 py-1.5 rounded-lg border border-gray-100 group-hover:bg-white transition-all shadow-sm">
-                      {{ item.product_id || item.productId || 'N/A' }}
+                      {{ item.product_id || 'N/A' }}
                     </span>
                   </td>
                   <td class="px-6 py-5">
                     <div class="flex items-center gap-4">
                       <div class="h-10 w-10 shrink-0 rounded-xl bg-gray-50 border border-gray-100 shadow-sm flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
-                        <img *ngIf="item.image_url || item.imageUrl" 
-                             [src]="item.image_url || item.imageUrl" 
+                        <img *ngIf="item.image_url" 
+                             [src]="item.image_url" 
                              class="h-full w-full object-cover">
-                        <i *ngIf="!item.image_url && !item.imageUrl" 
+                        <i *ngIf="!item.image_url" 
                            class="fa-solid fa-box text-gray-200 text-lg"></i>
                       </div>
                       <div class="flex flex-col min-w-0">
@@ -203,7 +203,7 @@
 <app-delete-inventory-modal
   *ngIf="showDeleteItem && selectedItem"
   [item]="selectedItem"
-  [itemId]="selectedItem.concept_id || selectedItem.id"
+  [itemId]="selectedItem.concept_id"
   [isSaving]="isSaving"
   [errorMessage]="errorMessage"
   [successMessage]="successMessage"

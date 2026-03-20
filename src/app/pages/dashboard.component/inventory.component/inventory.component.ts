@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ProductService, Product } from '../../../services/product.service';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../models/product.model';
 import { AddInventoryModalComponent } from './modals/add-inventory-modal.component/add-inventory-modal.component';
 import { EditInventoryModalComponent } from './modals/edit-inventory-modal.component/edit-inventory-modal.component';
 import { DeleteInventoryModalComponent } from './modals/delete-inventory-modal.component/delete-inventory-modal.component';
@@ -31,7 +32,7 @@ export class InventoryComponent implements OnInit {
   statusFilter: 'all' | 'active' | 'inactive' = 'active';
   searchTerm = '';
   selectedItem?: Product;
-  
+
   isLoading = false;
   errorMessage = '';
   successMessage = '';
@@ -39,26 +40,25 @@ export class InventoryComponent implements OnInit {
 
   get filteredItems(): Product[] {
     let filtered = [...this.items];
-    
-    // 1. Filter by Search Term
+
+    // filtros www
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(
         (i) =>
           (i.name || '').toLowerCase().includes(term) ||
-          (i.product_id || i.productId || '').toLowerCase().includes(term) ||
-          (i.category || i.category_name || '').toLowerCase().includes(term) ||
+          (i.product_id || '').toLowerCase().includes(term) ||
+          (i.category_name || i.category || '').toLowerCase().includes(term) ||
           (i.description || '').toLowerCase().includes(term)
       );
     }
 
-    // 2. Filter by Status
+    // por estado
     if (this.statusFilter !== 'all') {
       const targetStatus = this.statusFilter === 'active';
       filtered = filtered.filter(i => (i.active !== false) === targetStatus);
     }
-    
-    // 3. Sort: Active first (true > false)
+
     return filtered.sort((a, b) => {
       const activeA = a.active !== false;
       const activeB = b.active !== false;
@@ -102,6 +102,7 @@ export class InventoryComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.showAddItem = true;
+    this.cdr.detectChanges();
   }
 
   openEditItem(item: Product) {
@@ -109,11 +110,13 @@ export class InventoryComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.showEditItem = true;
+    this.cdr.detectChanges();
   }
 
   openDeleteItem(item: Product) {
     this.selectedItem = item;
     this.showDeleteItem = true;
+    this.cdr.detectChanges();
   }
 
   closeModal() {
@@ -123,6 +126,7 @@ export class InventoryComponent implements OnInit {
     this.selectedItem = undefined;
     this.errorMessage = '';
     this.successMessage = '';
+    this.cdr.detectChanges();
     this.loadProducts();
   }
 
@@ -137,9 +141,11 @@ export class InventoryComponent implements OnInit {
   addItem(productData: Product) {
     this.isSaving = true;
     this.errorMessage = '';
+    this.cdr.detectChanges();
     this.productService.addProduct(productData).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Producto guardado exitosamente';
+        this.cdr.detectChanges();
         setTimeout(() => this.closeModal(), 1500);
       },
       error: (err) => {
@@ -151,14 +157,19 @@ export class InventoryComponent implements OnInit {
   }
 
   updateItem(updatedItem: Product) {
-    const id = updatedItem.concept_id || updatedItem.id;
-    if (!id) return;
-
     this.isSaving = true;
+    
+    const id = updatedItem.concept_id;
+    if (!id) {
+      return;
+    }
+
     this.errorMessage = '';
+    this.cdr.detectChanges();
     this.productService.updateProduct(id, updatedItem).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Producto actualizado exitosamente';
+        this.cdr.detectChanges();
         setTimeout(() => this.closeModal(), 1500);
       },
       error: (err) => {
@@ -171,9 +182,11 @@ export class InventoryComponent implements OnInit {
 
   deleteItem(id: number) {
     this.isSaving = true;
+    this.cdr.detectChanges();
     this.productService.deleteProduct(id).subscribe({
       next: (res) => {
         this.successMessage = res.message || 'Producto desactivado exitosamente';
+        this.cdr.detectChanges();
         setTimeout(() => this.closeModal(), 1500);
       },
       error: (err) => {

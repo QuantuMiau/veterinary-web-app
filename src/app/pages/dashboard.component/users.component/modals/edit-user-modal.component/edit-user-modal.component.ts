@@ -28,9 +28,9 @@ export class EditUserModalComponent implements OnChanges {
   @Output() save = new EventEmitter<any>();
 
   userForm = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(3)]],
-    lastName: ['', [Validators.required, Validators.minLength(3)]],
-    motherName: ['', [Validators.required, Validators.minLength(3)]],
+    first_name: ['', [Validators.required, Validators.minLength(3)]],
+    last_name: ['', [Validators.required, Validators.minLength(3)]],
+    mother_name: ['', [Validators.required, Validators.minLength(3)]],
     role: ['Empleado', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     phone: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
@@ -39,9 +39,9 @@ export class EditUserModalComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['user'] && this.user) {
       this.userForm.patchValue({
-        firstName: this.user.first_name || this.user.firstName,
-        lastName: this.user.last_name || this.user.lastName,
-        motherName: this.user.mother_name || this.user.motherName,
+        first_name: this.user.first_name || '',
+        last_name: this.user.last_name || '',
+        mother_name: this.user.mother_name || '',
         role: this.user.role,
         email: this.user.email,
         phone: this.user.phone,
@@ -53,7 +53,7 @@ export class EditUserModalComponent implements OnChanges {
     if (this.userForm.invalid) return;
 
     const payload = { ...(this.userForm.value as any) };
-    const id = this.user?.employee_id || this.user?.employeeId || this.user?.id;
+    const id = this.user?.employee_id;
     
     if (id) {
        payload.employee_id = id;

@@ -19,9 +19,9 @@ export class AddUserModalComponent {
   @Output() save = new EventEmitter<any>();
 
   userForm = this.fb.group({
-    firstName: ['', [Validators.required, Validators.minLength(3)]],
-    lastName: ['', [Validators.required, Validators.minLength(3)]],
-    motherName: ['', [Validators.required, Validators.minLength(3)]],
+    first_name: ['', [Validators.required, Validators.minLength(3)]],
+    last_name: ['', [Validators.required, Validators.minLength(3)]],
+    mother_name: ['', [Validators.required, Validators.minLength(3)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
     role: ['Empleado', Validators.required],
     email: ['', [Validators.required, Validators.email]],

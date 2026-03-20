@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output, OnChanges, SimpleChange
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CloudinaryService } from '../../../../../services/cloudinary.service';
+import { Product } from '../../../../../models/product.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
@@ -21,7 +22,7 @@ export class AddInventoryModalComponent {
   @Input() successMessage = '';
   
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Product>();
 
   isUploading = false;
   selectedFile: File | null = null;
@@ -52,7 +53,7 @@ export class AddInventoryModalComponent {
     cost: [0, [Validators.required, Validators.min(0)]],
     price: [0, [Validators.required, Validators.min(0)]],
     category_id: [1, Validators.required],
-    subcategoryId: [1, Validators.required],
+    subcategory_id: [1, Validators.required],
     stock: [0, [Validators.required, Validators.min(0)]],
     image_url: [''],
   });
@@ -65,7 +66,7 @@ export class AddInventoryModalComponent {
   onCategoryChange() {
     const subs = this.filteredSubcategories;
     if (subs.length > 0) {
-      this.itemForm.patchValue({ subcategoryId: subs[0].id });
+      this.itemForm.patchValue({ subcategory_id: subs[0].id });
     }
   }
 
@@ -103,18 +104,18 @@ export class AddInventoryModalComponent {
     // Map to the requested payload if needed
     const formVals = this.itemForm.value;
     const payload = {
-      productId: formVals.product_id,
+      product_id: formVals.product_id,
       name: formVals.name,
       description: formVals.description,
       cost: formVals.cost,
       price: formVals.price,
-      categoryId: formVals.category_id,
-      subcategoryId: formVals.subcategoryId,
+      category_id: formVals.category_id,
+      subcategory_id: formVals.subcategory_id,
       stock: formVals.stock,
-      imageUrl: formVals.image_url,
+      image_url: formVals.image_url,
       active: true
     };
 
-    this.save.emit(payload);
+    this.save.emit(payload as Product);
   }
 }

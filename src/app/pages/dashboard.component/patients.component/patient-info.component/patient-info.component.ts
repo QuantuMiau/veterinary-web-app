@@ -1,7 +1,9 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PatientService, Patient } from '../../../../services/patient-service';
-import { ClientService, Client } from '../../../../services/client.service';
+import { PatientService } from '../../../../services/patient-service';
+import { PatientDetailed } from '../../../../models/patient.model';
+import { ClientService } from '../../../../services/client.service';
+import { Client } from '../../../../models/client.model';
 import { PatientHeaderComponent } from './patient-header.component/patient-header.component';
 import { PatientTabsComponent } from './patient-tabs.component/patient-tabs.component';
 import { CommonModule } from '@angular/common';
@@ -23,7 +25,7 @@ export class PatientInfoComponent implements OnInit {
   private clientService = inject(ClientService);
   private cdr = inject(ChangeDetectorRef);
 
-  patient?: Patient;
+  patient?: PatientDetailed;
   clients: Client[] = [];
   isLoading = true;
 
@@ -51,7 +53,7 @@ export class PatientInfoComponent implements OnInit {
       if (id) {
         this.patientService.getPatientById(id).subscribe({
           next: (patient) => {
-            this.patient = this.mapPatientData(patient);
+            this.patient = patient;
             this.isLoading = false;
             this.cdr.detectChanges();
           },
@@ -66,44 +68,5 @@ export class PatientInfoComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
-  }
-
-  private mapPatientData(patient: Patient): Patient {
-    const p = { ...patient };
-    
-    // Prioritize direct and new API View fields
-    p.name = p.name || p.paciente_nombre || (p as any).patient_name || (p as any).nombre;
-    p.breed = p.breed || p.raza;
-    p.sex = p.sex || p.sexo;
-    p.species = p.species || p.especie;
-    p.owner = p.full_name || p.dueno_nombre_completo || p.owner;
-    p.telefono = p.phone || p.telefono;
-    p.ciudad = p.city || p.ciudad;
-    
-    // Owner mapping fallback (if not in direct response)
-    if (!p.owner) {
-      const clientId = p.clientId || p.client_id || (p as any).id_cliente;
-      if (clientId) {
-        const client = this.clients.find(c => (c.id || c.client_id) === Number(clientId));
-        if (client) {
-          p.owner = `${client.firstName || client.first_name || ''} ${client.lastName || client.last_name || ''}`.trim();
-        }
-      }
-    }
-    
-    // Species mapping fallback
-    if (!p.species) {
-      const sId = p.speciesId || p.species_id || (p as any).id_especie;
-      const speciesList = [
-        { id: 1, name: 'Perro' },
-        { id: 2, name: 'Gato' },
-        { id: 3, name: 'Conejo' },
-        { id: 4, name: 'Ave' }
-      ];
-      const species = speciesList.find(s => s.id === Number(sId));
-      if (species) p.species = species.name;
-    }
-
-    return p;
   }
 }

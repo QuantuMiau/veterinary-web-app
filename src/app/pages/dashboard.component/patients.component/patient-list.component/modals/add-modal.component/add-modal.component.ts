@@ -2,7 +2,8 @@ import { Component, EventEmitter, inject, Output, Input, OnInit, ChangeDetectorR
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../../../../../services/patient-service';
-import { ClientService, Client } from '../../../../../../services/client.service';
+import { ClientService } from '../../../../../../services/client.service';
+import { Client } from '../../../../../../models/client.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../../shared/animations';
 
 @Component({
@@ -33,11 +34,11 @@ export class AddModalComponent implements OnInit {
 
   patientForm = this.fb.group({
     name: ['', Validators.required],
-    clientId: [null as number | null, Validators.required],
-    speciesId: [null as number | null, Validators.required],
-    breed: [''],
+    client_id: [null as number | null, Validators.required],
+    species_id: [null as number | null, Validators.required],
     color: [''],
-    sex: ['', Validators.required]
+    breed: [''],
+    sex: ['', Validators.required],
   });
 
   ngOnInit() {

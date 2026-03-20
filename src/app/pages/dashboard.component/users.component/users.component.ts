@@ -4,10 +4,12 @@ import { AddUserModalComponent } from './modals/add-user-modal.component/add-use
 import { EditUserModalComponent } from './modals/edit-user-modal.component/edit-user-modal.component';
 import { DeleteUserModalComponent } from './modals/delete-user-modal.component/delete-user-modal.component';
 import { UserService, User } from '../../../services/user.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-users',
-  imports: [FormsModule, AddUserModalComponent, EditUserModalComponent, DeleteUserModalComponent],
+  standalone: true,
+  imports: [FormsModule, CommonModule, AddUserModalComponent, EditUserModalComponent, DeleteUserModalComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
@@ -22,6 +24,7 @@ export class UsersComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   isSaving = false;
+  isLoading = false;
 
   get filteredUsers(): User[] {
     if (!this.searchTerm.trim()) return this.users;
@@ -46,13 +49,20 @@ export class UsersComponent implements OnInit {
   }
 
   loadUsers() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     this.userService.getUsers().subscribe({
       next: (response: any) => {
         const users = Array.isArray(response) ? response : (response.data || response.empleados || response);
         this.users = users;
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error loading users', err)
+      error: (err) => {
+        console.error('Error loading users', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 

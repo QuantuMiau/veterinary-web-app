@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChange
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CloudinaryService } from '../../../../../services/cloudinary.service';
+import { Product } from '../../../../../models/product.model';
 import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
@@ -16,13 +17,13 @@ export class EditInventoryModalComponent implements OnChanges {
   private fb = inject(FormBuilder);
   private cloudinaryService = inject(CloudinaryService);
 
-  @Input() item?: any;
+  @Input() item?: Product;
   @Input() isSaving = false;
   @Input() errorMessage = '';
   @Input() successMessage = '';
   
   @Output() close = new EventEmitter<void>();
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Product>();
 
   isUploading = false;
   imagePreview: string | null = null;
@@ -52,7 +53,7 @@ export class EditInventoryModalComponent implements OnChanges {
     cost: [0, [Validators.required, Validators.min(0)]],
     price: [0, [Validators.required, Validators.min(0)]],
     category_id: [1, Validators.required],
-    subcategoryId: [1, Validators.required],
+    subcategory_id: [1, Validators.required],
     stock: [0, [Validators.required, Validators.min(0)]],
     image_url: [''],
     active: [true]
@@ -61,15 +62,15 @@ export class EditInventoryModalComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['item'] && this.item) {
       this.itemForm.patchValue({
-        product_id: this.item.product_id || this.item.productId || '',
+        product_id: this.item.product_id || '',
         name: this.item.name || '',
         description: this.item.description || '',
-        cost: this.item.cost || 0,
-        price: this.item.price || 0,
-        category_id: this.item.category_id || this.item.categoryId || 1,
-        subcategoryId: this.item.subcategoryId || 1,
+        cost: (this.item.cost as any) || 0,
+        price: (this.item.price as any) || 0,
+        category_id: this.item.category_id || 1,
+        subcategory_id: this.item.subcategory_id || 1,
         stock: this.item.stock || 0,
-        image_url: this.item.image_url || this.item.imageUrl || '',
+        image_url: this.item.image_url || '',
         active: this.item.active !== undefined ? this.item.active : true
       });
     }
@@ -83,7 +84,7 @@ export class EditInventoryModalComponent implements OnChanges {
   onCategoryChange() {
     const subs = this.filteredSubcategories;
     if (subs.length > 0) {
-      this.itemForm.patchValue({ subcategoryId: subs[0].id });
+      this.itemForm.patchValue({ subcategory_id: subs[0].id });
     }
   }
 
@@ -117,18 +118,18 @@ export class EditInventoryModalComponent implements OnChanges {
     }
 
     const formVals = this.itemForm.value;
-    const payload = {
-      concept_id: this.item.concept_id || this.item.id,
-      productId: formVals.product_id,
-      name: formVals.name,
-      description: formVals.description,
-      cost: formVals.cost,
-      price: formVals.price,
-      categoryId: formVals.category_id,
-      subcategoryId: formVals.subcategoryId,
-      stock: formVals.stock,
-      imageUrl: formVals.image_url,
-      active: formVals.active
+    const payload: Product = {
+      concept_id: this.item?.concept_id,
+      product_id: formVals.product_id || '',
+      name: formVals.name || '',
+      description: formVals.description || '',
+      cost: formVals.cost ?? 0,
+      price: formVals.price ?? 0,
+      category_id: formVals.category_id ?? 1,
+      subcategory_id: formVals.subcategory_id ?? 1,
+      stock: formVals.stock ?? 0,
+      image_url: formVals.image_url || '',
+      active: formVals.active ?? true
     };
 
     this.save.emit(payload);

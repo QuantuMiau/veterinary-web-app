@@ -3,20 +3,30 @@
   <div class="w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
 
     @if (successMessage) {
-    <div class="p-10 flex justify-center items-center flex-col text-center bg-green-50">
-      <div
-        class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-5 text-green-600 text-4xl shadow-sm transition-all scale-110">
+    <div class="p-10 flex justify-center items-center flex-col text-center bg-indigo-50/50 min-h-[450px] relative font-inter">
+      <button (click)="close.emit()" class="absolute top-6 right-6 text-indigo-300 hover:text-indigo-500 transition-colors z-50">
+        <i class="fa-solid fa-xmark text-xl"></i>
+      </button>
+      <div class="h-20 w-20 bg-indigo-100 rounded-full flex items-center justify-center mb-6 text-indigo-600 text-4xl shadow-sm transition-all scale-110">
         <i class="fa-solid fa-check"></i>
       </div>
-      <h3 class="text-2xl font-bold text-gray-800 mb-2">¡Actualizado!</h3>
-      <p class="text-green-700 font-medium text-lg">{{ successMessage }}</p>
+      <h3 class="text-2xl font-black text-gray-800 mb-2 tracking-tight">¡Empleado Actualizado!</h3>
+      <p class="text-indigo-700/80 font-bold text-sm uppercase tracking-widest">{{ successMessage }}</p>
     </div>
     } @else {
-    <div class="bg-gray-50 border-b px-6 py-4 flex items-center justify-between">
-      <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
-        <i class="fa-solid fa-user-pen text-blue-600"></i> Editar Empleado
-      </h2>
-      <button class="text-gray-400 hover:text-gray-600 transition" (click)="close.emit()" [disabled]="isLoading">
+    <!-- Header -->
+    <div class="bg-indigo-600 px-6 py-8 relative overflow-hidden shrink-0 font-inter">
+      <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 bg-white/10 rounded-full blur-2xl"></div>
+      <div class="relative z-10 flex items-center gap-4">
+        <div class="h-12 w-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-2xl backdrop-blur-md">
+          <i class="fa-solid fa-user-pen"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-black text-white tracking-tight">Editar Empleado</h2>
+          <p class="text-[10px] font-bold text-indigo-100 uppercase tracking-widest opacity-80">Referencia: #{{ user?.id || user?.employee_id || user?.employeeId }}</p>
+        </div>
+      </div>
+      <button (click)="close.emit()" class="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-50" [disabled]="isLoading">
         <i class="fa-solid fa-xmark text-xl"></i>
       </button>
     </div>
@@ -31,25 +41,25 @@
       }
 
       <form [formGroup]="userForm" (ngSubmit)="submit()" class="space-y-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="space-y-1">
             <label class="text-sm font-medium text-gray-700">Nombre</label>
-            <input formControlName="firstName" placeholder="Ej. Juan"
+            <input formControlName="first_name" placeholder="Ej. Juan"
               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
               [attr.disabled]="isLoading ? '' : null" />
           </div>
           <div class="space-y-1">
-            <label class="text-sm font-medium text-gray-700">Apellido Paterno</label>
-            <input formControlName="lastName" placeholder="Ej. Pérez"
+            <label class="text-sm font-medium text-gray-700">A. Paterno</label>
+            <input formControlName="last_name" placeholder="Ej. Pérez"
               class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
               [attr.disabled]="isLoading ? '' : null" />
           </div>
-        </div>
-        <div class="space-y-1">
-          <label class="text-sm font-medium text-gray-700">Apellido Materno</label>
-          <input formControlName="motherName" placeholder="Ej. López"
-            class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
-            [attr.disabled]="isLoading ? '' : null" />
+          <div class="space-y-1">
+            <label class="text-sm font-medium text-gray-700">A. Materno</label>
+            <input formControlName="mother_name" placeholder="Ej. López"
+              class="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition disabled:bg-gray-50 disabled:text-gray-400"
+              [attr.disabled]="isLoading ? '' : null" />
+          </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -78,22 +88,28 @@
             [attr.disabled]="isLoading ? '' : null" type="email" />
         </div>
 
-        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t mt-6">
-          <button type="button"
-            class="px-5 py-2.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50 font-medium transition disabled:opacity-50"
-            (click)="close.emit()" [disabled]="isLoading">
+        <!-- Actions -->
+        <div class="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6 border-t border-gray-100 mt-6 font-inter">
+          <button 
+            type="button" 
+            (click)="close.emit()" 
+            class="px-6 py-3 rounded-xl border border-gray-200 text-gray-500 text-[11px] font-black hover:bg-gray-50 transition-all uppercase tracking-widest"
+            [disabled]="isLoading"
+          >
             Cancelar
           </button>
 
-          <button type="submit"
-            class="px-6 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-medium flex items-center justify-center gap-2 transition disabled:opacity-75 disabled:cursor-not-allowed shadow-sm shadow-blue-600/20"
-            [disabled]="userForm.invalid || isLoading">
+          <button 
+            type="submit" 
+            class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-[11px] font-black transition-all shadow-lg shadow-indigo-200 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
+            [disabled]="userForm.invalid || isLoading"
+          >
             @if (isLoading) {
-            <i class="fa-solid fa-circle-notch fa-spin"></i>
-            <span class="opacity-90">Guardando...</span>
+              <i class="fa-solid fa-spinner animate-spin text-sm"></i>
+              <span>Guardando...</span>
             } @else {
-            <i class="fa-solid fa-save"></i>
-            <span>Guardar Cambios</span>
+              <i class="fa-solid fa-save text-sm"></i>
+              <span>Guardar Cambios</span>
             }
           </button>
         </div>

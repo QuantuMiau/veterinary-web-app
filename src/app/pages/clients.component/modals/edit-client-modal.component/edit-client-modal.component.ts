@@ -22,9 +22,9 @@ export class EditClientModalComponent implements OnChanges {
   private fb = inject(FormBuilder);
 
   clientForm = this.fb.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    motherName: [''],
+    first_name: ['', Validators.required],
+    last_name: ['', Validators.required],
+    mother_name: [''],
     phone: ['', [Validators.required, Validators.maxLength(15)]],
     address: ['', Validators.required],
     city: ['', Validators.required]
@@ -33,9 +33,9 @@ export class EditClientModalComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['client'] && this.client) {
       this.clientForm.patchValue({
-        firstName: this.client.firstName || this.client.first_name || '',
-        lastName: this.client.lastName || this.client.last_name || '',
-        motherName: this.client.motherName || this.client.mother_name || '',
+        first_name: this.client.first_name || '',
+        last_name: this.client.last_name || '',
+        mother_name: this.client.mother_name || '',
         phone: this.client.phone || '',
         address: this.client.address || '',
         city: this.client.city || ''

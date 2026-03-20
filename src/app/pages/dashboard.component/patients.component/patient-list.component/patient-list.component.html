@@ -1,137 +1,171 @@
-<div class="patients-container">
-  <div class="patients-title">Pacientes</div>
-
-  <!-- search header -->
-  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
-    <div class="flex flex-col sm:flex-row gap-2 flex-1">
-      <div class="flex w-full sm:w-3/5">
-        <input
-          #searchInput
-          type="text"
-          placeholder="Buscar mascota o dueño..."
-          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-          (input)="updateSearch(searchInput.value)"
-        />
-      </div>
-
-      <select
-        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-      >
-        <option selected>Todos</option>
-        <option>Recientes</option>
-      </select>
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 font-inter">
+    <div>
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight text-teal-900">Pacientes</h1>
+      <p class="text-gray-500 font-medium tracking-tight">Registro clínico de mascotas y pacientes</p>
     </div>
 
-    <button
-      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 font-medium transition flex items-center gap-2"
-      (click)="openNewPatient()"
-    >
-      <i class="fa-solid fa-plus"></i> Agregar Paciente
-    </button>
+    <div class="flex items-center gap-3 text-inter">
+      <!-- Search Input -->
+      <div class="relative group">
+        <i
+          class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-teal-500 transition-colors"></i>
+        <input #searchInput type="text" placeholder="Nombre, dueño o especie..."
+          (input)="updateSearch(searchInput.value)"
+          class="pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all shadow-sm">
+      </div>
+
+      <button (click)="openNewPatient()"
+        class="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl font-black transition-all shadow-md active:scale-95 whitespace-nowrap shadow-teal-100 uppercase text-[11px] tracking-widest">
+        <i class="fa-solid fa-paw text-sm"></i>
+        <span>Agregar Paciente</span>
+      </button>
+    </div>
   </div>
 
-  <!-- table -->
-  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
-    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
-      <thead>
-      <tr class="text-left text-gray-500">
-        <th class="px-4 py-2">Mascota</th>
-        <th class="px-4 py-2">Especie / Raza</th>
-        <th class="px-4 py-2">Sexo</th>
-        <th class="px-4 py-2">Dueño</th>
-        <th class="px-4 py-2 text-right">Acciones</th>
-      </tr>
-      </thead>
+  <!-- Content Area -->
+  <div class="flex-1 min-h-0 relative">
+    <!-- Loading State -->
+    @if (isLoading) {
+    <div
+      class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80 backdrop-blur-sm rounded-3xl z-20 font-inter">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+      <p class="text-gray-500 font-bold animate-pulse">Sincronizando pacientes...</p>
+    </div>
+    }
 
-      <tbody>
-        @for (patient of filteredPatients; track patient.id || patient.patientId || patient.patient_id || $index) {
-          <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-            <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg border-l-4 border-l-transparent hover:border-l-green-500 transition-all">
-              <div class="flex flex-col">
-                <span class="font-bold text-gray-900">{{ patient.name || $any(patient).patient_name || $any(patient).nombre }}</span>
-                <span class="text-xs text-gray-600 font-medium capitalize">{{ patient.color || 'Sin color definido' }}</span>
-              </div>
-            </td>
-
-            <td class="px-4 py-3">
-              <div class="flex items-center gap-2">
-                <span 
-                  class="px-2.5 py-1 rounded-md text-xs font-bold border transition-colors shadow-sm"
-                  [ngClass]="getSpeciesColor(patient)"
-                >
-                  {{ patient.species || $any(patient).species_name || 'Especie' }}
-                </span>
-                <span class="text-gray-500 font-medium">{{ patient.breed || 'Mestizo' }}</span>
-              </div>
-            </td>
-
-            <td class="px-4 py-3">
-              <span
-                class="rounded-full px-3 py-1 text-xs font-semibold flex items-center w-fit gap-1 shadow-sm"
-                [ngClass]="{
-                  'bg-blue-50 text-blue-700 border border-blue-100': patient.sex === 'Macho',
-                  'bg-pink-50 text-pink-700 border border-pink-100': patient.sex === 'Hembra'
-                }"
-              >
-                <i class="fa-solid" [ngClass]="{'fa-mars': patient.sex === 'Macho', 'fa-venus': patient.sex === 'Hembra'}"></i>
-                {{ patient.sex }}
-              </span>
-            </td>
-
-            <td class="px-4 py-3">
-              <div class="flex items-center gap-2">
-                <div class="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-400">
-                  <i class="fa-solid fa-user-circle"></i>
+    @if (filteredPatients.length > 0) {
+    <!-- Table Container -->
+    <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+      <div class="overflow-auto flex-1">
+        <table class="min-w-full divide-y divide-gray-100 text-sm font-inter">
+          <thead class="bg-[#1e293b]/90 sticky top-0 z-10 backdrop-blur-md">
+            <tr>
+              <th scope="col"
+                class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Paciente</th>
+              <th scope="col"
+                class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Especie /
+                Raza</th>
+              <th scope="col"
+                class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Sexo</th>
+              <th scope="col"
+                class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Dueño</th>
+              <th scope="col"
+                class="px-6 py-4 text-right text-[11px] font-black text-white/90 uppercase tracking-widest pr-10">
+                Acciones</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-50">
+            @for (patient of filteredPatients; track patient.patient_id || $index) {
+            <tr class="hover:bg-teal-50/30 transition-colors group">
+              <td class="px-6 py-5 whitespace-nowrap">
+                <div class="flex items-center gap-3">
+                  <div class="h-10 w-10 shrink-0 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-teal-600 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-paw"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-black text-gray-900 tracking-tight">{{ patient.name }}</span>
+                    <span class="text-[10px] text-teal-600 font-black uppercase tracking-wider opacity-70">{{
+                      patient.color || 'Sin color definido' }}</span>
+                  </div>
                 </div>
-                <span class="font-medium text-gray-700">
-                  {{ getOwnerName(patient) }}
-                </span>
-              </div>
-            </td>
+              </td>
 
-            <td class="px-4 py-3 text-right rounded-r-lg">
-              <div class="flex justify-end gap-2">
-                <button class="rounded-md bg-gray-50 text-gray-600 p-2 hover:bg-gray-100 transition shadow-sm border border-gray-200" (click)="goToDetails(patient)" title="Ver Historia">
-                  <i class="fa-solid fa-file-medical"></i>
-                </button>
-                <button class="rounded-md bg-blue-50 text-blue-600 p-2 hover:bg-blue-100 transition shadow-sm border border-blue-200" (click)="openEditPatientModal(patient)" title="Editar">
-                  <i class="fa-solid fa-pencil"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        } @empty {
-          <tr>
-            <td colspan="5" class="px-4 py-10 text-center text-gray-500 bg-white shadow-sm rounded-lg">
-              <div class="flex flex-col items-center justify-center">
-                <i class="fa-solid fa-dog text-4xl text-gray-300 mb-3 animate-bounce"></i>
-                <p>No se encontraron pacientes registrados en la veterinaria.</p>
-              </div>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
+              <td class="px-6 py-5 whitespace-nowrap">
+                <div class="flex items-center gap-2">
+                  <span
+                    class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border border-teal-100 shadow-sm transition-colors"
+                    [ngClass]="getSpeciesColor(patient)">
+                    {{ patient.species || 'Especie' }}
+                  </span>
+                  <span class="text-gray-500 font-bold italic tracking-tight">{{ patient.breed || 'Mestizo' }}</span>
+                </div>
+              </td>
+
+              <td class="px-6 py-5 whitespace-nowrap">
+                <span
+                  class="rounded-full px-4 py-1.5 text-[10px] font-black uppercase tracking-widest flex items-center w-fit gap-1.5 shadow-sm border"
+                  [ngClass]="{
+                        'bg-blue-50 text-blue-700 border-blue-100': patient.sex === 'Macho',
+                        'bg-pink-50 text-pink-700 border-pink-100': patient.sex === 'Hembra'
+                      }">
+                  <i class="fa-solid"
+                    [ngClass]="{'fa-mars': patient.sex === 'Macho', 'fa-venus': patient.sex === 'Hembra'}"></i>
+                  {{ patient.sex }}
+                </span>
+              </td>
+
+              <td class="px-6 py-5 whitespace-nowrap">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="h-9 w-9 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center text-gray-400 shadow-inner">
+                    <i class="fa-solid fa-user-tag text-sm"></i>
+                  </div>
+                  <span class="font-bold text-gray-700 tracking-tight">
+                    {{ getOwnerName(patient) }}
+                  </span>
+                </div>
+              </td>
+
+              <td class="px-6 py-5 text-right whitespace-nowrap pr-10">
+                <div class="flex justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button
+                    class="p-2.5 rounded-xl bg-gray-50 text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all border border-gray-100 hover:border-teal-100 shadow-sm"
+                    (click)="goToDetails(patient)" title="Ver Historia">
+                    <i class="fa-solid fa-receipt"></i>
+                  </button>
+                  <button
+                    class="p-2.5 rounded-xl bg-teal-50 text-teal-600 hover:bg-teal-100 transition-all border border-teal-100 shadow-sm"
+                    (click)="openEditPatientModal(patient)" title="Editar">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+
+                  <button
+                    class="p-2.5 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition-all border border-red-100 shadow-sm"
+                    (click)="openDeletePatientModal(patient)" title="Eliminar">
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+    } @else if (!isLoading) {
+    <!-- Empty State -->
+    <div
+      class="h-full flex flex-col items-center justify-center bg-white rounded-3xl border border-gray-100 shadow-sm p-10 text-center font-inter">
+      <div class="relative mb-6">
+        <div class="h-32 w-32 bg-gray-50 rounded-full flex items-center justify-center overflow-hidden">
+          <i class="fa-solid fa-paw text-6xl text-gray-200 animate-bounce"></i>
+        </div>
+        <div
+          class="absolute -bottom-2 -right-2 h-10 w-10 bg-teal-500 rounded-full flex items-center justify-center text-white border-4 border-white shadow-md">
+          <i class="fa-solid fa-search text-sm"></i>
+        </div>
+      </div>
+      <h3 class="text-xl font-black text-gray-800 mb-2">No encontramos pacientes</h3>
+      <p class="text-gray-500 max-w-xs mx-auto font-medium">
+        Parece que no hay registros que coincidan con tu búsqueda.
+      </p>
+    </div>
+    }
   </div>
 </div>
 
 @if (showAddPatientModal) {
-  <app-patient-add-modal
-    [errorMessage]="errorMessage"
-    [successMessage]="successMessage"
-    [isLoading]="isSaving"
-    (close)="closeModal()"
-    (save)="addPatient($event)"
-  />
+<app-patient-add-modal [errorMessage]="errorMessage" [successMessage]="successMessage" [isLoading]="isSaving"
+  (close)="closeModal()" (save)="addPatient($event)" />
 }
 
 @if (showEditPatientModal) {
-  <app-patient-edit-modal
-    [patient]="selectedPatient"
-    [errorMessage]="errorMessage"
-    [successMessage]="successMessage"
-    [isLoading]="isSaving"
-    (close)="closeModal()"
-    (save)="updatePatient($event)"
-  />
+<app-patient-edit-modal [patient]="selectedPatient" [errorMessage]="errorMessage" [successMessage]="successMessage"
+  [isLoading]="isSaving" (close)="closeModal()" (save)="updatePatient($event)" />
+}
+@if (showDeletePatientModal) {
+<app-patient-delete-modal [patient]="selectedPatient!" [errorMessage]="errorMessage" [successMessage]="successMessage"
+  [isSaving]="isSaving" (close)="closeModal()" (confirmDelete)="deletePatient($event)" />
 }

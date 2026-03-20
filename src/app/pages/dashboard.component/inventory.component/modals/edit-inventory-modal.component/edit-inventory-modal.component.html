@@ -2,24 +2,35 @@
   <div class="w-full max-w-xl bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
     
     @if (successMessage) {
-      <div class="p-10 flex justify-center items-center flex-col text-center bg-green-50/50 min-h-[400px]">
+      <div class="p-10 flex justify-center items-center flex-col text-center bg-green-50/50 min-h-[450px] relative">
+        <button (click)="close.emit()" class="absolute top-6 right-6 text-green-300 hover:text-green-500 transition-colors z-50">
+          <i class="fa-solid fa-xmark text-xl"></i>
+        </button>
         <div class="h-20 w-20 bg-green-100 rounded-full flex items-center justify-center mb-6 text-green-600 text-4xl shadow-sm transition-all scale-110">
            <i class="fa-solid fa-check"></i>
         </div>
-        <h3 class="text-2xl font-black text-gray-800 mb-2 tracking-tight">¡Cambios Guardados!</h3>
+        <h3 class="text-2xl font-black text-gray-800 mb-2 tracking-tight">¡Producto Actualizado!</h3>
         <p class="text-green-700/80 font-bold text-sm uppercase tracking-widest">{{ successMessage }}</p>
       </div>
     } @else {
       <!-- Header -->
-      <div class="bg-gray-50 border-b border-gray-100 px-6 py-4 flex items-center justify-between shrink-0">
-        <div>
-          <h2 class="text-xl font-black text-gray-800 tracking-tight flex items-center gap-2">
-            <i class="fa-solid fa-pen-to-square text-green-600"></i> Editar Producto
-          </h2>
-          <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Gestión de inventario</p>
+      <div class="bg-green-600 px-6 py-6 relative overflow-hidden shrink-0">
+        <div class="absolute top-0 right-0 -mt-2 -mr-2 h-20 w-20 bg-white/10 rounded-full blur-xl"></div>
+        <div class="relative z-10 flex items-center gap-4">
+          <div class="h-12 w-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-2xl backdrop-blur-md">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-black text-white tracking-tight">Editar Producto</h2>
+            <p class="text-[10px] font-bold text-green-100 uppercase tracking-widest mt-0.5">Referencia: #{{ item?.product_id }}</p>
+          </div>
         </div>
-        <button class="h-8 w-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-all" (click)="close.emit()" [disabled]="isSaving">
-          <i class="fa-solid fa-xmark text-lg"></i>
+        <button 
+          (click)="close.emit()" 
+          class="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-50"
+          [disabled]="isSaving"
+        >
+          <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
 
@@ -69,6 +80,7 @@
                 formControlName="name"
                 placeholder="Nombre descriptivo del producto"
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-bold"
+                [attr.disabled]="isSaving ? '' : null"
               >
             </div>
 
@@ -80,6 +92,7 @@
                   formControlName="category_id"
                   (change)="onCategoryChange()"
                   class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-bold appearance-none cursor-pointer"
+                  [attr.disabled]="isSaving ? '' : null"
                 >
                   <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
                 </select>
@@ -89,15 +102,15 @@
 
             <!-- Subcategory -->
             <div>
-              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Subcategoría</label>
-              <div class="relative">
+              <div class="space-y-1">
+                <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Subcategoría</label>
                 <select 
-                  formControlName="subcategoryId"
+                  formControlName="subcategory_id" 
                   class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-bold appearance-none cursor-pointer"
+                  [attr.disabled]="isSaving ? '' : null"
                 >
                   <option *ngFor="let sub of filteredSubcategories" [value]="sub.id">{{ sub.name }}</option>
                 </select>
-                <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none text-[10px]"></i>
               </div>
             </div>
 
@@ -110,6 +123,7 @@
                   type="number" 
                   formControlName="cost"
                   class="w-full pl-8 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-bold"
+                  [attr.disabled]="isSaving ? '' : null"
                 >
               </div>
             </div>
@@ -123,6 +137,7 @@
                   type="number" 
                   formControlName="price"
                   class="w-full pl-8 pr-4 py-3 bg-gray-50/50 border border-green-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-black text-green-600"
+                  [attr.disabled]="isSaving ? '' : null"
                 >
               </div>
             </div>
@@ -134,6 +149,7 @@
                 type="number" 
                 formControlName="stock"
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-bold"
+                [attr.disabled]="isSaving ? '' : null"
               >
             </div>
             
@@ -159,7 +175,7 @@
                 </div>
                 <div class="flex flex-col">
                   <p class="text-[9px] font-black text-gray-700 uppercase tracking-tight">Cambiar foto</p>
-                  <button type="button" class="text-[9px] font-black text-green-600 uppercase tracking-widest mt-0.5 hover:text-green-700 disabled:opacity-50">Seleccionar</button>
+                  <button type="button" class="text-[9px] font-black text-green-600 uppercase tracking-widest mt-0.5 hover:text-green-700 disabled:opacity-50" [disabled]="isSaving || isUploading">Seleccionar</button>
                 </div>
               </div>
             </div>
@@ -172,6 +188,7 @@
                 rows="2"
                 placeholder="Especificaciones, marca o detalles relevantes..."
                 class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-4 focus:ring-green-500/10 focus:border-green-500 transition-all text-sm font-bold resize-none"
+                [attr.disabled]="isSaving ? '' : null"
               ></textarea>
             </div>
           </div>
@@ -182,7 +199,7 @@
               type="button"
               (click)="close.emit()"
               class="px-6 py-3 rounded-xl border border-gray-200 text-gray-500 text-[11px] font-black hover:bg-gray-50 transition-all uppercase tracking-widest"
-              [disabled]="isSaving"
+              [disabled]="isSaving || isUploading"
             >
               Cancelar
             </button>
@@ -192,7 +209,7 @@
               class="px-8 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl text-[11px] font-black transition-all shadow-lg shadow-green-200 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
               [disabled]="itemForm.invalid || isSaving || isUploading"
             >
-              @if (isSaving) {
+              @if (isSaving || isUploading) {
                 <i class="fa-solid fa-spinner animate-spin"></i>
                 <span>Guardando...</span>
               } @else {
