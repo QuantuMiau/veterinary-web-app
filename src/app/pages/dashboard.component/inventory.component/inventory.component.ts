@@ -31,7 +31,7 @@ export class InventoryComponent implements OnInit {
   statusFilter: 'all' | 'active' | 'inactive' = 'active';
   searchTerm = '';
   selectedItem?: Product;
-  
+
   isLoading = false;
   errorMessage = '';
   successMessage = '';
@@ -39,8 +39,8 @@ export class InventoryComponent implements OnInit {
 
   get filteredItems(): Product[] {
     let filtered = [...this.items];
-    
-    // 1. Filter by Search Term
+
+    // filtros www
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase().trim();
       filtered = filtered.filter(
@@ -52,13 +52,12 @@ export class InventoryComponent implements OnInit {
       );
     }
 
-    // 2. Filter by Status
+    // por estado
     if (this.statusFilter !== 'all') {
       const targetStatus = this.statusFilter === 'active';
       filtered = filtered.filter(i => (i.active !== false) === targetStatus);
     }
-    
-    // 3. Sort: Active first (true > false)
+
     return filtered.sort((a, b) => {
       const activeA = a.active !== false;
       const activeB = b.active !== false;

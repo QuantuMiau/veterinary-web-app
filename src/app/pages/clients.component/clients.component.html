@@ -1,77 +1,109 @@
-<div class="patients-container">
-  <div class="patients-title">Clientes</div>
-
-  <!-- search header -->
-  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
-    <div class="flex flex-col sm:flex-row gap-2 flex-1">
-      <div class="flex w-full sm:w-3/5">
-        <input
-          #searchInput
-          type="text"
-          placeholder="Buscar cliente..."
-          class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-          (input)="updateSearch(searchInput.value)"
-        />
-      </div>
-
-      <select
-        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-      >
-        <option selected>Todos</option>
-        <option>Recientes</option>
-      </select>
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden bg-white/50 backdrop-blur-sm">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 px-2 font-inter">
+    <div>
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight">Clientes</h1>
+      <p class="text-gray-500 font-medium font-inter">Gestión de cartera de clientes</p>
     </div>
-
-    <button
-      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700 font-medium transition flex items-center gap-2"
-      (click)="openAddModal()"
-    >
-      <i class="fa-solid fa-plus"></i> Agregar Cliente
-    </button>
+    
+    <div class="flex items-center gap-3 font-inter">
+      <!-- Search Input -->
+      <div class="relative group">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
+        <input 
+          #searchInput
+          type="text" 
+          placeholder="Buscar cliente..." 
+          (input)="updateSearch(searchInput.value)"
+          class="pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm"
+        >
+      </div>
+      
+      <button 
+        (click)="openAddModal()"
+        class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95 whitespace-nowrap shadow-blue-100 uppercase text-[11px] tracking-widest"
+      >
+        <i class="fa-solid fa-user-plus text-sm"></i>
+        <span>Agregar Cliente</span>
+      </button>
+    </div>
   </div>
 
-  <!-- table -->
-  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
-    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
-      <thead>
-      <tr class="text-left text-gray-500">
-        <th class="px-4 py-2">Nombre completo</th>
-        <th class="px-4 py-2">Teléfono</th>
-        <th class="px-4 py-2">Ciudad</th>
-        <th class="px-4 py-2">Dirección</th>
-        <th class="px-4 py-2 text-right">Acciones</th>
-      </tr>
-      </thead>
+  <!-- Content Area -->
+  <div class="flex-1 min-h-0 relative">
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80 backdrop-blur-sm rounded-3xl z-20 font-inter">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <p class="text-gray-500 font-bold animate-pulse">Sincronizando clientes...</p>
+      </div>
+    }
 
-      <tbody>
-      @for (client of filteredClients; track client.id || client.client_id || client.clientId || $index) {
-        <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-          <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-            {{ client.firstName || client.first_name }} {{ client.lastName || client.last_name }} {{ client.motherName || client.mother_name || '' }}
-          </td>
-          <td class="px-4 py-3">{{ client.phone }}</td>
-          <td class="px-4 py-3">{{ client.city }}</td>
-          <td class="px-4 py-3">{{ client.address }}</td>
-          <td class="px-4 py-3 text-right rounded-r-lg">
-            <div class="flex justify-end gap-2">
-              <button class="rounded-md bg-green-50 text-green-700 p-2 hover:bg-green-100 transition shadow-sm border border-green-200" (click)="openEditModal(client)" title="Editar">
-                <i class="fa-solid fa-pencil"></i>
-              </button>
-            </div>
-          </td>
-        </tr>
-      } @empty {
-        <tr>
-          <td colspan="5" class="px-4 py-10 text-center text-gray-500 bg-white shadow-sm rounded-lg">
-            <div class="flex flex-col items-center justify-center">
-              <i class="fa-solid fa-users text-4xl text-gray-300 mb-3 animate-bounce"></i>
-              <p>No se encontraron clientes registrados en la base de datos.</p>
-            </div>
-          </td>
-        </tr>
-      }
-      </tbody>
-    </table>
+    @if (filteredClients.length > 0) {
+      <!-- Table Container -->
+      <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+        <div class="overflow-auto flex-1">
+          <table class="min-w-full divide-y divide-gray-100 text-sm font-inter">
+            <thead class="bg-[#1e293b]/90 sticky top-0 z-10 backdrop-blur-md">
+              <tr>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Nombre completo</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Teléfono</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Ciudad</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Dirección</th>
+                <th scope="col" class="px-6 py-4 text-right text-[11px] font-black text-white/90 uppercase tracking-widest pr-10">Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-50">
+              @for (client of filteredClients; track client.id || client.client_id || client.clientId || $index) {
+                <tr class="hover:bg-blue-50/30 transition-colors group">
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                      <div class="h-10 w-10 shrink-0 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-user-tie"></i>
+                      </div>
+                      <span class="font-black text-gray-800 tracking-tight">
+                        {{ client.firstName || client.first_name }} {{ client.lastName || client.last_name }} {{ client.motherName || client.mother_name || '' }}
+                      </span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap font-bold text-gray-600 italic">{{ client.phone }}</td>
+                  <td class="px-6 py-5 whitespace-nowrap font-medium text-gray-600 italic">{{ client.city }}</td>
+                  <td class="px-6 py-5 font-medium text-gray-500 italic max-w-xs truncate">{{ client.address }}</td>
+                  <td class="px-6 py-5 text-right whitespace-nowrap pr-10">
+                    <div class="flex justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button 
+                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-100 shadow-sm" 
+                        (click)="openEditModal(client)" 
+                        title="Editar"
+                      >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else if (!isLoading) {
+      <!-- Empty State -->
+      <div class="h-full flex flex-col items-center justify-center bg-white rounded-3xl border border-gray-100 shadow-sm p-10 text-center font-inter">
+        <div class="relative mb-6">
+          <div class="h-32 w-32 bg-gray-50 rounded-full flex items-center justify-center overflow-hidden">
+            <i class="fa-solid fa-users text-6xl text-gray-200 animate-bounce"></i>
+          </div>
+          <div class="absolute -bottom-2 -right-2 h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center text-white border-4 border-white shadow-md">
+            <i class="fa-solid fa-search text-sm"></i>
+          </div>
+        </div>
+        <h3 class="text-xl font-black text-gray-800 mb-2">No encontramos clientes</h3>
+        <p class="text-gray-500 max-w-xs mx-auto font-medium">
+          Parece que no hay registros que coincidan con tu búsqueda en la base de datos.
+        </p>
+      </div>
+    }
   </div>
 </div>
 

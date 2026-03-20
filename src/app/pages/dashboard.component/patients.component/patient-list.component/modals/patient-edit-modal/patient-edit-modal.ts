@@ -17,7 +17,7 @@ export class PatientEditModal implements OnChanges, OnInit {
   @Input() errorMessage = '';
   @Input() successMessage = '';
   @Input() isLoading = false;
-  
+
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<Patient>();
 
@@ -58,13 +58,23 @@ export class PatientEditModal implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['patient'] && this.patient) {
       console.log('Patient to edit:', this.patient);
+
+      let sId = this.patient.speciesId || this.patient.species_id || (this.patient as any).id_especie;
+      if (!sId && (this.patient.species || (this.patient as any).species_name)) {
+        const sName = (this.patient.species || (this.patient as any).species_name || '').toLowerCase();
+        const found = this.speciesList.find(s => s.name.toLowerCase() === sName);
+        if (found) sId = found.id;
+      }
+
+      const cId = this.patient.clientId || this.patient.client_id || (this.patient as any).id_cliente;
+
       this.patientEditForm.patchValue({
         name: this.patient.name || (this.patient as any).patient_name || (this.patient as any).nombre || '',
-        clientId: this.patient.clientId || this.patient.client_id || (this.patient as any).id_cliente ? Number(this.patient.clientId || this.patient.client_id || (this.patient as any).id_cliente) : null,
-        speciesId: this.patient.speciesId || this.patient.species_id || (this.patient as any).id_especie ? Number(this.patient.speciesId || this.patient.species_id || (this.patient as any).id_especie) : null,
-        breed: this.patient.breed || '',
+        clientId: cId ? Number(cId) : null,
+        speciesId: sId ? Number(sId) : null,
+        breed: this.patient.breed || (this.patient as any).raza || '',
         color: this.patient.color || '',
-        sex: this.patient.sex || ''
+        sex: this.patient.sex || (this.patient as any).sexo || ''
       });
     }
   }

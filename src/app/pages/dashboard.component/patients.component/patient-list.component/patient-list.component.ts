@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {AddModalComponent} from './modals/add-modal.component/add-modal.component';
-import {PatientEditModal} from './modals/patient-edit-modal/patient-edit-modal';
+import { AddModalComponent } from './modals/add-modal.component/add-modal.component';
+import { PatientEditModal } from './modals/patient-edit-modal/patient-edit-modal';
+import { PatientDeleteModal } from './modals/patient-delete-modal/patient-delete-modal';
 import { Patient, PatientService } from '../../../../services/patient-service';
 import { ClientService, Client } from '../../../../services/client.service';
 import { NgClass } from '@angular/common';
@@ -14,6 +15,7 @@ import { FormsModule } from '@angular/forms';
   imports: [
     AddModalComponent,
     PatientEditModal,
+    PatientDeleteModal,
     NgClass,
     FormsModule,
     CommonModule
@@ -31,26 +33,27 @@ export class PatientListComponent implements OnInit {
   patients: Patient[] = [];
   clients: Client[] = [];
   searchTerm: string = '';
-  
+
   showAddPatientModal = false;
   showEditPatientModal = false;
   showDeletePatientModal = false;
-  
+
   selectedPatient: Patient | null = null;
-  
+
   isSaving = false;
+  isLoading = false;
   errorMessage = '';
   successMessage = '';
 
   get filteredPatients(): Patient[] {
     if (!this.searchTerm.trim()) return this.patients;
-    
+
     const t = this.searchTerm.toLowerCase();
     return this.patients.filter(p => {
       const pName = (p.name || (p as any).patient_name || (p as any).nombre || '').toLowerCase();
       const pBreed = (p.breed || '').toLowerCase();
       const pOwner = this.getOwnerName(p).toLowerCase();
-      
+
       return pName.includes(t) || pBreed.includes(t) || pOwner.includes(t);
     });
   }
@@ -58,12 +61,12 @@ export class PatientListComponent implements OnInit {
   getSpeciesColor(patient: Patient): string {
     const sId = patient.speciesId || patient.species_id;
     const sName = (patient.species || (patient as any).species_name || '').toLowerCase();
-    
+
     if (sId === 1 || sName.includes('perro')) return 'bg-blue-100 text-blue-700 border-blue-200';
     if (sId === 2 || sName.includes('gato')) return 'bg-orange-100 text-orange-700 border-orange-200';
     if (sId === 3 || sName.includes('conejo')) return 'bg-teal-100 text-teal-700 border-teal-200';
     if (sId === 4 || sName.includes('ave')) return 'bg-purple-100 text-purple-700 border-purple-200';
-    
+
     return 'bg-gray-100 text-gray-700 border-gray-200';
   }
 
@@ -72,7 +75,8 @@ export class PatientListComponent implements OnInit {
   }
 
   loadData() {
-    // Load clients first then patients to ensure mapping works
+    this.isLoading = true;
+    this.cdr.detectChanges();
     this.clientService.getAll().subscribe({
       next: (res: any) => {
         this.clients = Array.isArray(res) ? res : (res.data || []);
@@ -86,18 +90,25 @@ export class PatientListComponent implements OnInit {
   }
 
   loadPatients() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     this.patientService.getPatients().subscribe({
       next: (res: any) => {
         this.patients = Array.isArray(res) ? res : (res.data || []);
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err: any) => console.error('Error loading patients', err)
+      error: (err: any) => {
+        console.error('Error loading patients', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   getOwnerName(patient: Patient): string {
     if (patient.owner) return patient.owner;
-    
+
     const clientId = patient.clientId || patient.client_id;
     if (clientId) {
       const client = this.clients.find(c => (c.id || c.client_id) === clientId);
@@ -105,8 +116,8 @@ export class PatientListComponent implements OnInit {
         return `${client.firstName || client.first_name || ''} ${client.lastName || client.last_name || ''}`.trim();
       }
     }
-    
-    // Last ditch efforts for other possible fields
+
+    // por si no tiene dueno no asignado xd
     return (patient as any).client_name || (patient as any).full_name || 'No asignado';
   }
 
@@ -139,6 +150,14 @@ export class PatientListComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  openDeletePatientModal(patient: Patient) {
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.selectedPatient = patient;
+    this.showDeletePatientModal = true;
+    this.cdr.detectChanges();
+  }
+
   closeModal() {
     this.showAddPatientModal = false;
     this.showEditPatientModal = false;
@@ -153,7 +172,7 @@ export class PatientListComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     this.isSaving = true;
-    
+
     this.patientService.addPatient(patientData).subscribe({
       next: (res: any) => {
         this.successMessage = res.message || 'Paciente registrado exitosamente';
@@ -207,5 +226,30 @@ export class PatientListComponent implements OnInit {
   goToDetails(patient: Patient) {
     const id = patient.patientId || patient.id || patient.patient_id;
     this.router.navigate(['/dashboard/pacientes/paciente', id]);
+  }
+
+  deletePatient(id: number) {
+    this.errorMessage = '';
+    this.successMessage = '';
+    this.isSaving = true;
+    this.cdr.detectChanges();
+
+    this.patientService.deletePatient(id).subscribe({
+      next: (res: any) => {
+        this.successMessage = res.message || 'Paciente eliminado exitosamente';
+        this.isSaving = false;
+        this.cdr.detectChanges();
+        setTimeout(() => {
+          this.loadPatients();
+          this.closeModal();
+        }, 1500);
+      },
+      error: (err: any) => {
+        console.error('Error deleting patient', err);
+        this.isSaving = false;
+        this.errorMessage = this.parseError(err);
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

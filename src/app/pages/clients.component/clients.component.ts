@@ -25,6 +25,7 @@ export class ClientsComponent implements OnInit {
   selectedClient: Client | null = null;
   
   isSaving = false;
+  isLoading = false;
   errorMessage = '';
   successMessage = '';
 
@@ -50,12 +51,19 @@ export class ClientsComponent implements OnInit {
   }
 
   loadClients() {
+    this.isLoading = true;
+    this.cdr.detectChanges();
     this.clientService.getAll().subscribe({
       next: (res: any) => {
         this.clients = Array.isArray(res) ? res : (res.data || []);
+        this.isLoading = false;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Error loading clients', err)
+      error: (err) => {
+        console.error('Error loading clients', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
