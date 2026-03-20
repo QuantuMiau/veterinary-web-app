@@ -1,0 +1,28 @@
+<div class="fixed inset-0 z-[9999] flex items-center justify-center bg-gray-900/60 backdrop-blur-[2px]" @modalOverlayAnimation>
+  <div class="w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
+    <div class="p-8 text-center space-y-4 font-inter">
+      <div class="mx-auto h-16 w-16 rounded-full flex items-center justify-center text-3xl mb-4" 
+           [ngClass]="type === 'danger' ? 'bg-red-50 text-red-500' : 'bg-teal-50 text-teal-600'">
+        <i class="fa-solid" [ngClass]="type === 'danger' ? 'fa-triangle-exclamation' : 'fa-circle-info'"></i>
+      </div>
+      
+      <h2 class="text-xl font-black text-gray-900 tracking-tight">{{ title }}</h2>
+      <p class="text-sm text-gray-500 font-medium leading-relaxed">{{ message }}</p>
+
+      <div class="flex flex-col gap-3 pt-6 border-t border-gray-100 mt-6">
+        <button 
+          (click)="onConfirm()" 
+          class="w-full py-3 rounded-xl text-[11px] font-black transition-all shadow-lg active:scale-95 uppercase tracking-widest"
+          [ngClass]="type === 'danger' ? 'bg-red-500 hover:bg-red-600 text-white shadow-red-100' : 'bg-teal-600 hover:bg-teal-700 text-white shadow-teal-100'">
+          {{ confirmText }}
+        </button>
+
+        <button 
+          (click)="onCancel()" 
+          class="w-full py-3 bg-gray-50 hover:bg-gray-100 text-gray-500 rounded-xl text-[11px] font-black transition-all uppercase tracking-widest border border-gray-100">
+          {{ cancelText }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
