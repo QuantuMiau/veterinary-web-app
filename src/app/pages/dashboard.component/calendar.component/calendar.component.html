@@ -1,76 +1,57 @@
-<div class="content-wrapper">
-  @if (showAddEventModal) {
-    <app-add-event-modal (close)="closeModal()"></app-add-event-modal>
-  }
-
-  <!-- CALENDARIO PRINCIPAL -->
-  <div class="calendar">
-    <div class="calendar-header">
-      <h2 class="calendar-title">Febrero 2026</h2>
-
-      <button class="new-event btn btn-primary" (click)="openAddEventModal()">Nuevo evento</button>
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm font-inter">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 font-inter">
+    <div>
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight text-teal-900">Calendario</h1>
+      <p class="text-gray-500 font-medium tracking-tight">Gestión de citas y eventos de la clínica</p>
     </div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Dom</th>
-          <th>Lun</th>
-          <th>Mar</th>
-          <th>Mié</th>
-          <th>Jue</th>
-          <th>Vie</th>
-          <th>Sáb</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>2</td>
-          <td>
-            3
-            <div class="event">
-              <div class="event-title">Consulta</div>
-              Cirugía
-            </div>
-          </td>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
-          <td>7</td>
-        </tr>
-
-        <tr>
-          <td>8</td>
-          <td>9</td>
-          <td>10</td>
-          <td>11</td>
-          <td>12</td>
-          <td>13</td>
-          <td>14</td>
-        </tr>
-
-        <tr>
-          <td>15</td>
-          <td>16</td>
-          <td>17</td>
-          <td>18</td>
-          <td>19</td>
-          <td>20</td>
-          <td>21</td>
-        </tr>
-
-        <tr>
-          <td>22</td>
-          <td>23</td>
-          <td>24</td>
-          <td>25</td>
-          <td>26</td>
-          <td>27</td>
-          <td>28</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="flex items-center gap-3">
+      <button (click)="openAddEventModal()"
+        class="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-xl font-black transition-all shadow-md active:scale-95 whitespace-nowrap shadow-teal-100 uppercase text-[11px] tracking-widest">
+        <i class="fa-solid fa-calendar-plus text-sm"></i>
+        <span>Agendar Cita</span>
+      </button>
+    </div>
   </div>
+
+  <!-- Content Area -->
+  <div class="flex-1 min-h-0 relative">
+    <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden p-6 transition-all">
+      <div class="h-full overflow-auto">
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </div>
+  </div>
+
 </div>
+
+@if (showAddEventModal) {
+  <app-add-event-modal 
+    [initialDate]="initialDate"
+    [initialTime]="initialTime"
+    [existingAppointments]="allAppointments"
+    (close)="closeModal()" 
+    (save)="saveAppointment($event)">
+  </app-add-event-modal>
+}
+
+@if (selectedAppointment) {
+  <app-event-detail-modal
+    [appointment]="selectedAppointment"
+    (close)="closeModal()"
+    (delete)="deleteAppointment($event)">
+  </app-event-detail-modal>
+}
+
+@if (showDeleteConfirm) {
+  <app-confirmation-modal
+    title="Eliminar Cita"
+    message="¿Estás seguro de que deseas eliminar esta cita? Esta acción no se puede deshacer."
+    confirmText="Eliminar"
+    cancelText="Cancelar"
+    type="danger"
+    (confirm)="confirmDelete()"
+    (cancel)="cancelDelete()">
+  </app-confirmation-modal>
+}
