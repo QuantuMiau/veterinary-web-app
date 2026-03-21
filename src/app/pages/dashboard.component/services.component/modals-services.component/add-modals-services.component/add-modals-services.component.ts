@@ -27,6 +27,7 @@ export class AddModalsServicesComponent {
     cost: ['', [Validators.required, Validators.min(0)]],
     price: ['', [Validators.required, Validators.min(0)]],
     duration: ['00:30:00', [Validators.required, Validators.pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/)]],
+    service_type: ['consulta', [Validators.required]],
   });
 
   submit() {
@@ -38,6 +39,7 @@ export class AddModalsServicesComponent {
       cost: Number(formValue.cost),
       price: Number(formValue.price),
       duration: formValue.duration!,
+      service_type: formValue.service_type!,
       active: true
     };
 

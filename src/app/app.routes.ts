@@ -7,6 +7,7 @@ import {HomeComponent} from './pages/dashboard.component/home.component/home.com
 import {PatientsComponent} from './pages/dashboard.component/patients.component/patients.component';
 import {CalendarComponent} from './pages/dashboard.component/calendar.component/calendar.component';
 import {OrdersComponent} from './pages/dashboard.component/orders.component/orders.component';
+import {OrderDetailsComponent} from './pages/dashboard.component/orders.component/order-details.component/order-details.component';
 import {InventoryComponent} from './pages/dashboard.component/inventory.component/inventory.component';
 import {
   PatientInfoComponent
@@ -44,6 +45,7 @@ export const routes: Routes = [
         },
         {path: 'calendario', component: CalendarComponent},
         {path: 'ordenes', component: OrdersComponent},
+        {path: 'ordenes/:id', component: OrderDetailsComponent},
         {path: 'inventario', component: InventoryComponent},
         {path: 'servicios', component: ServicesComponent},
         {path: 'iot', component: IotComponent},

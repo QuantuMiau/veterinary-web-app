@@ -87,7 +87,14 @@
                         <i class="fa-solid fa-stethoscope"></i>
                       </div>
                       <div class="flex flex-col min-w-0">
-                        <span class="text-sm font-black text-gray-800 tracking-tight truncate">{{ service.name }}</span>
+                        <div class="flex items-center gap-2">
+                          <span class="text-sm font-black text-gray-800 tracking-tight truncate">{{ service.name }}</span>
+                          @if (service.service_type) {
+                            <span [ngClass]="getCategoryClass(service.service_type)" class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border shrink-0">
+                              {{ service.service_type }}
+                            </span>
+                          }
+                        </div>
                         @if (service.cost) {
                           <span class="text-[10px] text-gray-400 font-bold truncate">Costo base: {{ service.cost | currency }}</span>
                         }

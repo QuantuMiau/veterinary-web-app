@@ -96,6 +96,17 @@ export class ServicesComponent implements OnInit {
     return '00:00:00';
   }
 
+  getCategoryClass(type?: string): string {
+    switch (type) {
+      case 'RX': return 'bg-purple-50 text-purple-600 border-purple-100';
+      case 'vacuna': return 'bg-indigo-50 text-indigo-600 border-indigo-100';
+      case 'lab': return 'bg-amber-50 text-amber-600 border-amber-100';
+      case 'consulta': return 'bg-blue-50 text-blue-600 border-blue-100';
+      case 'estetica': return 'bg-pink-50 text-pink-600 border-pink-100';
+      default: return 'bg-gray-50 text-gray-600 border-gray-100';
+    }
+  }
+
   setStatusFilter(filter: 'all' | 'active' | 'inactive') {
     this.statusFilter = filter;
     this.cdr.detectChanges();

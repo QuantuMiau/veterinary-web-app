@@ -82,6 +82,26 @@
               </div>
             </div>
 
+            <!-- Tipo de Servicio -->
+            <div class="sm:col-span-2">
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Tipo de Servicio</label>
+              <div class="relative group">
+                <i class="fa-solid fa-layer-group absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors"></i>
+                <select 
+                  formControlName="service_type"
+                  class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium appearance-none"
+                >
+                  <option value="consulta">Consulta / Visita</option>
+                  <option value="vacuna">Vacuna</option>
+                  <option value="RX">Radiografía (RX)</option>
+                  <option value="lab">Laboratorio</option>
+                  <option value="estetica">Estética</option>
+                  <option value="otro">Otro</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none text-[10px]"></i>
+              </div>
+            </div>
+
             <!-- Duración -->
             <div class="sm:col-span-2">
               <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Duración Estimada</label>
