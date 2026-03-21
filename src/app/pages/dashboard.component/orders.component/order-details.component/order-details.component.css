@@ -1,5 +1,5 @@
-.font-inter {
-  font-family: 'Inter', sans-serif;
+.font-poppins {
+  font-family: var(--font-poppins);
 }
 
 :host {

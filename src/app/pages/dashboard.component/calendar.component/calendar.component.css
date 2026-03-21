@@ -4,7 +4,7 @@
 }
 
 ::ng-deep .fc {
-  font-family: 'Inter', sans-serif !important;
+  font-family: var(--font-poppins) !important;
   --fc-border-color: #f1f5f9;
   --fc-button-bg-color: #0d9488;
   --fc-button-border-color: #0d9488;

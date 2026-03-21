@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm font-inter">
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm">
   <!-- Header / Breadcrumbs -->
   <div class="flex items-center justify-between shrink-0">
     <div class="flex items-center gap-4">
@@ -7,7 +7,7 @@
       </button>
       <div>
         <h1 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Pedido #{{ orderId }}</h1>
-        <p class="text-gray-500 font-medium tracking-tight italic">Detalles y gestión de estado</p>
+        <p class="text-gray-500 font-medium tracking-tight">Detalles y gestión de estado</p>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
         <div class="bg-[#1e293b]/95 p-6 border-b border-slate-700/50 backdrop-blur-md shrink-0">
           <div class="flex items-center justify-between">
             <h3 class="text-white text-xs font-black uppercase tracking-[0.2em]">Productos Solicitados</h3>
-            <span class="text-white/50 text-[10px] font-bold uppercase italic">{{ details.length }} items</span>
+            <span class="text-white/50 text-[10px] font-bold uppercase">{{ details.length }} items</span>
           </div>
         </div>
 
@@ -63,7 +63,7 @@
                       </div>
                       <div>
                         <p class="font-black text-slate-900 tracking-tight text-base">{{ item.product_name }}</p>
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">ID: {{ item.product_id }}</p>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">ID: {{ item.product_id }}</p>
                       </div>
                     </div>
                   </td>
@@ -113,14 +113,14 @@
             </div>
             <div>
               <p class="text-xl font-black text-slate-900 tracking-tighter">{{ customerName }}</p>
-              <p class="text-[10px] font-bold text-slate-500 italic uppercase tracking-widest">Cliente Registrado</p>
+              <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Cliente Registrado</p>
             </div>
           </div>
           
           <div class="space-y-4">
             <div class="flex items-center justify-between text-xs py-2 border-b border-slate-50">
               <span class="font-black text-slate-400 uppercase tracking-widest">Fecha Pedido</span>
-              <span class="font-bold text-slate-700 italic">{{ orderDate | date:'dd/MM/yyyy HH:mm' }}</span>
+              <span class="font-bold text-slate-700">{{ orderDate | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
             <div class="flex items-center justify-between text-xs py-2 border-b border-slate-50">
               <span class="font-black text-slate-400 uppercase tracking-widest">Método Pago</span>
@@ -165,7 +165,7 @@
           </div>
 
           @if (errorMessage) {
-            <p class="mt-4 text-red-400 text-[10px] font-bold italic animate-pulse">
+            <p class="mt-4 text-red-400 text-[10px] font-bold animate-pulse">
               <i class="fa-solid fa-triangle-exclamation mr-1"></i> {{ errorMessage }}
             </p>
           }

@@ -22,7 +22,7 @@
   padding: 15px;
   padding-left: 20px;
   font-size: 16px;
-  font-family: "Poppins", sans-serif;
+  font-family: var(--font-poppins);
   font-weight: 400;
   font-style: normal;
   color: white;
@@ -42,7 +42,7 @@
 
 
 .item-info{
-  font-family: Roman, Helvetica, sans-serif;
+  font-family: var(--font-lato);
   font-size: 14px;
   color: hsla(0, 4%, 56%, 0.736);
 }

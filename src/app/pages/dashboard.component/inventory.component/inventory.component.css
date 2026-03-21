@@ -16,7 +16,7 @@
   padding: 15px;
   padding-left: 20px;
   font-size: 16px;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-poppins);
   font-weight: 400;
   font-style: normal;
   color: white;
