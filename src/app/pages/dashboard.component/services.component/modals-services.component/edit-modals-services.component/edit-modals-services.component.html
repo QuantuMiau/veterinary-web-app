@@ -1,55 +1,161 @@
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-  <div class="w-full max-w-lg bg-white rounded-lg shadow-lg p-6">
-
-    <h2 class="text-lg font-semibold mb-4">Editar servicio</h2>
-
-    <form [formGroup]="serviceForm" (ngSubmit)="submit()"  class="space-y-4">
-
-      <input
-        formControlName="name"
-        placeholder="Nombre"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <input
-        formControlName="category"
-        placeholder="Categoría"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <input
-        formControlName="price"
-        placeholder="Precio"
-        class="w-full border rounded px-3 py-2"
-        type="number"
-        min="1"
-      />
-
-
-      <input
-        formControlName="duration"
-        placeholder="Duración"
-        class="w-full border rounded px-3 py-2"
-      />
-
-      <div class="flex justify-end gap-2 pt-4">
-        <button
-          type="button"
-          class="px-4 py-2 rounded border"
-          (click)="close.emit()"
-        >
-          Cancelar
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/60 backdrop-blur-[2px]" @modalOverlayAnimation>
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden" @modalContentAnimation>
+    
+    @if (successMessage) {
+      <div class="p-10 flex justify-center items-center flex-col text-center bg-blue-50/50 min-h-[450px] relative">
+        <button (click)="close.emit()" class="absolute top-6 right-6 text-blue-300 hover:text-blue-500 transition-colors z-50">
+          <i class="fa-solid fa-xmark text-xl"></i>
         </button>
-
-        <button
-          type="submit"
-          class="px-4 py-2 rounded bg-green-600 text-white"
-          [disabled]="serviceForm.invalid"
-        >
-          Guardar
+        <div class="h-20 w-20 bg-blue-100 rounded-full flex items-center justify-center mb-6 text-blue-600 text-4xl shadow-sm transition-all scale-110">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h3 class="text-2xl font-black text-gray-800 mb-2 tracking-tight">¡Servicio Actualizado!</h3>
+        <p class="text-blue-700/80 font-bold text-sm uppercase tracking-widest">{{ successMessage }}</p>
+      </div>
+    } @else {
+      <!-- Header -->
+      <div class="bg-blue-600 px-6 py-8 relative overflow-hidden">
+        <div class="absolute top-0 right-0 -mt-4 -mr-4 h-24 w-24 bg-white/10 rounded-full blur-2xl"></div>
+        <div class="relative z-10 flex items-center gap-4">
+          <div class="h-12 w-12 bg-white/20 rounded-xl flex items-center justify-center text-white text-2xl backdrop-blur-md">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-black text-white tracking-tight">Editar Servicio</h2>
+            <p class="text-[10px] font-bold text-blue-100 uppercase tracking-widest opacity-80">Referencia: #{{ service?.concept_id }}</p>
+          </div>
+        </div>
+        <button (click)="close.emit()" class="absolute top-6 right-6 text-white/60 hover:text-white transition-colors z-50">
+          <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
 
-    </form>
+      <div class="p-6">
+        @if (errorMessage) {
+          <div class="p-4 mb-6 text-[11px] font-black text-red-600 bg-red-50 border border-red-100 rounded-xl animate-pulse flex items-start gap-3 uppercase tracking-wide">
+            <i class="fa-solid fa-circle-exclamation mt-0.5"></i>
+            <div>{{ errorMessage }}</div>
+          </div>
+        }
+        
+        <form [formGroup]="serviceForm" (ngSubmit)="submit()" class="space-y-6">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <!-- Status Toggle -->
+            <div class="sm:col-span-2">
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Estado del Servicio</label>
+              <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" formControlName="active" class="sr-only peer">
+                  <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                </label>
+                <span class="text-[11px] font-black uppercase tracking-tight" [ngClass]="serviceForm.get('active')?.value ? 'text-blue-600' : 'text-gray-400'">
+                  {{ serviceForm.get('active')?.value ? 'Activo / Visible' : 'Inactivo / Oculto' }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Nombre -->
+            <div class="sm:col-span-2">
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Nombre del Servicio</label>
+              <div class="relative group">
+                <i class="fa-solid fa-stethoscope absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors"></i>
+                <input 
+                  type="text" 
+                  formControlName="name"
+                  placeholder="Nombre del servicio"
+                  class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
+                >
+              </div>
+            </div>
+
+            <!-- Costo Base -->
+            <div>
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Costo Base</label>
+              <div class="relative group">
+                <i class="fa-solid fa-hand-holding-dollar absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors"></i>
+                <input 
+                  type="number" 
+                  formControlName="cost"
+                  placeholder="0.00"
+                  class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
+                >
+              </div>
+            </div>
+
+            <!-- Precio Venta -->
+            <div>
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Precio Venta</label>
+              <div class="relative group">
+                <i class="fa-solid fa-tag absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors"></i>
+                <input 
+                  type="number" 
+                  formControlName="price"
+                  placeholder="0.00"
+                  class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
+                >
+              </div>
+            </div>
+
+            <!-- Tipo de Servicio -->
+            <div class="sm:col-span-2">
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Tipo de Servicio</label>
+              <div class="relative group">
+                <i class="fa-solid fa-layer-group absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors"></i>
+                <select 
+                  formControlName="service_type"
+                  class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium appearance-none"
+                >
+                  <option value="consulta">Consulta / Visita</option>
+                  <option value="vacuna">Vacuna</option>
+                  <option value="RX">Radiografía (RX)</option>
+                  <option value="lab">Laboratorio</option>
+                  <option value="estetica">Estética</option>
+                  <option value="otro">Otro</option>
+                </select>
+                <i class="fa-solid fa-chevron-down absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 pointer-events-none text-[10px]"></i>
+              </div>
+            </div>
+
+            <!-- Duración -->
+            <div class="sm:col-span-2">
+              <label class="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 ml-1">Duración Estimada</label>
+              <div class="relative group">
+                <i class="fa-solid fa-clock absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-blue-500 transition-colors"></i>
+                <input 
+                  type="text" 
+                  formControlName="duration"
+                  placeholder="HH:MM:SS"
+                  class="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 flex gap-3">
+            <button 
+              type="button"
+              (click)="close.emit()"
+              class="flex-1 py-4 rounded-xl border border-gray-100 text-gray-400 text-[11px] font-black hover:bg-gray-50 transition-all active:scale-95 uppercase tracking-widest"
+              [disabled]="isSaving"
+            >
+              Cancelar
+            </button>
+            <button 
+              type="submit"
+              class="flex-[2] py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-[11px] font-black transition-all shadow-lg shadow-blue-200 active:scale-95 disabled:opacity-50 flex items-center justify-center gap-2 uppercase tracking-widest"
+              [disabled]="serviceForm.invalid || isSaving"
+            >
+              @if (isSaving) {
+                <i class="fa-solid fa-spinner animate-spin"></i>
+                <span>Actualizando...</span>
+              } @else {
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Guardar Cambios</span>
+              }
+            </button>
+          </div>
+        </form>
+      </div>
+    }
   </div>
 </div>

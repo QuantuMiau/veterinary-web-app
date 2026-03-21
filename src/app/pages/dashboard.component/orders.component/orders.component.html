@@ -1,1 +1,157 @@
-<p>orders.component works!</p>
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm font-inter">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+    <div>
+      <h1 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Ordenes</h1>
+      <p class="text-gray-500 font-medium tracking-tight italic">Gestión y seguimiento de transacciones</p>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <!-- Refresh Button -->
+      <button 
+        (click)="loadOrders()" 
+        class="flex items-center gap-2 px-4 py-2.5 bg-slate-50 text-slate-600 border border-slate-200 rounded-xl hover:bg-slate-100 transition-all shadow-sm group active:scale-95"
+        title="Actualizar órdenes"
+      >
+        <i class="fa-solid fa-rotate transition-transform duration-500 group-hover:rotate-180" [class.animate-spin]="isLoading"></i>
+        <span class="text-xs font-black uppercase tracking-widest hidden md:inline text-slate-600">Actualizar</span>
+      </button>
+
+      <!-- Search Input -->
+      <div class="relative group">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-slate-500 transition-colors"></i>
+        <input 
+          #searchInput
+          type="text" 
+          placeholder="Buscar folio o cliente..." 
+          (input)="updateSearch(searchInput.value)"
+          class="pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl w-64 focus:outline-none focus:ring-4 focus:ring-slate-500/10 focus:border-slate-500 transition-all shadow-sm"
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Bar -->
+  <div class="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none shrink-0">
+    <button (click)="setFilter('todos')" 
+      [class]="currentFilter === 'todos' ? 'bg-slate-900 text-white shadow-md scale-105' : 'bg-white text-slate-600 hover:bg-slate-50 border-gray-100'"
+      class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap">
+      Todos
+    </button>
+    <button (click)="setFilter('recientes')" 
+      [class]="currentFilter === 'recientes' ? 'bg-slate-900 text-white shadow-md scale-105' : 'bg-white text-slate-600 hover:bg-slate-50 border-gray-100'"
+      class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap">
+      <i class="fa-solid fa-clock-rotate-left mr-2"></i>Recientes
+    </button>
+    <div class="w-px h-6 bg-gray-200 mx-2"></div>
+    <button (click)="setFilter('entregado')" 
+      [class]="currentFilter === 'entregado' ? 'bg-green-600 text-white shadow-md scale-105' : 'bg-white text-green-600 hover:bg-green-50 border-green-100'"
+      class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap">
+      Entregados
+    </button>
+    <button (click)="setFilter('en progreso')" 
+      [class]="currentFilter === 'en progreso' ? 'bg-blue-600 text-white shadow-md scale-105' : 'bg-white text-blue-600 hover:bg-blue-50 border-blue-100'"
+      class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap">
+      En Proceso
+    </button>
+    <button (click)="setFilter('listo')" 
+      [class]="currentFilter === 'listo' ? 'bg-amber-600 text-white shadow-md scale-105' : 'bg-white text-amber-600 hover:bg-amber-50 border-amber-100'"
+      class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap">
+      Listo
+    </button>
+    <button (click)="setFilter('cancelado')" 
+      [class]="currentFilter === 'cancelado' ? 'bg-red-600 text-white shadow-md scale-105' : 'bg-white text-red-600 hover:bg-red-50 border-red-100'"
+      class="px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border transition-all duration-300 whitespace-nowrap">
+      Cancelados
+    </button>
+  </div>
+
+  <!-- Content Area -->
+  <div class="flex-1 min-h-0 relative">
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="absolute inset-0 bg-white/60 backdrop-blur-[2px] z-20 flex flex-col items-center justify-center rounded-3xl border border-white shadow-sm overflow-hidden animate-in fade-in duration-300">
+        <div class="relative">
+          <div class="w-16 h-16 border-4 border-slate-100 border-t-slate-600 rounded-full animate-spin"></div>
+          <div class="absolute inset-0 flex items-center justify-center">
+            <i class="fa-solid fa-receipt text-slate-600 animate-pulse text-xl"></i>
+          </div>
+        </div>
+        <p class="mt-4 text-slate-900 font-black tracking-widest text-xs uppercase animate-pulse">Sincronizando ordenes...</p>
+      </div>
+    }
+
+    @if (filteredOrders.length > 0) {
+      <!-- Table Container -->
+      <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+        <div class="overflow-auto flex-1">
+          <table class="min-w-full divide-y divide-gray-100 text-sm">
+            <thead class="bg-[#1e293b]/90 sticky top-0 z-10 backdrop-blur-md">
+              <tr>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Folio</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Cliente</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Fecha</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Total</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Estado</th>
+                <th scope="col" class="px-6 py-4 text-right text-[11px] font-black text-white/90 uppercase tracking-widest pr-10">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              @for (order of filteredOrders; track order.order_id) {
+                <tr class="hover:bg-slate-50/30 transition-colors group">
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <span class="text-xs font-black text-slate-700 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-100 group-hover:bg-white transition-all shadow-sm">
+                      #{{ order.order_id }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <div class="flex items-center gap-3">
+                      <div class="h-10 w-10 shrink-0 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-600 group-hover:scale-105 transition-transform overflow-hidden shadow-sm">
+                        @if (order.image_url) {
+                          <img [src]="order.image_url" class="h-full w-full object-cover" onerror="this.src='assets/icons/sidebar/inventory.svg'">
+                        } @else {
+                          <i class="fa-solid fa-receipt"></i>
+                        }
+                      </div>
+                      <span class="font-black text-gray-800 tracking-tight">
+                        {{ order.full_name }}
+                      </span>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap font-bold text-gray-600 italic">
+                    {{ order.date | date:'dd/MM/yyyy HH:mm' }}
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <span class="text-sm font-black text-slate-900 tracking-tighter">
+                      {{ order.total | currency }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <span [class]="'px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border ' + getStatusColor(order.order_status)">
+                      {{ order.order_status }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap text-right pr-6">
+                    <button (click)="viewDetails(order.order_id)" class="p-2 text-slate-400 hover:text-slate-600 transition-colors rounded-lg hover:bg-slate-50" title="Ver detalles">
+                      <i class="fa-solid fa-eye text-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else {
+      @if (!isLoading) {
+        <div class="h-full flex flex-col items-center justify-center bg-white/50 backdrop-blur-sm rounded-3xl border-2 border-dashed border-slate-100 animate-in fade-in zoom-in duration-500">
+          <div class="w-32 h-32 bg-slate-50 rounded-full flex items-center justify-center mb-6 shadow-inner text-slate-200">
+            <i class="fa-solid fa-receipt text-5xl"></i>
+          </div>
+          <h3 class="text-xl font-black text-slate-400 tracking-tight uppercase">No se encontraron órdenes</h3>
+          <p class="text-slate-300 font-bold italic mt-1">Intenta ajustando los filtros o la búsqueda</p>
+        </div>
+      }
+    }
+  </div>
+</div>

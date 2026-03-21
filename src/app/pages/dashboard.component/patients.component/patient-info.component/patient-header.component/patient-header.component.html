@@ -1,32 +1,82 @@
-<div class="rounded-lg bg-white p-4 shadow">
-  <div class="flex items-center gap-3 mb-4">
-    <button
-      class="rounded-md bg-gray-100 p-2 hover:bg-gray-200 transition"
-      (click)="goBack()"
-      aria-label="Regresar"
-    >
-      <img
-        src="assets/icons/sidebar/arrow.svg"
-        alt="Regresar"
-        class="h-5 w-5 invert"
-      />
-    </button>
+<div class="rounded-2xl bg-white p-6 shadow-sm border border-gray-100 shrink-0">
+  <div class="flex flex-col lg:flex-row items-center lg:items-start gap-6">
 
-    <h2 class="text-lg font-semibold">Información del paciente</h2>
-  </div>
+    <!-- Back + Avatar -->
+    <div class="flex items-center gap-4 shrink-0">
+      <button
+        class="group flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-400 hover:bg-teal-50 hover:text-teal-600 transition-all shadow-sm border border-gray-100 focus:outline-none"
+        (click)="goBack()"
+        aria-label="Regresar"
+      >
+        <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform text-sm"></i>
+      </button>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+      <div class="relative shrink-0">
+        <div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-teal-50 to-teal-100 text-teal-600 shadow-inner border border-teal-200/50">
+          <i class="fa-solid fa-paw text-2xl"></i>
+        </div>
+        <div
+          class="absolute -bottom-1 -right-1 h-6 w-6 rounded-lg border-2 border-white flex items-center justify-center text-xs shadow-md"
+          [ngClass]="{
+            'bg-blue-500 text-white': patient.sex === 'Macho',
+            'bg-pink-500 text-white': patient.sex === 'Hembra'
+          }"
+        >
+          <i class="fa-solid text-[10px]" [ngClass]="{'fa-mars': patient.sex === 'Macho', 'fa-venus': patient.sex === 'Hembra'}"></i>
+        </div>
+      </div>
 
-    <div class="space-y-1">
-      <p><span class="font-medium">Nombre:</span> {{ patient.name }}</p>
-      <p><span class="font-medium">Especie:</span> {{ patient.species }}</p>
-      <p><span class="font-medium">Raza:</span> {{ patient.breed }}</p>
-      <p><span class="font-medium">Sexo:</span> {{ patient.sex }}</p>
-      <p><span class="font-medium">Dueño:</span> {{ patient.owner }}</p>
+      <!-- Name -->
+      <div>
+        <h1 class="text-2xl font-black text-gray-900 tracking-tight leading-none">{{ patient.name }}</h1>
+        <p class="text-gray-400 font-bold text-[11px] tracking-widest uppercase mt-0.5">Expediente Clínico</p>
+        <div class="flex items-center gap-2 mt-1.5">
+          <span class="px-2.5 py-0.5 rounded-lg bg-teal-50 text-teal-700 text-[10px] font-black border border-teal-200 shadow-sm uppercase tracking-wide">
+            {{ patient.species }}
+          </span>
+          <span class="text-gray-400 font-bold text-xs italic">{{ patient.breed || 'Mestizo' }}</span>
+        </div>
+      </div>
     </div>
 
-    <div class="space-y-1">
-      <p><span class="font-medium">Última visita:</span> {{ patient.lastVisit }}</p>
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full">
+      <div class="flex flex-col rounded-xl bg-gray-50/60 p-3 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 group-hover:text-teal-500 transition-colors">Dueño</span>
+        <div class="flex items-center gap-2 text-gray-700">
+          <div class="h-7 w-7 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300 shrink-0">
+            <i class="fa-solid fa-user-circle text-sm"></i>
+          </div>
+          <span class="text-xs font-black truncate">{{ patient.full_name || patient.owner_name || 'No asignado' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-xl bg-gray-50/60 p-3 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 group-hover:text-teal-500 transition-colors">Contacto</span>
+        <div class="flex items-center gap-2 text-gray-700">
+          <div class="h-7 w-7 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300 shrink-0">
+            <i class="fa-solid fa-phone text-sm"></i>
+          </div>
+          <span class="text-xs font-black">{{ patient.phone || 'Sin registro' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-xl bg-gray-50/60 p-3 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 group-hover:text-teal-500 transition-colors">Color</span>
+        <div class="flex items-center gap-2 text-gray-700">
+          <div class="h-7 w-7 rounded-lg bg-white flex items-center justify-center shadow-sm text-gray-300 shrink-0">
+            <i class="fa-solid fa-palette text-sm"></i>
+          </div>
+          <span class="text-xs font-black truncate">{{ patient.color || 'No definido' }}</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col rounded-xl bg-gray-50/60 p-3 border border-gray-100 hover:bg-white hover:shadow-sm transition-all group">
+        <span class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1.5 group-hover:text-teal-500 transition-colors">Última Visita</span>
+        <span class="text-xs font-black">
+          {{ lastRecord ? (lastRecord.date | date:'dd/MM/yyyy') : (patient.last_visit ? (patient.last_visit | date:'dd/MM/yyyy') : '—') }}
+        </span>
+      </div>
     </div>
 
   </div>

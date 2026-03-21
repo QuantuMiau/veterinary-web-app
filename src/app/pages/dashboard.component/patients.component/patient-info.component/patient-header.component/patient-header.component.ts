@@ -1,21 +1,25 @@
 import { Component, inject, Input} from '@angular/core';
 import {Router} from '@angular/router';
-import {Patient} from '../../../../../services/patient-service';
+import { PatientDetailed } from '../../../../../models/patient.model';
+import { ClinicalRecord } from '../../../../../models/clinical-record.model';
+import { CommonModule, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-patient-header',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, NgClass],
   templateUrl: './patient-header.component.html',
   styleUrl: './patient-header.component.css',
 })
 export class PatientHeaderComponent {
 
-  @Input() patient!: Patient;
+  @Input() patient!: PatientDetailed;
+  @Input() lastRecord?: ClinicalRecord | null;
 
   private router = inject(Router);
 
   goBack() {
-    this.router.navigate(['dashboard/pacientes/lista']);
+    this.router.navigate(['/dashboard/pacientes/lista']);
   }
 
 }

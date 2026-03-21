@@ -1,89 +1,51 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { Patient, PatientDetailed } from '../models/patient.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientService {
-  patients: Patient[] = [
-    {
-      id: 1,
-      name: "Bichin",
-      species: "Gato",
-      breed: "Común Europeo",
-      sex: "Macho",
-      owner: "Mauricio Esperon",
-      lastVisit: "22-09-2024"
-    },
-    {
-      id: 2,
-      name: "Luna",
-      species: "Perro",
-      breed: "Labrador Retriever",
-      sex: "Hembra",
-      owner: "Ana López",
-      lastVisit: "15-10-2024"
-    },
-    {
-      id: 3,
-      name: "Max",
-      species: "Perro",
-      breed: "Pastor Alemán",
-      sex: "Macho",
-      owner: "Carlos Ramírez",
-      lastVisit: "03-11-2024"
-    },
-    {
-      id: 4,
-      name: "Misu",
-      species: "Gato",
-      breed: "Siames",
-      sex: "Hembra",
-      owner: "Fernanda Torres",
-      lastVisit: "27-08-2024"
-    },
-    {
-      id: 5,
-      name: "Rocky",
-      species: "Perro",
-      breed: "Bulldog Francés",
-      sex: "Macho",
-      owner: "Luis Hernández",
-      lastVisit: "09-12-2024"
-    }
+  private http = inject(HttpClient);
+  private apiUrl = 'https://api-veterinary.onrender.com/patient';
 
-
-  ];
-
-  getPatients() {
-    return this.patients;
-  }
-  addPatient(patient: Patient) {
-    this.patients.push(patient);
+  getPatients(): Observable<PatientDetailed[]> {
+    return this.http.get<any[]>(this.apiUrl).pipe(
+      map(patients => patients.map(p => ({
+        ...p,
+        name: p.name || p.patient_name
+      })))
+    );
   }
 
-  deletePatient(id: number) {
-    const index = this.patients.findIndex(p => p.id === id);
-    if (index !== -1) {
-      this.patients.splice(index, 1);
-    }
+  getPatientById(id: number): Observable<PatientDetailed> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`).pipe(
+      map(p => ({
+        ...p,
+        name: p.name || p.patient_name
+      }))
+    );
   }
 
-  updatePatient(updatedPatient: Patient) {
-    const index = this.patients.findIndex(p => p.id === updatedPatient.id);
-
-    if (index !== -1) {
-      this.patients[index] = updatedPatient;
-    }
+  getByClient(clientId: number): Observable<PatientDetailed[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/client/${clientId}`).pipe(
+      map(patients => patients.map(p => ({
+        ...p,
+        name: p.name || p.patient_name
+      })))
+    );
   }
 
-}
+  addPatient(patient: Patient): Observable<Patient> {
+    return this.http.post<Patient>(this.apiUrl, patient);
+  }
 
-export interface Patient {
-  id: number;
-  name: string;
-  species: string;
-  breed: string;
-  sex: string;
-  owner: string;
-  lastVisit?: string;
+  updatePatient(id: number, patient: Patient): Observable<Patient> {
+    return this.http.put<Patient>(`${this.apiUrl}/${id}`, patient);
+  }
+
+  deletePatient(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
+  }
 }

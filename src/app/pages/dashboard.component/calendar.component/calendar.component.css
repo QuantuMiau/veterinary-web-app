@@ -1,122 +1,179 @@
-/* Fuente */
-@font-face {
-  font-family: 'PoppinsSemi';
-  src: url('/assets/fonts/Poppins-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
-
-/* 🔥 Hace que el componente ocupe toda la altura disponible */
 :host {
-  display: flex;
-  flex-direction: column;
+  display: block;
   height: 100%;
-  min-height: calc(100vh - 80px); /* Ajusta si tienes navbar superior */
-  padding: 20px;
-  background-color: #f5f6fa;
-  box-sizing: border-box;
 }
 
-/* Contenedor principal */
-.content-wrapper {
-  display: flex;
-  flex: 1; /* 🔥 Hace que crezca */
-  gap: 20px;
+::ng-deep .fc {
+  font-family: 'Inter', sans-serif !important;
+  --fc-border-color: #f1f5f9;
+  --fc-button-bg-color: #0d9488;
+  --fc-button-border-color: #0d9488;
+  --fc-button-hover-bg-color: #0f766e;
+  --fc-button-hover-border-color: #0f766e;
+  --fc-button-active-bg-color: #115e59;
+  --fc-button-active-border-color: #115e59;
+  --fc-today-bg-color: #f0fdfa;
 }
 
-/* Calendario */
-.calendar {
-  background-color: #ffffff;
-  flex: 1; /* 🔥 Llena el espacio vertical */
-  border-radius: 14px;
-  padding: 15px;
-  font-family: 'PoppinsSemi', sans-serif;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-  display: flex;
-  flex-direction: column;
+::ng-deep .fc .fc-button:focus,
+::ng-deep .fc .fc-button:active,
+::ng-deep .fc .fc-button-primary:focus,
+::ng-deep .fc .fc-button-primary:not(:disabled):active:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
-/* Tabla ocupa el espacio restante */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  flex: 1; /* 🔥 Esto elimina el espacio vacío */
+::ng-deep .fc .fc-toolbar-title {
+  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  color: #0f172a;
 }
 
-th,
-td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: left;
+::ng-deep .fc .fc-col-header-cell {
+  background-color: #f8fafc;
+  padding: 10px 0;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
 }
 
-/*td {
-  aspect-ratio: 1 / 1;
-  vertical-align: top;
-}*/
+::ng-deep .fixed.inset-0.z-50 {
+  z-index: 9999 !important;
+}
 
-td {
-  height: 120px;       /* Altura fija */
-  width: 14.28%;       /* 100% / 7 días */
-  vertical-align: top;
-  overflow: hidden;    /* No permite que crezca */
+::ng-deep .fc-event {
+  border-radius: 8px !important;
+  border: none !important;
+  padding: 4px 6px !important;
+  font-size: 0.85rem !important;
+  font-weight: 600 !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+  cursor: pointer !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  background-color: #0d9488 !important;
+  color: white !important;
+  pointer-events: auto !important;
+}
+
+::ng-deep .fc-event:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.3) !important;
+  filter: brightness(1.1) !important;
+  z-index: 50 !important;
+}
+
+::ng-deep .fc-event::after {
+  content: "Cita: " attr(data-time);
+  position: absolute;
+  bottom: 115%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: #1f2937;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 10000;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+::ng-deep .fc-event:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+::ng-deep .fc-timegrid-slot-lane:hover {
+  background-color: rgba(13, 148, 136, 0.08) !important;
   position: relative;
 }
 
-th {
-  background-color: #f2f2f2;
-  font-weight: 600;
-}
-
-/* Header */
-.calendar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.calendar-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-/* Botón */
-.new-event {
-  padding: 8px 16px;
-  background-color: #4CAF50;
+::ng-deep .fc-timegrid-slot-lane:hover::after {
+  content: "Agendar: " attr(data-time);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #0d9488;
   color: white;
-  border: none;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 10000;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+::ng-deep .fc-daygrid-day-number {
+  color: #4b5563 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  padding: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+::ng-deep .fc-daygrid-day-number:hover {
+  color: #0d9488 !important;
+  background-color: rgba(13, 148, 136, 0.1) !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .fc-col-header-cell-cushion {
+  color: #374151 !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+::ng-deep .fc-theme-standard td,
+::ng-deep .fc-theme-standard th {
+  border-color: #f1f5f9 !important;
+}
+
+::ng-deep .fc-scrollgrid {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #f1f5f9 !important;
+}
+
+
+::ng-deep .fc-daygrid-day:hover {
+  background-color: rgba(13, 148, 136, 0.03) !important;
   cursor: pointer;
-  border-radius: 6px;
-  transition: 0.3s ease;
+  position: relative;
 }
 
-.new-event:hover {
-  background-color: #45a049;
+::ng-deep .fc-view-harness {
+  height: 100% !important;
 }
 
-/* Eventos
-.event {
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  padding: 4px;
-  margin-top: 4px;
-  font-size: 12px;
-}*/
-
-.event {
-  background-color: #f0f0f0;
-  border-radius: 4px;
-  padding: 4px;
-  margin-top: 4px;
-  font-size: 12px;
-  max-height: 70px;     /* Evita que crezca demasiado */
-  overflow-y: auto;     /* Scroll si hay muchos eventos */
+::ng-deep .fc-timegrid-now-indicator-line {
+  border-color: #0d9488 !important;
 }
 
-
-.event-title {
-  font-weight: bold;
+::ng-deep .fc-timegrid-now-indicator-arrow {
+  border-color: #0d9488 !important;
+  background-color: #0d9488 !important;
 }

@@ -1,58 +1,42 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface User {
-  id: number;
-  name: string;
-  role: string;
-  email: string;
+  employee_id?: number;
+  name?: string;
+  first_name?: string;
+  last_name?: string;
+  mother_name?: string;
+  role?: string;
+  email?: string;
   phone?: string;
+  password?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  private users: User[] = [
-    {
-      id: 1,
-      name: 'Eurice Velázquez López',
-      role: 'Admin',
-      email: 'eurice@gmail',
-      phone: '1234567890',
-    },
-    {
-      id: 2,
-      name: 'María Pérez',
-      role: 'Empleado',
-      email: 'maria@example.com',
-      phone: '0987654321',
-    },
-  ];
+  private http = inject(HttpClient);
+  private apiUrl = 'https://api-veterinary.onrender.com/employee';
 
-  getUsers(): User[] {
-    return this.users;
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl);
   }
 
-  addUser(u: Omit<User, 'id'>) {
-    const nextId = this.users.length ? Math.max(...this.users.map((x) => x.id)) + 1 : 1;
-    const user: User = { id: nextId, ...u };
-    this.users.push(user);
-    return user;
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/register`, user);
   }
 
-  updateUser(updated: User) {
-    const idx = this.users.findIndex((x) => x.id === updated.id);
-    if (idx !== -1) {
-      this.users[idx] = updated;
-      return true;
-    }
-    return false;
+  updateUser(user: User): Observable<User> {
+    const targetId = user.employee_id;
+    return this.http.put<User>(`${this.apiUrl}/update/${targetId}`, user);
   }
 
-  deleteUser(id: number) {
-    const idx = this.users.findIndex((x) => x.id === id);
-    if (idx !== -1) {
-      this.users.splice(idx, 1);
-      return true;
-    }
-    return false;
+  deleteUser(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  activateUser(id: number): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/active/${id}`, {});
   }
 }

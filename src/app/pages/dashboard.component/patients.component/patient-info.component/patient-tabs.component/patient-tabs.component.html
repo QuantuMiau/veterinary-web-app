@@ -1,22 +1,24 @@
-<div class="flex flex-col h-full">
-  <!-- Tabs -->
-  <div class="flex gap-2 border-b mb-3">
+<div class="flex-1 flex flex-col min-h-0 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+  <!-- Tabs Navigation -->
+  <div class="flex items-center gap-1.5 px-4 pt-4 pb-0 bg-white border-b border-gray-100">
     <button
       *ngFor="let tab of tabs"
       (click)="activeTab = tab.id"
-      class="px-4 py-2 text-sm"
-      [ngClass]="activeTab === tab.id
-        ? 'border-b-2 border-blue-600 text-blue-600 font-medium'
-        : 'text-gray-500 hover:text-gray-700'"
+      class="flex items-center gap-2 px-5 py-2.5 rounded-t-xl text-sm font-black transition-all relative focus:outline-none"
+      [ngClass]="{
+        'bg-teal-600 text-white shadow-md': activeTab === tab.id,
+        'text-gray-400 hover:text-teal-600 hover:bg-teal-50/50': activeTab !== tab.id
+      }"
     >
-      {{ tab.label }}
+      <i class="fa-solid text-sm" [ngClass]="tab.icon"></i>
+      <span class="tracking-tight">{{ tab.label }}</span>
     </button>
   </div>
 
-  <!-- Content -->
-  <div class="flex-1 min-h-0 overflow-auto">
-    <app-visits-table *ngIf="activeTab === 'visits'"></app-visits-table>
-    <app-rx-table *ngIf="activeTab === 'rx'"></app-rx-table>
-    <app-labs-table *ngIf="activeTab === 'labs'"></app-labs-table>
+  <!-- Tab Content Area -->
+  <div class="flex-1 overflow-auto p-6 bg-gray-50/30">
+    <app-visits-table *ngIf="activeTab === 'visits'" [patientId]="patientId"></app-visits-table>
+    <app-rx-table *ngIf="activeTab === 'rx'" [patientId]="patientId"></app-rx-table>
+    <app-labs-table *ngIf="activeTab === 'labs'" [patientId]="patientId"></app-labs-table>
   </div>
 </div>

@@ -1,8 +1,19 @@
-@if (patient) {
-  <div class="h-full flex flex-col gap-4">
-    <app-patient-header [patient]="patient"></app-patient-header>
-    <app-patient-tabs class="flex-1 min-h-0"></app-patient-tabs>
+@if (isLoading) {
+  <div class="h-full flex items-center justify-center p-10">
+    <div class="flex flex-col items-center gap-4">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+      <p class="text-gray-500 font-medium">Cargando expediente...</p>
+    </div>
+  </div>
+} @else if (patient) {
+  <div class="h-full flex flex-col gap-4 p-6 overflow-hidden">
+    <app-patient-header [patient]="patient" [lastRecord]="lastRecord"></app-patient-header>
+    <app-patient-tabs class="flex-1 min-h-0" [patientId]="patientId"></app-patient-tabs>
   </div>
 } @else {
-  <p class="text-gray-500">Paciente no encontrado</p>
+  <div class="h-full flex flex-col items-center justify-center p-10 text-center">
+    <i class="fa-solid fa-circle-exclamation text-4xl text-red-300 mb-4"></i>
+    <h3 class="text-lg font-bold text-gray-800">Paciente no encontrado</h3>
+    <p class="text-gray-500">No pudimos encontrar el expediente de este paciente o hubo un error al cargar los datos.</p>
+  </div>
 }

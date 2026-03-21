@@ -1,119 +1,195 @@
-<div class="services-container">
-  <div class="services-title">Servicios</div>
-
-  <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
-    <div class="flex flex-col sm:flex-row gap-2 flex-1">
-      <div class="flex w-full sm:w-3/5">
-        <input
-          type="text"
-          placeholder="Nombre"
-          [(ngModel)]="searchTerm"
-          (input)="searchService()"
-          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
-          (click)="searchService()"
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden bg-gray-50/30">
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
+    <div>
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight text-center sm:text-left">Servicios</h1>
+      <p class="text-gray-500 font-medium text-center sm:text-left">Gestiona el catálogo de servicios médicos y estéticos</p>
+    </div>
+    
+    <div class="flex flex-col sm:flex-row items-center gap-3">
+      <!-- Status Filter -->
+      <div class="flex items-center gap-1 bg-gray-100/50 p-1 rounded-xl border border-gray-100">
+        <button 
+          (click)="setStatusFilter('all')"
+          class="px-3 py-1.5 rounded-lg text-[10px] font-black transition-all uppercase tracking-widest"
+          [ngClass]="statusFilter === 'all' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-400 hover:text-gray-600'"
         >
-          Buscar
+          Todos
+        </button>
+        <button 
+          (click)="setStatusFilter('active')"
+          class="px-3 py-1.5 rounded-lg text-[10px] font-black transition-all uppercase tracking-widest"
+          [ngClass]="statusFilter === 'active' ? 'bg-white text-green-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'"
+        >
+          Activos
+        </button>
+        <button 
+          (click)="setStatusFilter('inactive')"
+          class="px-3 py-1.5 rounded-lg text-[10px] font-black transition-all uppercase tracking-widest"
+          [ngClass]="statusFilter === 'inactive' ? 'bg-white text-red-600 shadow-sm' : 'text-gray-400 hover:text-gray-600'"
+        >
+          Inactivos
         </button>
       </div>
 
-      <select
-        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+      <!-- Search Input -->
+      <div class="relative group w-full sm:w-64">
+        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors"></i>
+        <input 
+          #searchInput
+          type="text" 
+          placeholder="Buscar servicio..." 
+          (input)="updateSearch(searchInput.value)"
+          class="pl-11 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl w-full focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all shadow-sm"
+        >
+      </div>
+      
+      <button 
+        (click)="openNewService()"
+        class="w-full sm:w-auto flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-md active:scale-95 whitespace-nowrap"
       >
-        <option selected>Todos</option>
-        <option>Recientes</option>
-      </select>
+        <i class="fa-solid fa-plus font-black"></i>
+        <span>NUEVO SERVICIO</span>
+      </button>
     </div>
-
-    <button
-      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
-      (click)="openNewService()"
-    >
-      Agregar servicio
-    </button>
   </div>
 
-  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
-    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
-      <thead>
-        <tr class="text-left text-gray-500">
-          <th class="px-4 py-2">Servicio</th>
-          <th class="px-4 py-2">Categoría</th>
-          <th class="px-4 py-2">Precio</th>
-          <th class="px-4 py-2">Duración</th>
-          <th class="px-4 py-2 text-right"></th>
-        </tr>
-      </thead>
+  <!-- Content Area -->
+  <div class="flex-1 min-h-0 relative">
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80 backdrop-blur-sm rounded-3xl z-20">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <p class="text-gray-500 font-bold animate-pulse uppercase tracking-widest text-[11px]">Sincronizando servicios...</p>
+      </div>
+    }
 
-      <tbody>
-        @for (service of filteredServices; track service.id) {
-          <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-            <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-              {{ service.name }}
-            </td>
-
-            <td class="px-4 py-3">
-              {{ service.category }}
-            </td>
-
-            <td class="px-4 py-3">${{ service.price }}</td>
-
-            <td class="px-4 py-3">
-              {{ service.duration }}
-            </td>
-
-            <td class="px-4 py-3 text-right rounded-r-lg">
-              <div class="flex justify-end gap-2">
-                <button
-                  class="rounded-md bg-gray-100 p-2 hover:bg-gray-200"
-                  (click)="OpenEditService(service)"
-                >
-                  <i class="fa-solid fa-pencil"></i>
-                </button>
-
-                <button
-                  class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200"
-                  (click)="OpenDeleteService(service)"
-                >
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
+    @if (filteredServices.length > 0) {
+      <!-- Table Container -->
+      <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+        <div class="overflow-auto flex-1">
+          <table class="min-w-full divide-y divide-gray-100 text-sm">
+            <thead class="bg-[#1e293b]/90 sticky top-0 z-10 backdrop-blur-md">
+              <tr>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Nombre del Servicio</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Duración</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Precio Venta</th>
+                <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Estado</th>
+                <th scope="col" class="px-6 py-4 text-right text-[11px] font-black text-white/90 uppercase tracking-widest pr-10">Acciones</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              @for (service of filteredServices; track service.concept_id) {
+                <tr class="hover:bg-blue-50/30 transition-colors group" [ngClass]="{'opacity-60 bg-gray-50/30': service.active === false}">
+                  <td class="px-6 py-5">
+                    <div class="flex items-center gap-4">
+                      <div class="h-10 w-10 shrink-0 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-stethoscope"></i>
+                      </div>
+                      <div class="flex flex-col min-w-0">
+                        <div class="flex items-center gap-2">
+                          <span class="text-sm font-black text-gray-800 tracking-tight truncate">{{ service.name }}</span>
+                          @if (service.service_type) {
+                            <span [ngClass]="getCategoryClass(service.service_type)" class="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-widest border shrink-0">
+                              {{ service.service_type }}
+                            </span>
+                          }
+                        </div>
+                        @if (service.cost) {
+                          <span class="text-[10px] text-gray-400 font-bold truncate">Costo base: {{ service.cost | currency }}</span>
+                        }
+                      </div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gray-50 text-gray-600 text-[10px] font-black uppercase tracking-tight border border-gray-100">
+                      <i class="fa-regular fa-clock text-blue-500"></i>
+                      {{ formatDuration(service.duration) }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    <span class="text-sm font-black text-blue-600">
+                      {{ service.price | currency }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-5 whitespace-nowrap">
+                    @if (service.active !== false) {
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-black uppercase tracking-tight border border-green-200">
+                        <span class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                        Activo
+                      </span>
+                    } @else {
+                      <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 text-gray-500 text-[10px] font-black uppercase tracking-tight border border-gray-200">
+                        <span class="h-1.5 w-1.5 rounded-full bg-gray-400"></span>
+                        Inactivo
+                      </span>
+                    }
+                  </td>
+                  <td class="px-6 py-5 text-right whitespace-nowrap pr-10">
+                    <div class="flex items-center justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button 
+                        (click)="openEditService(service)"
+                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-100 shadow-sm"
+                        title="Editar"
+                      >
+                        <i class="fa-solid fa-pen-to-square"></i>
+                      </button>
+                      @if (service.active !== false) {
+                        <button 
+                          (click)="openDeleteService(service)"
+                          class="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors border border-red-100 shadow-sm"
+                          title="Desactivar"
+                        >
+                          <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    } @else if (!isLoading) {
+      <div class="h-full flex flex-col items-center justify-center bg-white rounded-3xl border border-gray-100 shadow-sm p-10 text-center">
+        <div class="h-24 w-24 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+          <i class="fa-solid fa-briefcase text-4xl text-gray-200"></i>
+        </div>
+        <h3 class="text-xl font-black text-gray-800 mb-2">No hay servicios que mostrar</h3>
+        <p class="text-gray-500 max-w-xs mx-auto text-sm font-medium">Ajusta los filtros o agrega un nuevo servicio al catálogo.</p>
+      </div>
+    }
   </div>
 </div>
 
-@if (showAddService) {
-  <div class="fixed inset-0 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
-      <app-add-modals-services (close)="closeModal()"></app-add-modals-services>
-    </div>
-  </div>
-}
+<!-- Modals -->
+<app-add-modals-services
+  *ngIf="showAddService"
+  [isSaving]="isSaving"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (close)="closeModal()"
+  (save)="handleSave($event)"
+></app-add-modals-services>
 
-@if (showEditService) {
-  <div class="fixed inset-0 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
-      <app-edit-modals-services
-        [service]="selectedService"
-        (close)="closeModal()"
-      ></app-edit-modals-services>
-    </div>
-  </div>
-}
+<app-edit-modals-services
+  *ngIf="showEditService && selectedService"
+  [service]="selectedService"
+  [isSaving]="isSaving"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (close)="closeModal()"
+  (save)="handleUpdate($event)"
+></app-edit-modals-services>
 
-@if (showDeleteService) {
-  <div class="fixed inset-0 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow-lg p-4 w-[400px]">
-      <app-delete-modals-services
-        [serviceId]="selectedService?.id"
-        (close)="closeModal()"
-      ></app-delete-modals-services>
-    </div>
-  </div>
-}
+<app-delete-modals-services
+  *ngIf="showDeleteService && selectedService"
+  [service]="selectedService"
+  [serviceId]="selectedService.concept_id"
+  [isSaving]="isSaving"
+  [errorMessage]="errorMessage"
+  [successMessage]="successMessage"
+  (close)="closeModal()"
+  (confirmDelete)="handleDelete($event)"
+></app-delete-modals-services>

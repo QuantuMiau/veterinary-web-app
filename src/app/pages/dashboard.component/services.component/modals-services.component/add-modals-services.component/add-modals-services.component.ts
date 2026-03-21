@@ -1,47 +1,48 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ServiceService} from '../../../../../services/service.service';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Service } from '../../../../../models/service.model';
+import { modalContentAnimation, modalOverlayAnimation } from '../../../../../shared/animations';
 
 @Component({
   selector: 'app-add-modals-services',
-  imports: [
-    ReactiveFormsModule
-  ],
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './add-modals-services.component.html',
   styleUrl: './add-modals-services.component.css',
+  animations: [modalOverlayAnimation, modalContentAnimation]
 })
 export class AddModalsServicesComponent {
   private fb = inject(FormBuilder);
 
-  constructor(
-    private serviceService: ServiceService
-  ) {}
-
-
+  @Input() isSaving = false;
+  @Input() errorMessage = '';
+  @Input() successMessage = '';
+  
   @Output() close = new EventEmitter<void>();
+  @Output() save = new EventEmitter<Service>();
 
   serviceForm = this.fb.group({
-    name: ['', Validators.required],
-    category: ['', Validators.required],
-    price: ['', [Validators.required, Validators.min(1)]],
-    duration: ['', Validators.required],
+    name: ['', [Validators.required, Validators.minLength(3)]],
+    cost: ['', [Validators.required, Validators.min(0)]],
+    price: ['', [Validators.required, Validators.min(0)]],
+    duration: ['00:30:00', [Validators.required, Validators.pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/)]],
+    service_type: ['consulta', [Validators.required]],
   });
 
   submit() {
     if (this.serviceForm.invalid) return;
 
-    this.serviceService.addService({
-      id: Date.now(),
-      name: this.serviceForm.value.name!,
-      category: this.serviceForm.value.category!,
-      duration: this.serviceForm.value.duration!,
-      price: Number(this.serviceForm.value.price)
-    });
+    const formValue = this.serviceForm.value;
+    const serviceData: Service = {
+      name: formValue.name!,
+      cost: Number(formValue.cost),
+      price: Number(formValue.price),
+      duration: formValue.duration!,
+      service_type: formValue.service_type!,
+      active: true
+    };
 
-    console.log(this.serviceService.getServices());
-
-    this.serviceForm.reset();
-    this.close.emit();
+    this.save.emit(serviceData);
   }
-
 }
