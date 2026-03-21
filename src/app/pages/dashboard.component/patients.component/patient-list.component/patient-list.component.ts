@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  ChangeDetectorRef,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AddModalComponent } from './modals/add-modal.component/add-modal.component';
 import { PatientEditModal } from './modals/patient-edit-modal/patient-edit-modal';
@@ -20,7 +26,7 @@ import { FormsModule } from '@angular/forms';
     PatientDeleteModal,
     NgClass,
     FormsModule,
-    CommonModule
+    CommonModule,
   ],
   templateUrl: './patient-list.component.html',
   styleUrl: './patient-list.component.css',
@@ -51,7 +57,7 @@ export class PatientListComponent implements OnInit {
     if (!this.searchTerm.trim()) return this.patients;
 
     const t = this.searchTerm.toLowerCase();
-    return this.patients.filter(p => {
+    return this.patients.filter((p) => {
       const pName = (p.name || '').toLowerCase();
       const pBreed = (p.breed || '').toLowerCase();
       const pOwner = this.getOwnerName(p).toLowerCase();
@@ -65,9 +71,11 @@ export class PatientListComponent implements OnInit {
     const sName = (patient.species || '').toLowerCase();
 
     if (sId === 1 || sName.includes('perro')) return 'bg-blue-100 text-blue-700 border-blue-200';
-    if (sId === 2 || sName.includes('gato')) return 'bg-orange-100 text-orange-700 border-orange-200';
+    if (sId === 2 || sName.includes('gato'))
+      return 'bg-orange-100 text-orange-700 border-orange-200';
     if (sId === 3 || sName.includes('conejo')) return 'bg-teal-100 text-teal-700 border-teal-200';
-    if (sId === 4 || sName.includes('ave')) return 'bg-purple-100 text-purple-700 border-purple-200';
+    if (sId === 4 || sName.includes('ave'))
+      return 'bg-purple-100 text-purple-700 border-purple-200';
 
     return 'bg-gray-100 text-gray-700 border-gray-200';
   }
@@ -81,13 +89,13 @@ export class PatientListComponent implements OnInit {
     this.cdr.detectChanges();
     this.clientService.getAll().subscribe({
       next: (res: any) => {
-        this.clients = Array.isArray(res) ? res : (res.data || []);
+        this.clients = Array.isArray(res) ? res : res.data || [];
         this.loadPatients();
       },
       error: (err) => {
         console.error('Error loading clients', err);
         this.loadPatients();
-      }
+      },
     });
   }
 
@@ -96,7 +104,7 @@ export class PatientListComponent implements OnInit {
     this.cdr.detectChanges();
     this.patientService.getPatients().subscribe({
       next: (res: any) => {
-        this.patients = Array.isArray(res) ? res : (res.data || []);
+        this.patients = Array.isArray(res) ? res : res.data || [];
         this.isLoading = false;
         this.cdr.detectChanges();
       },
@@ -104,7 +112,7 @@ export class PatientListComponent implements OnInit {
         console.error('Error loading patients', err);
         this.isLoading = false;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
@@ -114,7 +122,7 @@ export class PatientListComponent implements OnInit {
 
     const clientId = patient.client_id;
     if (clientId) {
-      const client = this.clients.find(c => c.client_id === clientId);
+      const client = this.clients.find((c) => c.client_id === clientId);
       if (client) {
         return `${client.first_name || ''} ${client.last_name || ''}`.trim();
       }
@@ -191,7 +199,7 @@ export class PatientListComponent implements OnInit {
         this.isSaving = false;
         this.errorMessage = this.parseError(err);
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
@@ -222,13 +230,13 @@ export class PatientListComponent implements OnInit {
         this.isSaving = false;
         this.errorMessage = this.parseError(err);
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
   goToDetails(patient: Patient) {
     const id = patient.patient_id;
-    this.router.navigate(['/dashboard/pacientes/paciente', id]);
+    this.router.navigate(['/admin/dashboard/pacientes/paciente', id]);
   }
 
   deletePatient(id: number) {
@@ -252,7 +260,7 @@ export class PatientListComponent implements OnInit {
         this.isSaving = false;
         this.errorMessage = this.parseError(err);
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 }

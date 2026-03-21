@@ -1,5 +1,5 @@
-import { Component, inject, Input} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, inject, Input } from '@angular/core';
+import { Router } from '@angular/router';
 import { PatientDetailed } from '../../../../../models/patient.model';
 import { ClinicalRecord } from '../../../../../models/clinical-record.model';
 import { CommonModule, NgClass } from '@angular/common';
@@ -12,14 +12,12 @@ import { CommonModule, NgClass } from '@angular/common';
   styleUrl: './patient-header.component.css',
 })
 export class PatientHeaderComponent {
-
   @Input() patient!: PatientDetailed;
   @Input() lastRecord?: ClinicalRecord | null;
 
   private router = inject(Router);
 
   goBack() {
-    this.router.navigate(['/dashboard/pacientes/lista']);
+    this.router.navigate(['/admin/dashboard/pacientes/lista']);
   }
-
 }

@@ -10,7 +10,7 @@ import { OrderDetail } from '../../../../models/order.model';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './order-details.component.html',
-  styleUrl: './order-details.component.css'
+  styleUrl: './order-details.component.css',
 })
 export class OrderDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class OrderDetailsComponent implements OnInit {
   statusOptions = ['En Progreso', 'Listo', 'Entregado', 'Cancelado'];
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       this.orderId = Number(params['id']);
       if (this.orderId) {
         this.loadDetails();
@@ -57,7 +57,7 @@ export class OrderDetailsComponent implements OnInit {
           this.total = firstItem.order_total;
           this.customerName = firstItem.full_name;
         }
-        
+
         // Artificial delay for premium feel
         setTimeout(() => {
           this.isLoading = false;
@@ -69,13 +69,13 @@ export class OrderDetailsComponent implements OnInit {
         this.errorMessage = 'No se pudo cargar el detalle de la orden.';
         this.isLoading = false;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
   updateStatus(newStatus: string) {
     if (this.isSaving || newStatus === this.orderStatus) return;
-    
+
     this.isSaving = true;
     this.cdr.detectChanges();
 
@@ -91,20 +91,22 @@ export class OrderDetailsComponent implements OnInit {
         this.errorMessage = 'Error al actualizar el estado.';
         this.isSaving = false;
         this.cdr.detectChanges();
-      }
+      },
     });
   }
 
   getStatusColor(status: string): string {
     const s = status?.toLowerCase() || '';
-    if (s.includes('completa') || s.includes('entrega')) return 'bg-green-100 text-green-700 border-green-200';
+    if (s.includes('completa') || s.includes('entrega'))
+      return 'bg-green-100 text-green-700 border-green-200';
     if (s.includes('proceso')) return 'bg-blue-100 text-blue-700 border-blue-200';
-    if (s.includes('pendiente') || s.includes('listo')) return 'bg-amber-100 text-amber-700 border-amber-200';
+    if (s.includes('pendiente') || s.includes('listo'))
+      return 'bg-amber-100 text-amber-700 border-amber-200';
     if (s.includes('cancela')) return 'bg-red-100 text-red-700 border-red-200';
     return 'bg-gray-100 text-gray-700 border-gray-200';
   }
 
   goBack() {
-    this.router.navigate(['/dashboard/ordenes']);
+    this.router.navigate(['/admin/dashboard/ordenes']);
   }
 }
