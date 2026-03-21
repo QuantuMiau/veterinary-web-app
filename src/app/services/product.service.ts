@@ -8,7 +8,7 @@ import { Product } from '../models/product.model';
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/product';
+  private apiUrl = 'https://api-veterinary.onrender.com/product';
 
   getAllAdmin(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/admin`);

@@ -8,7 +8,7 @@ import { Order, OrderDetail } from '../models/order.model';
 })
 export class OrderService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/order';
+  private apiUrl = 'https://api-veterinary.onrender.com/order';
 
   getAll(): Observable<Order[]> {
     return this.http.get<Order[]>(`${this.apiUrl}/all`).pipe(

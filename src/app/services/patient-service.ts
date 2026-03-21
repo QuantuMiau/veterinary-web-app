@@ -8,7 +8,7 @@ import { Patient, PatientDetailed } from '../models/patient.model';
 })
 export class PatientService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/patient';
+  private apiUrl = 'https://api-veterinary.onrender.com/patient';
 
   getPatients(): Observable<PatientDetailed[]> {
     return this.http.get<any[]>(this.apiUrl).pipe(

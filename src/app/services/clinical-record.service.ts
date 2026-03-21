@@ -8,7 +8,7 @@ import { ClinicalRecord } from '../models/clinical-record.model';
 })
 export class ClinicalRecordService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/clinical-record';
+  private apiUrl = 'https://api-veterinary.onrender.com/clinical-record';
 
   getByPatient(patientId: number): Observable<ClinicalRecord[]> {
     return this.http.get<ClinicalRecord[]>(`${this.apiUrl}/patient/${patientId}`);

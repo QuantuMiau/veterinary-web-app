@@ -9,7 +9,7 @@ import { Appointment } from '../models/appointment.model';
 })
 export class AppointmentService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/appointment';
+  private apiUrl = 'https://api-veterinary.onrender.com/appointment';
 
   getAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.apiUrl);

@@ -17,7 +17,7 @@ export interface User {
 @Injectable({ providedIn: 'root' })
 export class UserService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/employee';
+  private apiUrl = 'https://api-veterinary.onrender.com/employee';
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);

@@ -6,7 +6,7 @@ import { Client } from '../models/client.model';
 @Injectable({ providedIn: 'root' })
 export class ClientService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/client';
+  private apiUrl = 'https://api-veterinary.onrender.com/client';
 
   getAll(): Observable<Client[]> {
     return this.http.get<Client[]>(this.apiUrl);

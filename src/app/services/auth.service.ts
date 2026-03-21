@@ -11,7 +11,7 @@ export interface AuthResponse {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/employee';
+  private apiUrl = 'https://api-veterinary.onrender.com/employee';
 
   private readonly tokenKey = 'auth_token';
 

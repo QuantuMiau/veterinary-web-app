@@ -8,7 +8,7 @@ import { Service } from '../models/service.model';
 })
 export class ServiceService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/service';
+  private apiUrl = 'https://api-veterinary.onrender.com/service';
 
   getAll(): Observable<Service[]> {
     return this.http.get<Service[]>(this.apiUrl);
