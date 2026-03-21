@@ -19,18 +19,13 @@ import {ServicesComponent} from './pages/dashboard.component/services.component/
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
 import {NotFoundComponent} from './pages/not-found.component/not-found.component';
 import { ClientsComponent } from './pages/clients.component/clients.component';
-
 import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
-import { LandingLayoutComponent } from './layouts/landing-layout.component/landing-layout.component';
-import { LandingComponent } from './pages/landing/landing.component';
 
 export const routes: Routes = [
   {
     path: '',
-    component: LandingLayoutComponent,
-    children: [
-      { path: '', component: LandingComponent }
-    ]
+    redirectTo: 'admin',
+    pathMatch: 'full'
   },
   {
     path: 'admin',
