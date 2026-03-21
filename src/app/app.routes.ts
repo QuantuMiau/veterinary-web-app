@@ -21,42 +21,55 @@ import {NotFoundComponent} from './pages/not-found.component/not-found.component
 import { ClientsComponent } from './pages/clients.component/clients.component';
 
 import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
+import { LandingLayoutComponent } from './layouts/landing-layout.component/landing-layout.component';
+import { LandingComponent } from './pages/landing/landing.component';
+
 export const routes: Routes = [
   {
     path: '',
-    component: AuthLayoutComponent,
+    component: LandingLayoutComponent,
     children: [
-      {path: '', redirectTo: 'login', pathMatch: 'full'},
-      { path: 'login', component: LoginComponent },
-
+      { path: '', component: LandingComponent }
     ]
   },
   {
-    path: 'dashboard',
-    component: MainLayoutComponent,
-    children: [{ path: '', component: DashboardComponent,
-      children: [
-        {path: 'home', component: HomeComponent},
-        { path: 'pacientes', component: PatientsComponent,
+    path: 'admin',
+    children: [
+      {
+        path: '',
+        component: AuthLayoutComponent,
+        children: [
+          {path: '', redirectTo: 'login', pathMatch: 'full'},
+          { path: 'login', component: LoginComponent },
+        ]
+      },
+      {
+        path: 'dashboard',
+        component: MainLayoutComponent,
+        children: [{ path: '', component: DashboardComponent,
           children: [
-            {path: 'lista', component: PatientListComponent},
-            {path: 'paciente/:id', component: PatientInfoComponent}
+            {path: 'home', component: HomeComponent},
+            { path: 'pacientes', component: PatientsComponent,
+              children: [
+                {path: 'lista', component: PatientListComponent},
+                {path: 'paciente/:id', component: PatientInfoComponent}
+              ]
+            },
+            {path: 'calendario', component: CalendarComponent},
+            {path: 'ordenes', component: OrdersComponent},
+            {path: 'ordenes/:id', component: OrderDetailsComponent},
+            {path: 'inventario', component: InventoryComponent},
+            {path: 'servicios', component: ServicesComponent},
+            {path: 'iot', component: IotComponent},
+            {path: 'clients', component: ClientsComponent},
+            {path: 'empleados', component: UsersComponent},
           ]
-        },
-        {path: 'calendario', component: CalendarComponent},
-        {path: 'ordenes', component: OrdersComponent},
-        {path: 'ordenes/:id', component: OrderDetailsComponent},
-        {path: 'inventario', component: InventoryComponent},
-        {path: 'servicios', component: ServicesComponent},
-        {path: 'iot', component: IotComponent},
-        {path: 'clients', component: ClientsComponent},
-        {path: 'empleados', component: UsersComponent},
-      ]
-    }
+        }]
+      }
     ]
   },
   {
-  path: '**', component: AuthLayoutComponent, children: [
+    path: '**', component: AuthLayoutComponent, children: [
       {path: '', component: NotFoundComponent},
     ]
   }

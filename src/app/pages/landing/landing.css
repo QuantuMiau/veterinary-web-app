@@ -1,0 +1,693 @@
+
+
+/* @font-face {
+    font-family: Lato;
+    src: url(Landing-resources/fonts/Lato-Light.ttf);
+    font-weight: lighter;
+} */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #344955;
+}
+
+body p{
+    font-size: 1;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+h2 {
+    background-color: white;
+    font-size: 1.8rem;
+    text-align: center;
+    padding: 40px 0;
+    font-family: Montserrat;
+}
+
+.logo {
+    height: 50px; 
+    width: auto;  
+}
+
+.navbar-custom {
+    background-color: #22323b;
+}
+
+#carouselExampleCaptions{
+    margin-top: 80px;
+    max-height: 800px;
+}
+
+.carousel-img {
+    max-height: 45vw; 
+    width: 100%; 
+    object-fit: cover;
+}
+
+
+/* .vet-info{
+    display: grid;
+    margin-top: 70px;
+    height: 92vh;
+    background-color: white;
+    border: solid yellow 1px;
+} */
+
+
+#vet-info{
+    background-color: white;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.vet-info p{
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: normal;
+}
+
+.info-top{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    grid-template-rows: 1fr;
+    grid-column-gap: 50px;
+    grid-row-gap: 30px;
+    justify-content: space-between;
+    margin: 0 150px;
+}
+
+#abrazando{
+    border-radius: 10px;
+    max-width: 450px;
+    height: auto;
+}
+.text-info{
+    max-width: 35vw;
+    height: auto;
+    justify-self: end;
+}
+.text-info p {
+    font-family: Lato;
+    font-size: 1.4rem;
+    text-align: justify;
+    margin-bottom: 1.4rem;
+}
+
+#paw {
+    width: 2rem;
+    height: auto    ;
+    margin-left: 10px;
+}
+
+.tittle-info h2{
+    padding: 0;
+}
+
+.tittle-info{
+    font-family: Lato;
+    font-size: 1.3rem;
+    border-bottom: solid black 0.18rem;
+    display: flex;
+    width: fit-content;
+    align-items: end;
+}
+.brands{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 150px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(40vh, 1fr));
+    grid-template-rows: 1fr;
+    grid-column-gap: 30px;
+    grid-row-gap: 30px;
+}
+.brands img{
+    height: 100%;
+}
+.brand-border{
+    display: flex;
+    border: solid black 1px;
+    width: 275px;
+    padding: 20px;
+    height: 215;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    justify-self: center;
+    margin: 40px 0;
+}
+
+#vet-services{
+    background-color: white;
+    margin-bottom: 70px;
+}
+
+/* .cardServices{
+    height: 250px;
+} */
+
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(40vh, 1fr));
+    gap: 20px;
+    justify-items: center;
+    padding: 0;
+    flex-grow: 1;
+    margin: 0 150px;
+    font-family: Lato;
+}
+
+.service-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 8px 8px 16px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 100vh;
+    text-align: justify;
+    min-height: 10rem;
+}
+.service-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgb(90, 90, 197);
+}
+.service-header img {
+    width: 30px;
+    height: 30px;
+}
+.service-header h3 {
+    font-size: 1.3em;
+    margin: 0;
+}
+.service-box p {
+    font-size: 1.2em;
+    color: #555;
+    margin-top: 10px;
+    font-family: Lato;
+}
+.note {
+    text-align: center;
+    font-size: 0.9em;
+    color: #888;
+    padding: 40px 0 10px 0;
+}
+
+#vet-contact{
+    background-color: white;
+}
+
+#vet-contact p{
+    font-family: Lato;
+    font-size: 1.3rem;
+}
+
+.contact-wrapper{
+    display: grid;
+    grid-template-columns:
+    repeat(auto-fit, minmax(500px, 1fr));
+    gap: 20px;
+    justify-content: space-between;
+    margin: 0 150px;
+    padding-bottom: 40px;
+}
+
+/* idk */
+/* .grid-container{
+    display: grid;
+    border: red solid;
+    margin: 10px;
+    background-color: white;
+    grid-template-columns:repeat(auto-fit, 500px);
+    gap: 15px;
+    justify-content: center;
+} */
+
+.location-container p{
+    text-align: justify;
+    margin: 10px 0;
+    font-size: large;
+}
+
+.contact-tel{
+    display: flex;
+    align-items: center;
+}
+
+.contact-tel p{
+    padding-left: 5px;
+}
+
+.map-loc {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #ccc;
+}
+
+
+.form-group {
+    margin-bottom: 15px;
+    padding: auto;
+    font-family: Lato;
+}
+
+.location-container, .form {
+    max-width: 600px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form {
+    padding: 20px;
+    width: 700px;
+    border-radius: 14px;
+    border: solid black 1px;
+    height: 100%;
+    margin-block-end: auto;
+    justify-self: end;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+textarea{
+    resize: none;
+}
+
+.send-button button {
+    margin: 0 auto;
+    padding: 10px 20px;
+    width: 20%;
+}
+
+.submit-btn {
+    background-color: #344955;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.send-button{
+    display: flex;
+    height: 10%;
+}
+
+.btn-whatsapp {
+    display: inline-block;
+    background-color: #25D366;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    height: 50%;
+    margin-left: 1rem;
+}
+
+.btn-whatsapp:hover {
+    background-color: #1ebe57;
+}
+
+.footer{
+    background-color: #242222;
+    color: #dedede;
+    padding: 15px 15px;
+    font-family: Lato;
+}
+.footer span{
+    font-weight: lighter;
+}
+
+.foot-top{
+    display: flex;
+    justify-content: space-between;
+}
+
+.foot-info{
+    display: flex;
+    display: inline-table;
+}
+
+.foot-item img{
+    width: 1.5rem;
+    height: auto;
+    margin-right: 10px;
+}
+
+.foot-item{
+    display: flex;
+    padding: 5px 0;
+    align-items: center;
+}
+
+.foot-bottom{
+    display: flex;
+    justify-content: center;
+}
+
+.foot-schedules{
+    line-height: 1.4rem;
+}
+
+
+
+/* banner */
+/* @media (max-width: 768px){
+    .banner{
+        height: 70vh;
+    }
+    .textogral{
+        font-size: 10px;
+    }
+    .vet-info{
+        margin-top: 30px;
+        height: 300px;
+    }
+} */
+
+/* info de contacto */
+/* @media (max-width: 1128px) {
+    .contact-wrapper {
+    }
+
+    .form, .location-container {
+        width: 100%;
+        justify-self: center;
+    }
+
+    h2 {
+        grid-column: span 1; 
+        font-size: 1.2rem;
+    }
+} */
+
+#cardContainer {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    height: 85%;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+#cardContent {
+    font-family: Arial, sans-serif;
+}
+
+#closeBtn {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#closeBtn:hover {
+    background-color: #0056b3;
+}
+
+#galeria{
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 80px;
+    padding-bottom: 25px;
+}
+
+#hgaleria{
+    margin: 0;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+    gap: 5px;
+    padding: 10px;
+    transition: 0.3s;
+    background-color: white;
+    border: solid 1px rgba(30, 59, 93, 0.66);
+
+    margin: 0 150px;
+}
+@media (min-width: 768px) {
+.gallery {
+    grid-template-columns: repeat(2, 1fr);
+}
+}
+@media (min-width: 1024px) {
+.gallery {
+    grid-template-columns: repeat(4, 1fr);
+}
+}
+@media (min-width: 1440px) {
+.gallery {
+    grid-template-columns: repeat(6, 1fr);
+}
+}
+.gallery:hover .gallery__image {
+filter: grayscale(1);
+}
+.gallery__link {
+overflow: hidden;
+height: 400px;
+max-height: 400px;
+}
+.gallery__link:hover .gallery__image {
+filter: grayscale(0);
+}
+.gallery__link:hover .gallery__caption {
+opacity: 1;
+}
+.gallery__thumb {
+position: relative;
+height: 100%;
+}
+.gallery__image {
+display: block;
+width: 100%;
+height: 100%;
+object-fit: cover;
+transition: 0.3s;
+}
+.gallery__image:hover {
+transform: scale(1.1);
+}
+.gallery__caption {
+position: absolute;
+bottom: 0;
+left: 0;
+padding: 25px 15px 15px;
+width: 100%;
+font-family: "Helvetica", sans-serif;
+font-size: 14px;
+color: white;
+opacity: 0;
+background: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(255, 255, 255, 0) 100%);
+transition: 0.3s;
+}
+.gallery__link img{
+    width: 400px;
+    height: 400px;
+}
+
+
+
+  
+  @media (min-width: 768px) {
+    .gallery {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Ajustado para tablets */
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .gallery {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Ajustado para desktops */
+    }
+  }
+  
+  @media (min-width: 1440px) {
+    .gallery {
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Ajustado para pantallas grandes */
+    }
+  }
+
+.carousel-custom {
+    position: absolute;
+    right: 0 !important;
+    bottom: 1.25rem !important;
+    left: 4% !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+    color: #fff !important;
+}
+
+
+
+    #vet-info{
+        background-color: white;
+        margin-top: 70px;
+        margin-bottom: 70px;
+    }
+
+    .vet-info p{
+        font-family: Lato;
+        color: #242222;
+    }
+
+    .info-top, .brands{
+        margin: 0 auto; 
+        padding: 0 15px;
+        max-width: 1200px;
+    }
+
+    .info-top{
+        display: flex;
+
+        justify-content:center;
+        margin: 0 auto;
+    }
+
+
+    #abrazando{
+        border-radius: 10px;
+        max-width: 450px;
+        height: auto;
+        margin-top: 44.95px;
+        margin-right: 50px;
+    }
+
+    .text-info{
+        
+    }
+
+    .text-info-2{
+        text-align: justify ;
+        display: flex;
+
+        margin: 0 150px;
+    }
+    .text-info p {
+        font-family: Lato;
+        font-size: 1.3rem;
+        text-align: justify;
+        margin-bottom: 1.4rem;
+        color: #242222;
+
+    }
+
+    #paw {
+        width: 2rem;
+        height: auto    ;
+        margin-left: 10px;
+        margin-bottom: 11px;
+    }
+
+    .tittle-info h2{
+        padding: 0;
+        color: #242222;
+    }
+
+    .tittle-info{
+        font-family: Lato;
+        font-size: 1.3rem;
+        border-bottom: solid black 0.18rem;
+        display: flex;
+        width: fit-content;
+        align-items: end;
+    }
+    .brands{
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit,minmax(20vh, 1fr));
+        grid-template-rows: 1fr;
+        grid-column-gap: 30px;
+        grid-row-gap: 30px;
+    }
+    .brands img{
+        height: 100%;
+    }
+    .brand-border{
+        display: flex;
+        border: solid black 1px;
+        width: 275px;
+        padding: 20px;
+        height: 215;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        justify-self: center;
+        margin: 40px 0;
+    }
+
+ 
+    @media (max-width: 768px) {
+        .info-top {
+            flex-direction: column;
+            align-items: center;
+            margin: 0 20px; 
+        }
+
+        #abrazando {
+            margin: 20px 0; 
+            max-width: 100%; 
+        }
+
+        .text-info {
+            text-align: center; 
+        }
+
+        .text-info p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+.carrosin{
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+}
+
+.carrosino{
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+}
+
+.modal-text{
+    font-family: Lato;
+    font-size: 1.1rem;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
