@@ -18,6 +18,7 @@ export class LoginFormComponent {
   private authService = inject(AuthService);
 
   loginError = '';
+  isLoading = false;
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -33,13 +34,18 @@ export class LoginFormComponent {
     const {email, password}  = this.loginForm.value;
     
     if (email && password) {
+      this.isLoading = true;
+      this.loginError = '';
+
       this.authService.login(email, password).subscribe({
         next: () => {
+          this.isLoading = false;
           this.router.navigate(['dashboard/home']);
         },
         error: (err: any) => {
+          this.isLoading = false;
           console.error('Login failed', err);
-          this.loginError = 'Credenciales inválidas o error en el servidor.';
+          this.loginError = 'Credenciales inválidas o error en el servidor. Revisa tu correo y contraseña.';
         }
       });
     }
