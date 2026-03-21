@@ -17,7 +17,7 @@
 .patients-title{
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-  background-color: hsla(209, 44%, 19%, 0.50);
+  background-color: #1e293b;
   text-align: left;
   padding: 15px;
   padding-left: 20px;
@@ -42,7 +42,7 @@
 
 
 .item-info{
-  font-family: Roman, Helvetica, sans-serif;
+  font-family: var(--font-lato);
   font-size: 14px;
   color: hsla(0, 4%, 56%, 0.736);
 }

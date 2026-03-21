@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nuestros Servicios</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="servicios.css" />
+  </head>
+  <body>
+    <section id="vet-services">
+      <h1 class="text-center my-5">Nuestros Servicios</h1>
+    
+      <div class="services-container row g-4">
+        <!-- Servicio 1: Laboratorio -->
+        <div class="service-box col-md-4" id="serviceLaboratorio">
+          <div class="service-header">
+            <img
+              src="LaboratorioClinico.gif"
+              class="img-fluid"
+              alt="Laboratorio Clínico"
+            />
+            <h3>Laboratorio clínico</h3>
+          </div>
+          <p>
+            Ofrecemos una amplia gama de servicios de análisis y pruebas médicas.
+          </p>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalLaboratorio">
+            Ver más
+          </button>
+        </div>
+    
+        <!-- Modal Laboratorio -->
+        <div class="modal fade" id="modalLaboratorio" tabindex="-1" aria-labelledby="modalLaboratorioLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalLaboratorioLabel">Laboratorio Clínico</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Aquí puedes agregar más detalles sobre el servicio de Laboratorio Clínico.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Servicio 2: Estética Canina -->
+        <div class="service-box col-md-4" id="serviceEsteticaCanina">
+          <div class="service-header">
+            <img
+              src="EsteticaCanina.gif"
+              class="img-fluid"
+              alt="Estética Canina"
+            />
+            <h3>Estética canina</h3>
+          </div>
+          <p>
+            Estética para tu amigo peludo: baños, cortes estilizados de cabello, corte de garras y más.
+          </p>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEsteticaCanina">
+            Ver más
+          </button>
+        </div>
+    
+        <!-- Modal Estética Canina -->
+        <div class="modal fade" id="modalEsteticaCanina" tabindex="-1" aria-labelledby="modalEsteticaCaninaLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalEsteticaCaninaLabel">Estética Canina</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Aquí puedes agregar más detalles sobre el servicio de Estética Canina.
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Agrega más servicios aquí siguiendo el mismo patrón -->
+    
+      </div>
+    
+      <p class="note text-center mt-4">
+        *En caso de requerir un servicio por emergencia (sin previa cita) podemos brindarte el servicio de acuerdo a la gravedad o situación del animalito afectado.
+      </p>
+    </section>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <script>
+      function showCard(service) {
+        const cardContainer = document.getElementById("cardContainer");
+        const cardContent = document.getElementById("cardContent");
+        let content = "";
+
+        switch (service) {
+          case "Laboratorio":
+            content = `
+                        <h3>Laboratorio Clínico</h3>
+                        <p>Ofrecemos una amplia variedad de análisis y pruebas médicas para asegurar el bienestar de tu mascota. Nuestro laboratorio está equipado con tecnología avanzada para realizar diagnósticos precisos y rápidos, lo que nos permite ofrecer un tratamiento adecuado en el menor tiempo posible.</p>
+                        <ul>
+                            <li>Problemas que tratamos:
+                                <ul>
+                                    <li>Análisis de sangre completos para evaluar la salud general.</li>
+                                    <li>Pruebas de función hepática y renal.</li>
+                                    <li>Exámenes de orina para detectar infecciones o problemas en el tracto urinario.</li>
+                                    <li>Evaluaciones hormonales para problemas de tiroides y otras glándulas.</li>
+                                    <li>Diagnóstico de enfermedades infecciosas a través de pruebas rápidas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Procedimientos disponibles:
+                                <ul>
+                                    <li>Análisis clínicos de sangre, orina y otros fluidos corporales.</li>
+                                    <li>Cultivos bacterianos y fúngicos.</li>
+                                    <li>Pruebas genéticas para enfermedades hereditarias.</li>
+                                    <li>Pruebas de diagnóstico rápido para parásitos y virus.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Diagnóstico temprano de enfermedades para iniciar tratamientos inmediatos.</li>
+                                    <li>Seguimiento regular para asegurarse de que tu mascota esté siempre saludable.</li>
+                                    <li>Resultados rápidos para tomar decisiones informadas y oportunas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Consulta inicial para evaluar las necesidades de análisis.</li>
+                                    <li>Pruebas que varían según el tipo de servicio, con resultados disponibles en 24-48 horas.</li>
+                                    <li>Visitas de seguimiento según el plan de salud personalizado de tu mascota.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "Estetica":
+            content = `
+                        <h3>Estética Canina</h3>
+                        <p>En nuestra sección de estética canina, ofrecemos una variedad de servicios para mantener a tu mascota no solo limpia, sino también con un pelaje saludable y bien cuidado. Nos adaptamos a las necesidades específicas de cada raza, tipo de pelaje y preferencia de los dueños para garantizar la comodidad y el estilo de tu amigo peludo.</p>
+                        <ul>
+                            <li>Servicios disponibles:
+                                <ul>
+                                    <li>Baños con productos especializados según el tipo de pelaje.</li>
+                                    <li>Cortes de pelo estilizados o según las especificaciones de cada raza.</li>
+                                    <li>Corte de uñas y limpieza de oídos.</li>
+                                    <li>Cepillado de dientes para mantener la higiene bucal.</li>
+                                    <li>Tratamientos para pelajes sensibles o con problemas de piel.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Mantiene a tu mascota con un aspecto saludable y bien cuidado.</li>
+                                    <li>Prevención de problemas dermatológicos relacionados con el pelaje.</li>
+                                    <li>Mayor comodidad para tu mascota, al mantener su pelaje libre de enredos y suciedad.</li>
+                                    <li>Mejora de la higiene general y reducción de malos olores.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Baño básico: 30-45 minutos.</li>
+                                    <li>Corte de pelo: 1-2 horas, dependiendo de la raza.</li>
+                                    <li>Recomendamos servicios de estética cada 4-6 semanas para mantener a tu mascota en su mejor forma.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "Servicio":
+            content = `
+                        <h3>Servicio 24/7</h3>
+                        <p>Nuestro servicio 24/7 está disponible para emergencias médicas de cualquier tipo. Sabemos que los accidentes y emergencias no tienen horario, por eso estamos listos para atender a tu mascota en cualquier momento del día o de la noche. Ya sea una urgencia médica, un accidente o un malestar inesperado, nuestro equipo está capacitado para brindar la atención necesaria de inmediato.</p>
+                        <ul>
+                            <li>Problemas que tratamos:
+                                <ul>
+                                    <li>Accidente o trauma (fracturas, heridas, contusiones).</li>
+                                    <li>Dificultades respiratorias o colapso.</li>
+                                    <li>Enfermedades graves o problemas digestivos repentinos.</li>
+                                    <li>Reacciones alérgicas graves.</li>
+                                    <li>Urgencias quirúrgicas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Procedimientos disponibles:
+                                <ul>
+                                    <li>Estabilización inicial y evaluación.</li>
+                                    <li>Cirugía de emergencia en casos graves.</li>
+                                    <li>Tratamiento para intoxicaciones.</li>
+                                    <li>Control y seguimiento de los signos vitales.</li>
+                                    <li>Manejo del dolor y atención de heridas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Atención inmediata para evitar complicaciones graves.</li>
+                                    <li>Personal altamente capacitado en situaciones de emergencia.</li>
+                                    <li>Instalaciones equipadas para manejar cualquier tipo de urgencia médica.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Asistencia inmediata en el momento de la emergencia.</li>
+                                    <li>Seguimiento según la gravedad de la condición y el tipo de tratamiento requerido.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "Cirugias":
+            content = `
+                        <h3>Cirugías Especializadas</h3>
+                        <p>Realizamos cirugías de todo tipo con los más altos estándares de seguridad. Nuestro equipo de cirujanos veterinarios altamente capacitados se asegura de que tu mascota reciba la mejor atención antes, durante y después de la operación. Utilizamos equipos de última tecnología para garantizar que los procedimientos sean lo menos invasivos posibles y con una rápida recuperación.</p>
+                        <ul>
+                            <li>Tipos de cirugías disponibles:
+                                <ul>
+                                    <li>Cirugía general (esterilización, castración).</li>
+                                    <li>Cirugía ortopédica (fracturas, dislocaciones).</li>
+                                    <li>Cirugía de tejidos blandos (tumores, quistes, abscesos).</li>
+                                    <li>Cirugía de urgencias (traumatismos, heridas abiertas).</li>
+                                    <li>Procedimientos de rehabilitación postquirúrgica.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Procedimientos realizados por cirujanos especializados.</li>
+                                    <li>Uso de anestesia segura y controlada.</li>
+                                    <li>Rápida recuperación y cuidados postquirúrgicos personalizados.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Consultas preoperatorias y pruebas para asegurar que tu mascota está lista para la cirugía.</li>
+                                    <li>El tiempo de recuperación varía según la complejidad del procedimiento, pero generalmente va de 7 a 14 días.</li>
+                                    <li>Visitas postquirúrgicas para monitorear la recuperación y retiro de suturas.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "Dermatologia":
+            content = `
+                        <h3>Dermatología</h3>
+                        <p>Ofrecemos servicios dermatológicos especializados para cuidar la salud de la piel y el pelaje de tus mascotas. Tratamos afecciones comunes como alergias, infecciones, parásitos, y problemas crónicos de piel.</p>
+                        <ul>
+                            <li>Problemas que tratamos:
+                                <ul>
+                                    <li>Dermatitis alérgica (alimentaria o ambiental).</li>
+                                    <li>Infecciones bacterianas o por hongos.</li>
+                                    <li>Parásitos como ácaros y pulgas que afectan la piel.</li>
+                                    <li>Caída excesiva de pelo o alopecia.</li>
+                                    <li>Identificación de bultos, verrugas o lesiones sospechosas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Procedimientos disponibles:
+                                <ul>
+                                    <li>Raspados de piel para diagnóstico.</li>
+                                    <li>Cultivos bacterianos y fúngicos.</li>
+                                    <li>Terapia láser para recuperación de heridas.</li>
+                                    <li>Tratamientos tópicos y medicados.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Reducción de molestias como picazón y enrojecimiento.</li>
+                                    <li>Prevención de infecciones graves o complicaciones.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Consulta inicial de 40 minutos para diagnóstico.</li>
+                                    <li>Tratamientos según plan personalizado, con visitas de seguimiento cada 2-4 semanas.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "Hospitalizacion":
+            content = `
+                        <h3>Hospitalización</h3>
+                        <p>Contamos con instalaciones modernas y seguras para la hospitalización de tu mascota en caso de que necesite cuidados intensivos o un período de recuperación. Ofrecemos monitoreo constante y atención personalizada las 24 horas del día.</p>
+                        <ul>
+                            <li>Servicios disponibles:
+                                <ul>
+                                    <li>Cuidados postquirúrgicos.</li>
+                                    <li>Monitoreo de animales con enfermedades graves.</li>
+                                    <li>Recuperación de condiciones crónicas o emergencias.</li>
+                                    <li>Supervisión de tratamientos médicos continuos.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Atención médica constante para asegurar la recuperación de tu mascota.</li>
+                                    <li>Ambiente cómodo y controlado para minimizar el estrés.</li>
+                                    <li>Cuidado especializado y personalizado según las necesidades de cada animal.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Hospitalización a corto o largo plazo, dependiendo de la condición de la mascota.</li>
+                                    <li>Visitas programadas de seguimiento hasta que tu mascota esté completamente recuperada.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "Emergencias":
+            content = `
+                        <h3>Emergencias Médicas</h3>
+                        <p>Atendemos cualquier tipo de emergencia médica las 24 horas del día. Ya sea que tu mascota haya sufrido un accidente o esté presentando síntomas graves, nuestro equipo especializado está preparado para ofrecerle la atención que necesita en el menor tiempo posible.</p>
+                        <ul>
+                            <li>Servicios disponibles:
+                                <ul>
+                                    <li>Atención inmediata a heridas o fracturas.</li>
+                                    <li>Tratamiento para intoxicaciones o envenenamientos.</li>
+                                    <li>Control de enfermedades respiratorias graves o colapsos.</li>
+                                    <li>Urgencias quirúrgicas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Respuesta rápida y eficaz ante cualquier situación de emergencia.</li>
+                                    <li>Personal altamente capacitado en urgencias médicas.</li>
+                                    <li>Instalaciones equipadas para manejo de situaciones críticas.</li>
+                                </ul>
+                            </li><br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Atención inmediata durante la emergencia.</li>
+                                    <li>Seguimiento posterior dependiendo del tipo de emergencia.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+          case "MedicinaPreventiva":
+            content = `
+                        <h3>Medicina Preventiva</h3>
+                        <p>La medicina preventiva es fundamental para mantener a tu mascota sana y libre de enfermedades. En nuestra clínica, nos aseguramos de brindarte todos los servicios necesarios para prevenir problemas de salud antes de que se conviertan en un riesgo. Realizamos exámenes regulares, vacunas esenciales, control de parásitos y más, para garantizar el bienestar de tu compañero peludo.</p>
+                        <ul>
+                            <li>Servicios disponibles:
+                                <ul>
+                                    <li>Vacunación contra enfermedades comunes y graves.</li>
+                                    <li>Control de parásitos internos (garrapatas, lombrices, etc.) y externos (pulgas, ácaros, etc.).</li>
+                                    <li>Revisión dental y limpieza para prevenir enfermedades bucales.</li>
+                                    <li>Desparacitación periódica.</li>
+                                    <li>Control de peso y dieta para prevenir la obesidad y otros problemas de salud.</li>
+                                </ul>
+                            </li>
+                            <br>
+                            <li>Beneficios del servicio:
+                                <ul>
+                                    <li>Prevención de enfermedades graves y costosas.</li>
+                                    <li>Mantenimiento de una vida larga y saludable para tu mascota.</li>
+                                    <li>Mejor calidad de vida a través del cuidado proactivo.</li>
+                                    <li>Reducción del riesgo de infecciones o infestaciones de parásitos.</li>
+                                    <li>Mayor bienestar y comodidad para tu mascota.</li>
+                                </ul>
+                            </li>
+                            <br>
+                            <li>Duración y frecuencia:
+                                <ul>
+                                    <li>Examen de salud completo durante las visitas anuales.</li>
+                                    <li>Vacunas según el calendario recomendado por los veterinarios.</li>
+                                    <li>Desparacitación interna y externa cada 3-6 meses.</li>
+                                    <li>Visitas periódicas para mantener el control de la salud general de tu mascota.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    `;
+            break;
+        }
+
+        cardContent.innerHTML = content;
+
+        cardContainer.style.display = "block";
+      }
+
+      document
+        .getElementById("closeBtn")
+        .addEventListener("click", function () {
+          const cardContainer = document.getElementById("cardContainer");
+          cardContainer.style.display = "none";
+        });
+    </script>
+  </body>
+</html>

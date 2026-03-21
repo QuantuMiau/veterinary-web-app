@@ -47,7 +47,7 @@
 
 
 .item-info{
-  font-family: Roman, Helvetica, sans-serif;
+  font-family: var(--font-lato);
   font-size: 14px;
   color: hsla(0, 4%, 56%, 0.736);
 }

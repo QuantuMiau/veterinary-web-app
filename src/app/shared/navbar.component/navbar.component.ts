@@ -25,6 +25,6 @@ export class NavbarComponent {
   // funcion del logout y se usa this para esta instancia / componente
   logout() {
     localStorage.clear();
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin/login']);
   }
 }

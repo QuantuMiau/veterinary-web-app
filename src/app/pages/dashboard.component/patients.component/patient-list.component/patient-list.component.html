@@ -1,12 +1,12 @@
 <div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm">
   <!-- Header -->
-  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0 font-inter">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 shrink-0">
     <div>
-      <h1 class="text-3xl font-black text-gray-900 tracking-tight text-teal-900">Pacientes</h1>
+      <h1 class="text-3xl font-black text-gray-900 tracking-tight">Pacientes</h1>
       <p class="text-gray-500 font-medium tracking-tight">Registro clínico de mascotas y pacientes</p>
     </div>
 
-    <div class="flex items-center gap-3 text-inter">
+    <div class="flex items-center gap-3">
       <!-- Search Input -->
       <div class="relative group">
         <i
@@ -29,7 +29,7 @@
     <!-- Loading State -->
     @if (isLoading) {
     <div
-      class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80 backdrop-blur-sm rounded-3xl z-20 font-inter">
+      class="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-white/80 backdrop-blur-sm rounded-3xl z-20">
       <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
       <p class="text-gray-500 font-bold animate-pulse">Sincronizando pacientes...</p>
     </div>
@@ -39,7 +39,7 @@
     <!-- Table Container -->
     <div class="h-full bg-white rounded-3xl border border-gray-100 shadow-sm flex flex-col overflow-hidden">
       <div class="overflow-auto flex-1">
-        <table class="min-w-full divide-y divide-gray-100 text-sm font-inter">
+        <table class="min-w-full divide-y divide-gray-100 text-sm">
           <thead class="bg-[#1e293b]/90 sticky top-0 z-10 backdrop-blur-md">
             <tr>
               <th scope="col"
@@ -137,7 +137,7 @@
     } @else if (!isLoading) {
     <!-- Empty State -->
     <div
-      class="h-full flex flex-col items-center justify-center bg-white rounded-3xl border border-gray-100 shadow-sm p-10 text-center font-inter">
+      class="h-full flex flex-col items-center justify-center bg-white rounded-3xl border border-gray-100 shadow-sm p-10 text-center">
       <div class="relative mb-6">
         <div class="h-32 w-32 bg-gray-50 rounded-full flex items-center justify-center overflow-hidden">
           <i class="fa-solid fa-paw text-6xl text-gray-200 animate-bounce"></i>

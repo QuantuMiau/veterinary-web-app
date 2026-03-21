@@ -1,0 +1,16 @@
+<header class="p-3 navbar-custom fixed-top ">
+  <div class="container">
+    <div class="d-flex align-items-center">
+      <a href="/" class="d-flex align-items-center text-decoration-none">
+        <img src="Landing-resources/media/Logo.png" alt="Logo" class="logo" />
+      </a>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li *ngFor="let item of navItems">
+          <a [href]="item.href" class="nav-link px-4 text-white ">{{ item.label }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
