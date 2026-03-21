@@ -22,7 +22,7 @@ export class AddClientModalComponent {
     first_name: ['', Validators.required],
     last_name: ['', Validators.required],
     mother_name: [''],
-    phone: ['', [Validators.required, Validators.maxLength(15)]],
+    phone: ['', [Validators.required, Validators.maxLength(15), Validators.pattern(/^[0-9]+$/)]],
     address: ['', Validators.required],
     city: ['', Validators.required]
   });

@@ -34,8 +34,8 @@ export class AddModalComponent implements OnInit {
 
   patientForm = this.fb.group({
     name: ['', Validators.required],
-    client_id: [null as number | null, Validators.required],
-    species_id: [null as number | null, Validators.required],
+    client_id: [null as number | null, [Validators.required, Validators.min(1)]],
+    species_id: [null as number | null, [Validators.required, Validators.min(1)]],
     color: [''],
     breed: [''],
     sex: ['', Validators.required],
