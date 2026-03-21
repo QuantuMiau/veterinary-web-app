@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { OrderService } from '../../../services/order.service';
 import { Order } from '../../../models/order.model';
 
@@ -13,6 +14,7 @@ import { Order } from '../../../models/order.model';
 })
 export class OrdersComponent implements OnInit {
   private orderService = inject(OrderService);
+  private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
 
   orders: Order[] = [];
@@ -85,6 +87,10 @@ export class OrdersComponent implements OnInit {
     }
 
     this.filteredOrders = result;
+  }
+
+  viewDetails(orderId: number) {
+    this.router.navigate(['/dashboard/ordenes', orderId]);
   }
 
   getStatusColor(status: string): string {

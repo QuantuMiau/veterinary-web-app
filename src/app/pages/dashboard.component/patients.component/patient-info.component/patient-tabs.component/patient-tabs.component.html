@@ -1,34 +1,24 @@
 <div class="flex-1 flex flex-col min-h-0 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
   <!-- Tabs Navigation -->
-  <div class="flex items-center gap-2 p-3 bg-gray-50/50 border-b border-gray-100">
+  <div class="flex items-center gap-1.5 px-4 pt-4 pb-0 bg-white border-b border-gray-100">
     <button
       *ngFor="let tab of tabs"
       (click)="activeTab = tab.id"
-      class="flex items-center gap-2.5 px-6 py-3 rounded-xl text-sm font-black transition-all relative group"
+      class="flex items-center gap-2 px-5 py-2.5 rounded-t-xl text-sm font-black transition-all relative focus:outline-none"
       [ngClass]="{
-        'bg-white text-green-600 shadow-sm border border-gray-200 ring-4 ring-green-500/5': activeTab === tab.id,
-        'text-gray-400 hover:text-gray-600 hover:bg-white/50 border border-transparent': activeTab !== tab.id
+        'bg-teal-600 text-white shadow-md': activeTab === tab.id,
+        'text-gray-400 hover:text-teal-600 hover:bg-teal-50/50': activeTab !== tab.id
       }"
     >
-      <i class="fa-solid text-base" [ngClass]="{
-        'fa-notes-medical': tab.id === 'visits',
-        'fa-xray': tab.id === 'rx',
-        'fa-flask-vial': tab.id === 'labs'
-      }"></i>
+      <i class="fa-solid text-sm" [ngClass]="tab.icon"></i>
       <span class="tracking-tight">{{ tab.label }}</span>
-      
-      <!-- Active Indicator Tip -->
-      <div *ngIf="activeTab === tab.id" class="absolute -bottom-[13px] left-1/2 -translate-x-1/2 w-8 h-1 bg-green-500 rounded-t-full shadow-[0_-2px_8px_rgba(34,197,94,0.4)]"></div>
     </button>
   </div>
 
   <!-- Tab Content Area -->
-  <div class="flex-1 overflow-auto p-8 bg-white/50 relative">
-    <!-- Content container with subtle backdrop -->
-    <div class="h-full">
-      <app-visits-table *ngIf="activeTab === 'visits'"></app-visits-table>
-      <app-rx-table *ngIf="activeTab === 'rx'"></app-rx-table>
-      <app-labs-table *ngIf="activeTab === 'labs'"></app-labs-table>
-    </div>
+  <div class="flex-1 overflow-auto p-6 bg-gray-50/30">
+    <app-visits-table *ngIf="activeTab === 'visits'" [patientId]="patientId"></app-visits-table>
+    <app-rx-table *ngIf="activeTab === 'rx'" [patientId]="patientId"></app-rx-table>
+    <app-labs-table *ngIf="activeTab === 'labs'" [patientId]="patientId"></app-labs-table>
   </div>
 </div>

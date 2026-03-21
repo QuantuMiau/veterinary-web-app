@@ -37,6 +37,7 @@ export class EditModalsServicesComponent implements OnChanges {
     price: ['', [Validators.required, Validators.min(0)]],
     duration: ['', [Validators.required, Validators.pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$/)]],
     active: [true],
+    service_type: ['', [Validators.required]],
   });
 
   ngOnChanges(changes: SimpleChanges) {
@@ -47,6 +48,7 @@ export class EditModalsServicesComponent implements OnChanges {
         price: this.service.price?.toString(),
         duration: this.formatDuration(this.service.duration),
         active: this.service.active !== false,
+        service_type: this.service.service_type || 'consulta'
       });
     }
   }
@@ -76,6 +78,7 @@ export class EditModalsServicesComponent implements OnChanges {
       price: Number(formValue.price),
       duration: formValue.duration!,
       active: formValue.active ?? true,
+      service_type: formValue.service_type!,
     };
 
     this.save.emit(updated);

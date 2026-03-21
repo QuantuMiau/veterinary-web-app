@@ -1,42 +1,260 @@
-<div class="overflow-hidden rounded-2xl border border-gray-100 shadow-sm bg-white">
-  <table class="min-w-full divide-y divide-gray-100">
-    <thead class="bg-gray-50/80">
-      <tr>
-        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Fecha</th>
-        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Motivo</th>
-        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Peso</th>
-        <th scope="col" class="px-6 py-4 text-left text-[11px] font-black text-gray-400 uppercase tracking-widest">Diagnóstico</th>
-      </tr>
-    </thead>
-    <tbody class="divide-y divide-gray-50">
-      <tr class="hover:bg-green-50/30 transition-colors group cursor-default">
-        <td class="px-6 py-5 whitespace-nowrap">
-          <div class="flex items-center gap-3">
-            <div class="h-8 w-8 rounded-lg bg-green-50 text-green-500 flex items-center justify-center">
-              <i class="fa-solid fa-calendar-day text-xs"></i>
-            </div>
-            <span class="text-sm font-bold text-gray-700">21 Nov 2024</span>
-          </div>
-        </td>
-        <td class="px-6 py-5">
-          <span class="px-3 py-1 rounded-lg bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-tighter border border-blue-100/50">
-            Control General
-          </span>
-        </td>
-        <td class="px-6 py-5 whitespace-nowrap">
-          <div class="flex items-center gap-2">
-            <span class="text-sm font-black text-gray-800">4.2</span>
-            <span class="text-[10px] font-bold text-gray-400 uppercase">kg</span>
-          </div>
-        </td>
-        <td class="px-6 py-5">
-          <div class="max-w-md">
-            <p class="text-sm text-gray-500 leading-relaxed line-clamp-2">
-              El paciente presenta parámetros vitales estables. Se recomienda continuar con la dieta actual y programar refuerzo de vacunas.
-            </p>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+<!-- Visits & Vaccines Tab -->
+<div class="space-y-4">
+  <!-- Header -->
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="text-lg font-black text-gray-900 tracking-tight">Visitas y Vacunas</h2>
+      <p class="text-xs text-gray-400 font-medium">Historial de consultas y vacunaciones del paciente</p>
+    </div>
+    <button (click)="openModal()"
+      class="flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white px-4 py-2.5 rounded-xl font-black transition-all shadow-md focus:outline-none text-[11px] uppercase tracking-widest">
+      <i class="fa-solid fa-plus text-xs"></i>
+      <span>Nueva Entrada</span>
+    </button>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading) {
+    <div class="flex items-center justify-center py-16">
+      <div class="flex flex-col items-center gap-3">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-teal-500"></div>
+        <p class="text-gray-400 text-sm font-bold">Cargando registros...</p>
+      </div>
+    </div>
+  } @else if (records.length === 0) {
+    <div class="flex flex-col items-center justify-center py-16 text-center">
+      <div class="h-20 w-20 bg-teal-50 rounded-2xl flex items-center justify-center mb-4 border border-teal-100">
+        <i class="fa-solid fa-notes-medical text-3xl text-teal-300"></i>
+      </div>
+      <h3 class="text-base font-black text-gray-700 mb-1">Sin registros aún</h3>
+      <p class="text-sm text-gray-400 font-medium max-w-xs">Agrega la primera visita o vacuna haciendo clic en "Nueva Entrada".</p>
+    </div>
+  } @else {
+    <!-- Table -->
+    <div class="overflow-hidden rounded-2xl border border-gray-100 shadow-sm bg-white">
+      <table class="min-w-full divide-y divide-gray-100 text-sm">
+        <thead class="bg-[#1e293b]/90">
+          <tr>
+            <th class="px-5 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Fecha</th>
+            <th class="px-5 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Tipo</th>
+            <th class="px-5 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Estudio / Motivo</th>
+            <th class="px-5 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Diagnóstico</th>
+            <th class="px-5 py-4 text-left text-[11px] font-black text-white/90 uppercase tracking-widest">Archivo</th>
+            <th class="px-5 py-4 text-right text-[11px] font-black text-white/90 uppercase tracking-widest pr-6">Acciones</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          @for (record of records; track record._id) {
+            <tr class="hover:bg-teal-50/30 transition-colors group">
+              <td class="px-5 py-4 whitespace-nowrap">
+                <div class="flex items-center gap-2.5">
+                  <div class="h-8 w-8 rounded-lg bg-teal-50 text-teal-500 flex items-center justify-center shrink-0 border border-teal-100">
+                    <i class="fa-solid fa-calendar-day text-xs"></i>
+                  </div>
+                  <span class="font-bold text-gray-700 text-sm">{{ formatDate(record.date) }}</span>
+                </div>
+              </td>
+              <td class="px-5 py-4">
+                <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wide border shadow-sm"
+                  [ngClass]="getCategoryBadge(record.category).bg">
+                  {{ getCategoryBadge(record.category).label }}
+                </span>
+              </td>
+              <td class="px-5 py-4">
+                @if (record.category === 'vacuna') {
+                  <span class="font-bold text-gray-800">{{ record.studyName }}</span>
+                  <div class="flex gap-2 mt-1">
+                    <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold uppercase" *ngIf="record.brand">Marca: {{ record.brand }}</span>
+                    <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-bold uppercase" *ngIf="record.batch">Lote: {{ record.batch }}</span>
+                  </div>
+                } @else {
+                  <span class="font-bold text-gray-800">{{ record.studyName }}</span>
+                  @if (record.notes) {
+                    <p class="text-[11px] text-gray-400 mt-0.5 line-clamp-1">{{ record.notes }}</p>
+                  }
+                }
+              </td>
+              <td class="px-5 py-4 max-w-[200px]">
+                @if (record.category === 'vacuna' && record.nextApplication) {
+                  <div class="flex flex-col gap-1">
+                    <span class="text-[10px] font-black text-purple-600 uppercase tracking-tight">Próxima Aplicación:</span>
+                    <span class="text-sm font-bold text-gray-700">{{ formatDate(record.nextApplication) }}</span>
+                  </div>
+                } @else {
+                  <p class="text-sm text-gray-500 line-clamp-2">{{ record.diagnosis || '—' }}</p>
+                }
+              </td>
+              <td class="px-5 py-4">
+                @if (record.fileUrl) {
+                  <a [href]="record.fileUrl" target="_blank"
+                    class="flex items-center gap-1.5 text-teal-600 hover:text-teal-700 font-bold text-xs hover:underline">
+                    <i class="fa-solid fa-file-image text-sm"></i>
+                    <span>Ver archivo</span>
+                  </a>
+                } @else {
+                  <span class="text-gray-300 text-xs font-bold">—</span>
+                }
+              </td>
+              <td class="px-5 py-4 text-right pr-6">
+                <button (click)="delete(record._id!)"
+                  class="p-2 rounded-lg bg-red-50 text-red-400 hover:bg-red-100 hover:text-red-600 transition-all border border-red-100 opacity-0 group-hover:opacity-100 focus:outline-none">
+                  <i class="fa-solid fa-trash-can text-xs"></i>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
 </div>
+
+<!-- Add Modal -->
+@if (showModal) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg border border-gray-100">
+      <!-- Modal header -->
+      <div class="flex items-center justify-between p-6 border-b border-gray-100">
+        <div>
+          <h3 class="text-lg font-black text-gray-900">Nueva Visita / Vacuna</h3>
+          <p class="text-xs text-gray-400 font-medium">Registrar un nuevo evento clínico</p>
+        </div>
+        <button (click)="closeModal()" class="p-2 rounded-xl hover:bg-gray-50 text-gray-400 hover:text-gray-600 transition-all focus:outline-none">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="p-6 space-y-4">
+        @if (errorMessage) {
+          <div class="px-4 py-3 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600 font-bold">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <!-- Category -->
+        <div>
+          <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Tipo *</label>
+          <div class="flex gap-2">
+            <button *ngFor="let opt of categoryOptions"
+              (click)="form.category = opt.v"
+              class="flex-1 py-2 rounded-xl text-sm font-black border transition-all focus:outline-none"
+              [ngClass]="form.category === opt.v ? 'bg-teal-600 text-white border-teal-600 shadow-md' : 'bg-gray-50 text-gray-500 border-gray-200 hover:border-teal-300'">
+              {{ opt.l }}
+            </button>
+          </div>
+        </div>
+
+        <!-- Study Name (Select) -->
+        <div>
+          <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Nombre / Motivo *</label>
+          <select [(ngModel)]="form.studyName"
+            class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all bg-white">
+            <option value="" disabled selected>Selecciona un servicio...</option>
+            <option *ngFor="let s of getFilteredServices()" [value]="s.name">{{ s.name }}</option>
+          </select>
+        </div>
+
+        <!-- Date -->
+        <div>
+          <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Fecha *</label>
+          <input [(ngModel)]="form.date" type="date"
+            class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+        </div>
+
+        <!-- Dynamic Fields -->
+        <ng-container *ngIf="form.category === 'visita'">
+          <!-- Results -->
+          <div>
+            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Resultados</label>
+            <textarea [(ngModel)]="form.results" rows="2" placeholder="Resultados del estudio o evaluación..."
+              class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all resize-none"></textarea>
+          </div>
+
+          <!-- Diagnosis -->
+          <div>
+            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Diagnóstico</label>
+            <textarea [(ngModel)]="form.diagnosis" rows="2" placeholder="Diagnóstico del médico veterinario..."
+              class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all resize-none"></textarea>
+          </div>
+
+          <!-- Notes -->
+          <div>
+            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Notas</label>
+            <textarea [(ngModel)]="form.notes" rows="2" placeholder="Observaciones adicionales..."
+              class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all resize-none"></textarea>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="form.category === 'vacuna'">
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Brand -->
+            <div>
+              <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Marca</label>
+              <input [(ngModel)]="form.brand" type="text" placeholder="Ej: Pfizer, Zoetis..."
+                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+            </div>
+
+            <!-- Batch -->
+            <div>
+              <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Lote</label>
+              <input [(ngModel)]="form.batch" type="text" placeholder="Ej: 12345ABC"
+                class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+            </div>
+          </div>
+
+          <!-- Next Application Date -->
+          <div>
+            <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Próxima Aplicación</label>
+            <input [(ngModel)]="form.nextApplication" type="date"
+              class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-4 focus:ring-teal-500/10 focus:border-teal-500 transition-all">
+          </div>
+        </ng-container>
+
+        <!-- File Upload (Solo para Visitas) -->
+        <div *ngIf="form.category === 'visita'">
+          <label class="block text-xs font-black text-gray-500 uppercase tracking-widest mb-2">Archivo (imagen / PDF)</label>
+          <div class="border-2 border-dashed border-gray-200 rounded-xl p-4 text-center hover:border-teal-400 transition-colors">
+            @if (isUploading) {
+              <div class="flex items-center justify-center gap-2 text-teal-500 font-bold text-sm">
+                <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-teal-500"></div>
+                <span>Subiendo...</span>
+              </div>
+            } @else if (form.fileUrl) {
+              <div class="flex items-center justify-center gap-2 text-teal-600 font-bold text-sm">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Archivo subido</span>
+                <button (click)="form.fileUrl = null" class="text-red-400 hover:text-red-600 ml-2 text-xs focus:outline-none">✕</button>
+              </div>
+            } @else {
+              <label class="cursor-pointer flex flex-col items-center gap-2 text-gray-400">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                <span class="text-xs font-bold">Clic para seleccionar archivo</span>
+                <input type="file" (change)="onFileChange($event)" accept="image/*,.pdf" class="hidden">
+              </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="flex gap-3 p-6 border-t border-gray-100">
+        <button (click)="closeModal()"
+          class="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-black text-gray-500 hover:bg-gray-50 transition-all focus:outline-none">
+          Cancelar
+        </button>
+        <button (click)="save()" [disabled]="isSaving || isUploading"
+          class="flex-1 py-2.5 rounded-xl bg-teal-600 hover:bg-teal-700 text-white text-sm font-black transition-all shadow-md disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none">
+          @if (isSaving) {
+            <div class="flex items-center justify-center gap-2">
+              <div class="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              <span>Guardando...</span>
+            </div>
+          } @else {
+            Guardar Registro
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

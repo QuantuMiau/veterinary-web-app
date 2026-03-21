@@ -6,4 +6,5 @@ export interface Service {
   price: number | string;
   duration: string;
   active?: boolean;
+  service_type?: string;
 }
