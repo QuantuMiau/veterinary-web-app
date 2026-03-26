@@ -1,152 +1,139 @@
-<div class="patients-container">
-  <div class="patients-title">Clientes</div>
-
-  <!-- search header -->
-  <!-- <div class="flex flex-col gap-3 md:flex-row md:items-center p-3">
-
-    <div class="flex flex-col sm:flex-row gap-2 flex-1">
-      <div class="flex w-full sm:w-3/5">
-        <input
-          type="text"
-          placeholder="Nombre"
-          class="w-full rounded-l-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          class="rounded-r-md border border-l-0 border-gray-300 bg-gray-100 px-4 text-sm hover:bg-gray-200"
-        >
-          Buscar
-
-        </button>
-      </div>
-
-      <select
-        class="w-full sm:w-40 rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-      >
-        <option selected>Todos</option>
-        <option>Recientes</option>
-      </select>
+<div class="min-h-screen bg-gray-100 p-6">
+  <!-- HEADER -->
+  <div class="mb-6 flex justify-between items-center">
+    <div>
+      <h1 class="text-3xl font-bold text-slate-900">Monitor IoT</h1>
+      <p class="text-gray-500">Supervisión en tiempo real de temperatura y humedad</p>
     </div>
 
-     <button
-      class="self-start md:self-auto rounded-md bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700"
-      (click)="openModal()"
-    >
-      Agregar paciente
-    </button> -->
-  <!-- </div> -->
-
-  <!-- tble -->
-  <div class="flex-1 min-h-0 overflow-auto px-3 pb-3">
-    <table class="min-w-full border-separate border-spacing-y-2 text-sm">
-      <thead>
-      <tr class="text-left text-gray-500">
-        <th class="px-4 py-2">Nombre</th>
-        <th class="px-4 py-2">Telefono</th>
-        <th class="px-4 py-2">Ciudad</th>
-        <th class="px-4 py-2">Direccion</th>
-        <th class="px-4 py-2">Correo electonico</th>
-        <th class="px-4 py-2">Última visita</th>
-        <th class="px-4 py-2 text-right"></th>
-      </tr>
-      </thead>
-
-      <tbody>
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Pedro Perez Arias
-        </td>
-        <td class="px-4 py-3">271 113 98 02</td>
-        <td class="px-4 py-3">Cordoba</td>
-        <td class="px-4 py-3">
-
-        <span>
-            <td class="px-4 py-3">Av 15 1005, Federal, 94570 Córdoba, Ver.
-        </span>
-
-        </td>
-        <td class="px-4 py-3">Pedro@gmail.com</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
-
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Fernanda Lagunes Perez
-        </td>
-        <td class="px-4 py-3">271 345 35 43</td>
-        <td class="px-4 py-3">Fortin</td>
-        <td class="px-4 py-3">
-          <span>
-            <td class="px-4 py-3">Fortuna 1005, Federal, 94570 Fortin, Ver.
-        </span>
-        </td>
-        <td class="px-4 py-3">Fernanda@gmail.com</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
-      <tr class="bg-white shadow-sm hover:shadow-md transition rounded-lg">
-        <td class="px-4 py-3 font-medium text-gray-800 rounded-l-lg">
-          Mauricio Esperon
-        </td>
-        <td class="px-4 py-3">271 456 98 76</td>
-        <td class="px-4 py-3">Monte Blanco</td>
-        <td class="px-4 py-3">
-         <span>
-            <td class="px-4 py-3">94466 Monte Blanco, Ver.
-        </span>
-        </td>
-        <td class="px-4 py-3">Mauricio@gmail.com</td>
-        <td class="px-4 py-3 text-gray-600">22-09-2024</td>
-        <td class="px-4 py-3 text-right rounded-r-lg">
-          <div class="flex justify-end gap-2">
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-eye"></i>
-            </button>
-            <button class="rounded-md bg-gray-100 p-2 hover:bg-gray-200">
-              <i class="fa-solid fa-pencil"></i>
-            </button>
-            <button class="rounded-md bg-red-100 p-2 text-red-600 hover:bg-red-200">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </div>
-        </td>
-      </tr>
-
-      </tbody>
-    </table>
+    <div class="status-bar m-0">
+      <span>WebSocket</span>
+      <span id="ws-status" [class.connected]="wsConnected" [class.disconnected]="!wsConnected">
+        {{ wsConnected ? 'CONECTADO' : 'DESCONECTADO' }}
+      </span>
+      <span id="last-frame" class="text-gray-500 text-xs">
+        {{ frameCount > 0 ? ('frame #' + frameCount + ' · ' + lastFrameTime) : 'sin frames' }}
+      </span>
+    </div>
   </div>
 
+  <!-- MÉTRICAS -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+    <!-- Card MLX -->
+    <div class="bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100">
+      <p class="text-gray-500 text-sm mb-2 font-medium tracking-wide uppercase">Paciente</p>
+      <div class="flex items-center justify-between">
+        <h2 class="text-4xl font-bold text-orange-500">
+          {{ liveTempValue !== null ? (liveTempValue | number:'1.1-1') : '--' }}<span
+            class="text-xl text-gray-400 ml-1">°C</span>
+        </h2>
+        <div class="rounded-lg bg-orange-50 px-4 py-3 text-orange-500">
+          <i class="fa-solid fa-temperature-full text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Ambient -->
+    <div class="bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100">
+      <p class="text-gray-500 text-sm mb-2 font-medium tracking-wide uppercase">Temperatura Ambiente</p>
+      <div class="flex items-center justify-between">
+        <h2 class="text-4xl font-bold text-blue-500">
+          {{ ambientTempValue !== null ? (ambientTempValue | number:'1.1-1') : '--' }}<span
+            class="text-xl text-gray-400 ml-1">°C</span>
+        </h2>
+        <div class="rounded-lg bg-blue-50 px-4 py-3 text-blue-500">
+          <i class="fa-solid fa-cloud-sun text-xl"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card Humidity -->
+    <div class="bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100">
+      <p class="text-gray-500 text-sm mb-2 font-medium tracking-wide uppercase">Humedad</p>
+      <div class="flex items-center justify-between">
+        <h2 class="text-4xl font-bold text-teal-500">
+          {{ humidityValue !== null ? (humidityValue | number:'1.1-1') : '--' }}<span
+            class="text-xl text-gray-400 ml-1">%</span>
+        </h2>
+        <div class="rounded-lg bg-teal-50 px-4 py-3 text-teal-500">
+          <i class="fa-solid fa-droplet text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRÁFICAS Y MAPA TÉRMICO -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+
+    <!-- Mapa Térmico -->
+    <div
+      class="bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100 flex flex-col items-center">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4 self-start">Mapa Térmico MLX90640</h2>
+
+      <div class="thermal-container">
+        <canvas #thermalCanvas width="320" height="240"></canvas>
+        <div class="colorbar-wrap">
+          <span class="colorbar-label" id="cbMax">42°C</span>
+          <canvas #colorbarCanvas width="20" height="200"></canvas>
+          <span class="colorbar-label" id="cbMin">20°C</span>
+        </div>
+      </div>
+
+      <div id="fps-counter" class="text-xs text-gray-500 mt-2">fps: {{ fpsDisplay }}</div>
+
+      <!-- Colorscale Select inside Thermal Card for convenience -->
+      <div class="w-full mt-4">
+        <label class="text-xs text-gray-500 uppercase tracking-widest block mb-1">Colorscale</label>
+        <select class="colorscale-select" (change)="changeColorscale($event)">
+          <option value="jet" selected>Jet (MATLAB)</option>
+          <option value="hot">Hot</option>
+          <option value="viridis">Viridis</option>
+          <option value="inferno">Inferno</option>
+          <option value="plasma">Plasma</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Gráfica AmCharts: Temperaturas -->
+    <div
+      class="xl:col-span-2 bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100 flex flex-col">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Evolución de Temperatura</h2>
+      <div id="chartdivTemp" class="w-full h-72 flex-1"></div>
+    </div>
+
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
+    <!-- Gráfica AmCharts: Humedad -->
+    <div
+      class="xl:col-span-2 bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100 flex flex-col">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Evolución de Humedad</h2>
+      <div id="chartdivHum" class="w-full h-72 flex-1"></div>
+    </div>
+
+    <!-- Controles Adicionales -->
+    <div class="bg-white shadow-sm hover:shadow-md transition rounded-xl p-5 border border-gray-100 flex flex-col">
+      <h2 class="text-lg font-semibold text-gray-700 mb-4">Controles del Sistema</h2>
+
+      <div class="flex flex-col gap-4">
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 text-center">
+          <div class="text-xs text-gray-500 uppercase tracking-widest mb-2">Monitoreo</div>
+          <div class="btn-row">
+            <button class="btn-on" (click)="setMonitoring(true)">ON</button>
+            <button class="btn-off" (click)="setMonitoring(false)">OFF</button>
+          </div>
+          <div class="text-xs text-gray-500 mt-2">Estado: <span
+              class="font-bold {{ monitorActive ? 'text-green-600' : 'text-gray-400' }}">{{ monitorActive ? 'Activo' :
+              'Apagado' }}</span></div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center text-xs text-gray-400 mt-4">
+    Última actualización de API: {{ lastApiUpdate }}
+  </div>
 
 </div>
-
-<!-- @if (showAddPatientModal) {
-  <app-patient-add-modal
-    (close)="closeModal()"
-  />
-} -->
