@@ -2,14 +2,14 @@ import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 /// recordar cambiar a la nueba de ngrok
-const API = 'https://0ed5-2806-268-9402-538-b828-b182-cfe7-fdfa.ngrok-free.app';
-const WS_URL = 'wss://0ed5-2806-268-9402-538-b828-b182-cfe7-fdfa.ngrok-free.app/thermal';
+const API = 'https://56d9-2806-268-9402-538-2982-73c6-dd9c-874f.ngrok-free.app';
+const WS_URL = 'wss://56d9-2806-268-9402-538-2982-73c6-dd9c-874f.ngrok-free.app/thermal';
 
 const W_SENS = 32;
 const H_SENS = 24;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IotService {
   private ws: WebSocket | null = null;
@@ -17,19 +17,17 @@ export class IotService {
 
   public wsConnected$ = new BehaviorSubject<boolean>(false);
   public thermalFrame$ = new Subject<number[]>();
-  public dhtData$ = new Subject<{ temperature: number | null, humidity: number | null }>();
+  public dhtData$ = new Subject<{ temperature: number | null; humidity: number | null }>();
 
-  constructor(private ngZone: NgZone) { }
-
+  constructor(private ngZone: NgZone) {}
 
   private customFetch(url: string, options: RequestInit = {}): Promise<Response> {
     const headers = {
       ...options.headers,
-      'ngrok-skip-browser-warning': '69420'
+      'ngrok-skip-browser-warning': '69420',
     };
     return fetch(url, { ...options, headers });
   }
-
 
   async fetchLiveTemp(): Promise<{ value: number | null }> {
     try {
@@ -53,7 +51,9 @@ export class IotService {
 
   async setMonitoring(state: boolean): Promise<void> {
     try {
-      await this.customFetch(`${API}${state ? '/monitoring/on' : '/monitoring/off'}`, { method: 'POST' });
+      await this.customFetch(`${API}${state ? '/monitoring/on' : '/monitoring/off'}`, {
+        method: 'POST',
+      });
     } catch (e) {
       console.error('Error setting monitoring:', e);
     }
@@ -66,7 +66,6 @@ export class IotService {
       console.error('Error triggering buzzer:', e);
     }
   }
-
 
   public connectWS(): void {
     if (this.ws) {
@@ -104,7 +103,7 @@ export class IotService {
       if (data.type === 'dht11') {
         this.dhtData$.next({
           temperature: data.temperature !== undefined ? data.temperature : null,
-          humidity: data.humidity !== undefined ? data.humidity : null
+          humidity: data.humidity !== undefined ? data.humidity : null,
         });
       }
     };

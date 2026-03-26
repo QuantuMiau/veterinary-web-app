@@ -73,13 +73,21 @@
                   <td class="px-6 py-5 text-right whitespace-nowrap pr-10">
                     <div class="flex justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
                       <button 
-                        class="p-2 rounded-lg bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors border border-blue-100 shadow-sm" 
+                        [routerLink]="['/admin/dashboard/clients', client.client_id || 0]"
+                        class="p-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors border border-blue-700 shadow-sm" 
+                        title="Ver Detalles"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+                      <button 
+                        class="p-2 rounded-lg bg-white text-blue-600 hover:bg-blue-50 transition-colors border border-blue-100 shadow-sm" 
                         (click)="openEditModal(client)" 
                         title="Editar"
                       >
                         <i class="fa-solid fa-pen-to-square"></i>
                       </button>
                     </div>
+
                   </td>
                 </tr>
               }

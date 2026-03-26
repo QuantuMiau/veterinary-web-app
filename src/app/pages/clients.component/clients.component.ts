@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import { ClientService } from '../../services/client.service';
 import { Client } from '../../models/client.model';
 import { AddClientModalComponent } from './modals/add-client-modal.component/add-client-modal.component';
@@ -8,7 +10,8 @@ import { EditClientModalComponent } from './modals/edit-client-modal.component/e
 @Component({
   selector: 'app-clients.component',
   standalone: true,
-  imports: [CommonModule, AddClientModalComponent, EditClientModalComponent],
+  imports: [CommonModule, RouterModule, AddClientModalComponent, EditClientModalComponent],
+
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
