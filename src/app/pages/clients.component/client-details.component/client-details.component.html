@@ -1,0 +1,293 @@
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm animate-in fade-in duration-500 font-inter">
+  <!-- Header -->
+  <div class="flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-4">
+      <button (click)='goBack()' class="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all shadow-sm active:scale-95 group">
+        <i class="fa-solid fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
+      </button>
+      <div>
+        <h1 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Expediente de Cliente</h1>
+        <p class="text-gray-500 font-medium font-inter italic">Veterinaria San Francisco de Asís</p>
+      </div>
+    </div>
+  </div>
+
+  @if (isLoading) {
+    <div class="flex-1 flex flex-col items-center justify-center bg-white/60 backdrop-blur-sm rounded-[2.5rem] border border-white shadow-sm overflow-hidden">
+      <div class="relative scale-150">
+        <div class="w-16 h-16 border-4 border-slate-100 border-t-blue-500 rounded-full animate-spin"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <i class="fa-solid fa-user-tie text-blue-500 animate-pulse text-xl"></i>
+        </div>
+      </div>
+      <p class="mt-8 text-slate-900 font-black tracking-widest text-xs uppercase animate-pulse">Sincronizando información...</p>
+    </div>
+  } @else if (client) {
+    <div class="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 overflow-hidden">
+      <!-- Sidebar Info -->
+      <div class="w-full lg:w-80 flex flex-col gap-6 md:shrink-0 overflow-y-auto pr-2 scrollbar-thin">
+        <div class="bg-white rounded-[2rem] p-6 border border-gray-100 shadow-sm space-y-6">
+          <div class="text-center pb-6 border-b border-slate-50">
+            <div class="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-md text-blue-500 text-3xl font-black">
+              {{ (client.first_name || '?')[0] }}{{ (client.last_name || '?')[0] }}
+            </div>
+            <h2 class="text-xl font-black text-slate-900 leading-tight">
+               {{ client.first_name }} {{ client.last_name }}
+            </h2>
+            <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">ID: #{{ client.client_id }}</span>
+          </div>
+
+          <div class="space-y-4">
+            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Información de Contacto</h3>
+            
+            <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+               <i class="fa-solid fa-phone text-blue-500 text-xs"></i>
+               <div class="flex flex-col">
+                 <span class="text-[10px] font-black text-slate-400 leading-none mb-1">Teléfono</span>
+                 <span class="text-sm font-bold text-slate-700 italic">{{ client.phone }}</span>
+               </div>
+            </div>
+
+            <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-2xl border border-slate-100">
+               <i class="fa-solid fa-location-dot text-blue-500 text-xs"></i>
+               <div class="flex flex-col">
+                 <span class="text-[10px] font-black text-slate-400 leading-none mb-1">Ciudad / Dirección</span>
+                 <span class="text-sm font-bold text-slate-700 italic">{{ client.city }}</span>
+                 <span class="text-[10px] text-slate-500 font-medium line-clamp-2 italic mt-1">{{ client.address }}</span>
+               </div>
+            </div>
+          </div>
+
+          <div class="pt-6 border-t border-slate-50">
+             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Estado de Cuenta</h3>
+             <div class="p-5 bg-slate-900 rounded-3xl shadow-lg shadow-slate-900/10 transition-all hover:scale-[1.02]">
+                <span class="text-[10px] font-bold text-white/50 uppercase tracking-widest leading-none block mb-1">Saldo Total Pendiente</span>
+                <span class="text-2xl font-black text-white tracking-tighter">
+                  {{ totalPendingAmount | currency }}
+                </span>
+             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs & Lists -->
+      <div class="flex-1 bg-white rounded-[2.5rem] border border-gray-100 shadow-sm flex flex-col overflow-hidden">
+        <!-- Tab Header -->
+        <div class="px-8 pt-6 border-b border-gray-50 flex items-center justify-between bg-slate-50/10 shrink-0">
+          <div class="flex gap-8">
+            <button 
+              (click)="activeTab = 'pacientes'" 
+              [class]="activeTab === 'pacientes' ? 'border-blue-500 text-blue-600' : 'border-transparent text-slate-400 hover:text-slate-600'"
+              class="pb-4 px-1 border-b-2 font-black text-xs uppercase tracking-widest transition-all"
+            >
+              <i class="fa-solid fa-paw mr-2"></i>
+              Pacientes ({{ patients.length }})
+            </button>
+            <button 
+              (click)="activeTab = 'creditos'" 
+              [class]="activeTab === 'creditos' ? 'border-orange-500 text-orange-600' : 'border-transparent text-slate-400 hover:text-slate-600'"
+              class="pb-4 px-1 border-b-2 font-black text-xs uppercase tracking-widest transition-all"
+            >
+              <i class="fa-solid fa-credit-card mr-2"></i>
+              Créditos Activos ({{ credits.length }})
+            </button>
+          </div>
+        </div>
+
+        <div class="flex-1 overflow-auto scrollbar-thin scrollbar-thumb-slate-100">
+          @if (activeTab === 'pacientes') {
+            <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-4 animate-in slide-in-from-bottom duration-500">
+              @for (pet of patients; track pet.patient_id) {
+                <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-3xl border border-slate-100 hover:bg-blue-50/50 hover:border-blue-100 transition-all group">
+                  <div class="h-16 w-16 bg-white rounded-2xl border border-slate-100 flex items-center justify-center text-slate-300 group-hover:scale-105 transition-transform shadow-sm overflow-hidden">
+                    <i class="fa-solid fa-dog text-2xl group-hover:text-blue-500 transition-colors"></i>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-black text-slate-800 text-lg tracking-tight">{{ pet.name }}</span>
+                    <span class="text-xs font-bold text-gray-500 italic">{{ pet.species || 'Especie N/A' }} • {{ pet.breed }}</span>
+                    <div class="flex gap-2 mt-2">
+                      <span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-[9px] font-black uppercase text-slate-400 italic">
+                        {{ pet.sex }}
+                      </span>
+                      <span class="px-2 py-0.5 bg-white border border-slate-200 rounded text-[9px] font-black uppercase text-slate-400 italic">
+                        {{ pet.color }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              } @empty {
+                <div class="col-span-full py-20 flex flex-col items-center justify-center opacity-40">
+                  <i class="fa-solid fa-paw text-6xl mb-4"></i>
+                  <p class="font-black text-xs uppercase tracking-widest">Sin pacientes registrados</p>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="p-0 animate-in slide-in-from-bottom duration-500 min-h-full">
+              <table class="min-w-full divide-y divide-gray-50 text-sm">
+                <thead class="bg-slate-50/50 sticky top-0 z-10 backdrop-blur-sm">
+                  <tr>
+                    <th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">ID / Concepto</th>
+                    <th class="px-8 py-4 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Fecha</th>
+                    <th class="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Estado</th>
+                    <th class="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Original</th>
+                    <th class="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Abonado</th>
+                    <th class="px-8 py-4 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Pendiente</th>
+                    <th class="px-8 py-4 text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Acciones</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                  @for (cr of credits; track cr.credit_id) {
+                    <tr class="hover:bg-orange-50/20 transition-colors group">
+                      <td class="px-8 py-5 whitespace-nowrap">
+                        <div class="flex flex-col">
+                           <span class="font-black text-slate-800 tracking-tight leading-none group-hover:text-orange-600 transition-colors">CR-{{ cr.credit_id }} | Ticket #{{ cr.sale_id }}</span>
+                           <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 italic">{{ cr.concept }}</span>
+                        </div>
+                      </td>
+                      <td class="px-8 py-5 whitespace-nowrap text-[11px] font-bold text-slate-500 italic">
+                        {{ cr.date | date:'dd/MM/yyyy' }}
+                      </td>
+                      <td class="px-8 py-5 whitespace-nowrap text-right">
+                         <span [class]="cr.paid ? 'bg-emerald-100 text-emerald-600 border-emerald-200' : 'bg-orange-100 text-orange-600 border-orange-200'" 
+                               class="px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border">
+                           {{ cr.paid ? 'Pagado' : 'Pendiente' }}
+                         </span>
+                      </td>
+                      <td class="px-8 py-5 whitespace-nowrap text-right font-black text-slate-400">{{ cr.original_balance | currency }}</td>
+                      <td class="px-8 py-5 whitespace-nowrap text-right font-black text-emerald-600">{{ cr.total_paid | currency }}</td>
+                      <td class="px-8 py-5 whitespace-nowrap text-right font-black text-orange-600 border-l border-slate-50">
+                        {{ cr.remaining | currency }}
+                      </td>
+                      <td class="px-8 py-5 whitespace-nowrap text-center">
+                        <div class="flex items-center justify-center gap-2">
+                           <button 
+                             (click)="viewHistory(cr)"
+                             class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-blue-500 hover:border-blue-200 hover:bg-blue-50 transition-all shadow-sm group-hover:scale-105"
+                             title="Ver Historial de Abonos"
+                           >
+                              <i class="fa-solid fa-clock-rotate-left"></i>
+                           </button>
+                           @if (!cr.paid) {
+                             <button 
+                               (click)="openAddPayment(cr)"
+                               class="flex items-center gap-2 pl-4 pr-5 py-2.5 bg-orange-600 text-white rounded-xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-orange-600/20 hover:bg-orange-700 active:scale-95 transition-all group-hover:scale-105"
+                             >
+                               <i class="fa-solid fa-plus text-[12px]"></i>
+                               Abonar
+                             </button>
+                           } @else {
+                             <span class="text-emerald-500 font-bold italic text-[10px]">Sin Deuda</span>
+                           }
+                        </div>
+                      </td>
+                    </tr>
+                  } @empty {
+                    <tr>
+                      <td colspan="7" class="py-20 text-center opacity-40">
+                         <i class="fa-solid fa-receipt text-6xl mb-4 block"></i>
+                         <p class="font-black text-xs uppercase tracking-widest">Sin créditos registrados</p>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Modal: Registrar Abono -->
+@if (showPaymentModal && selectedCredit) {
+  <app-add-payment-modal
+    [credit]="selectedCredit"
+    [isLoading]="isSavingPayment"
+    [errorMessage]="paymentErrorMessage"
+    (close)="closePaymentModal()"
+    (save)="registerPayment($event)"
+  />
+}
+
+<!-- Modal: Historial de Abonos -->
+@if (showHistoryModal && selectedCredit) {
+  <div class="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-300">
+    <div 
+      class="bg-white rounded-[2.5rem] w-full max-w-xl shadow-2xl border border-white overflow-hidden animate-in zoom-in-95 duration-300"
+      (click)="$event.stopPropagation()"
+    >
+      <!-- Header -->
+      <div class="p-8 bg-slate-50/50 border-b border-slate-100 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="h-12 w-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 border border-blue-200">
+            <i class="fa-solid fa-history text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-black text-slate-900">Historial de Abonos</h2>
+            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Crédito #{{ selectedCredit.credit_id }} | Venta #{{ selectedCredit.sale_id }}</p>
+          </div>
+        </div>
+        <button (click)="closeHistoryModal()" class="p-2 hover:bg-slate-100 rounded-xl transition-colors text-slate-400">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- History Content -->
+      <div class="p-0 max-h-[60vh] overflow-y-auto scrollbar-thin">
+        @if (isLoadingHistory) {
+          <div class="p-20 flex flex-col items-center justify-center gap-4">
+             <div class="w-10 h-10 border-4 border-slate-100 border-t-blue-500 rounded-full animate-spin"></div>
+             <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Cargando pagos...</p>
+          </div>
+        } @else {
+          <table class="min-w-full divide-y divide-gray-50 text-sm">
+            <thead class="bg-slate-50/30 sticky top-0 z-10 backdrop-blur-sm">
+              <tr>
+                <th class="px-8 py-4 text-left text-[9px] font-black text-slate-400 uppercase tracking-widest">Fecha / Hora</th>
+                <th class="px-8 py-4 text-right text-[9px] font-black text-slate-400 uppercase tracking-widest">Monto Abonado</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-50">
+              @for (payment of paymentHistory; track payment.payment_id) {
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="px-8 py-5 whitespace-nowrap text-xs font-bold text-slate-500 italic">
+                    {{ payment.date | date:'dd/MM/yyyy HH:mm' }}
+                  </td>
+                  <td class="px-8 py-5 whitespace-nowrap text-right font-black text-emerald-600">
+                    {{ payment.amount | currency }}
+                  </td>
+                </tr>
+              } @empty {
+
+                <tr>
+                  <td colspan="3" class="py-20 text-center opacity-40">
+                     <p class="font-black text-xs uppercase tracking-widest italic">No se han registrado abonos aún</p>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+
+      <!-- Footer -->
+      <div class="p-8 bg-slate-50/30 border-t border-slate-100 flex items-center justify-between">
+         <div class="flex gap-4">
+            <div class="flex flex-col">
+              <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Total Pagado</span>
+              <span class="text-lg font-black text-emerald-600 leading-none">{{ selectedCredit.total_paid | currency }}</span>
+            </div>
+            <div class="flex flex-col border-l border-slate-200 pl-4">
+              <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Saldo Restante</span>
+              <span class="text-lg font-black text-orange-600 leading-none">{{ selectedCredit.remaining | currency }}</span>
+            </div>
+         </div>
+         <button (click)="closeHistoryModal()" class="px-8 py-3 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-slate-800 transition-all shadow-lg active:scale-95">
+           Cerrar
+         </button>
+      </div>
+    </div>
+  </div>
+}

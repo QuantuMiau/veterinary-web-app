@@ -1,0 +1,228 @@
+<div class="h-full flex flex-col gap-6 p-6 overflow-hidden backdrop-blur-sm animate-in fade-in duration-500">
+  <!-- Header -->
+  <div class="flex items-center justify-between shrink-0">
+    <div class="flex items-center gap-4">
+      <button (click)="goBack()" class="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition-all shadow-sm active:scale-95 group">
+        <i class="fa-solid fa-arrow-left text-lg group-hover:-translate-x-1 transition-transform"></i>
+      </button>
+      <div>
+        <h1 class="text-3xl font-black text-slate-900 tracking-tight uppercase">Nueva Venta</h1>
+        <p class="text-gray-500 font-medium tracking-tight">Registra una transacción en caja</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-1 flex flex-col lg:flex-row gap-6 min-h-0 overflow-hidden">
+    <!-- Left Column: Search & Selection -->
+    <div class="flex-1 flex flex-col gap-6 min-h-0">
+      <!-- Client Search -->
+      <div class="bg-white rounded-[2.5rem] p-6 border border-gray-100 shadow-sm space-y-4">
+        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
+           <i class="fa-solid fa-user text-emerald-500"></i>
+           Seleccionar Cliente
+           @if (paymentMethod === 'Credito') {
+             <span class="ml-2 px-2 py-0.5 bg-red-100 text-red-600 rounded text-[9px] animate-pulse">Obligatorio</span>
+           } @else {
+             <span class="ml-2 px-2 py-0.5 bg-slate-100 text-slate-400 rounded text-[9px]">Opcional (Deshabilitado)</span>
+           }
+        </h3>
+        
+        @if (!selectedClient) {
+          <div class="relative group">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-emerald-500 transition-colors"></i>
+            <input 
+              type="text" 
+              [(ngModel)]="clientSearch"
+              [disabled]="paymentMethod === 'Efectivo'"
+              [placeholder]="paymentMethod === 'Efectivo' ? 'Búsqueda deshabilitada para efectivo' : 'Buscar cliente por nombre o ID...'" 
+              class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all text-sm disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+            >
+            
+            @if (filteredClients.length > 0) {
+              <div class="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-100 shadow-xl z-30 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+                @for (client of filteredClients; track client.client_id) {
+                  <button 
+                    (click)="selectClient(client)"
+                    class="w-full px-4 py-3 text-left hover:bg-emerald-50 transition-colors flex items-center justify-between group/item"
+                  >
+                    <div class="flex flex-col">
+                      <span class="font-black text-slate-700 italic">{{ client.first_name }} {{ client.last_name }}</span>
+                      <span class="text-[10px] text-slate-400 font-bold uppercase">ID: {{ client.client_id }}</span>
+                    </div>
+                    <i class="fa-solid fa-plus text-slate-200 group-hover/item:text-emerald-500 transition-colors"></i>
+                  </button>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="flex items-center justify-between p-4 bg-emerald-50 border border-emerald-100 rounded-2xl animate-in zoom-in duration-300">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-emerald-600 shadow-sm font-black italic">
+                {{ selectedClient.first_name?.charAt(0) }}{{ selectedClient.last_name?.charAt(0) }}
+              </div>
+              <div class="flex flex-col">
+                <span class="font-black text-emerald-900 italic text-lg">{{ selectedClient.first_name }} {{ selectedClient.last_name }}</span>
+                <span class="text-[10px] text-emerald-600 font-bold uppercase tracking-widest">Cliente Seleccionado - ID: {{ selectedClient.client_id }}</span>
+              </div>
+            </div>
+            <button (click)="removeClient()" class="p-2 text-emerald-400 hover:text-emerald-600 hover:bg-white rounded-lg transition-all">
+              <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+          </div>
+        }
+      </div>
+
+      <!-- Item Search (Products & Services) -->
+      <div class="flex-1 bg-white rounded-[2.5rem] p-6 border border-gray-100 shadow-sm flex flex-col min-h-0">
+        <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 mb-4">
+           <i class="fa-solid fa-box-open text-sky-500"></i>
+           Agregar Productos o Servicios
+        </h3>
+        
+        <div class="relative group mb-6">
+          <i class="fa-solid fa-cart-plus absolute left-4 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-sky-500 transition-colors"></i>
+          <input 
+            type="text" 
+            [(ngModel)]="itemSearch"
+            placeholder="Buscar por nombre o concepto..." 
+            class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all text-sm"
+          >
+          
+          @if (availableItems.length > 0) {
+            <div class="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl border border-slate-100 shadow-xl z-30 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+              <div class="max-h-64 overflow-auto scrollbar-thin">
+                @for (item of availableItems; track item.concept_id) {
+                  <button 
+                    (click)="addToCart(item)"
+                    class="w-full px-4 py-3 text-left hover:bg-sky-50 transition-colors flex items-center justify-between group/prod"
+                  >
+                    <div class="flex items-center gap-3">
+                      <span [class]="'text-[9px] px-2 py-0.5 rounded-md font-black uppercase ' + (item.type === 'Producto' ? 'bg-amber-100 text-amber-700' : 'bg-purple-100 text-purple-700')">
+                        {{ item.type }}
+                      </span>
+                      <div class="flex flex-col">
+                        <span class="font-black text-slate-700 italic">{{ item.name }}</span>
+                        <span class="text-[10px] text-slate-400 font-bold tracking-tighter">{{ item.price | currency }}</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-circle-plus text-slate-200 group-hover/prod:text-sky-500 transition-colors text-lg"></i>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="flex-1 overflow-auto pr-2 scrollbar-thin">
+          <!-- Cart List -->
+          @if (cart.length > 0) {
+            <div class="space-y-3">
+              @for (item of cart; track item.concept_id; let i = $index) {
+                <div class="flex items-center justify-between p-4 bg-slate-50/50 border border-slate-100 rounded-2xl group/cart hover:border-slate-200 transition-all">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-400 shadow-sm border border-slate-50">
+                      <i class="fa-solid fa-tag text-xs"></i>
+                    </div>
+                    <div class="flex flex-col">
+                      <span class="font-black text-slate-700 italic">{{ item.name }}</span>
+                      <span class="text-[10px] text-slate-400 font-bold">{{ item.price | currency }} / unidad</span>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-3 bg-white p-1 rounded-xl border border-slate-100 shadow-sm">
+                      <button (click)="updateQuantity(i, -1)" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all">
+                        <i class="fa-solid fa-minus text-xs"></i>
+                      </button>
+                      <span class="w-6 text-center font-black text-slate-700 text-sm italic">{{ item.quantity }}</span>
+                      <button (click)="updateQuantity(i, 1)" class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-emerald-500 hover:bg-emerald-50 rounded-lg transition-all">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                      </button>
+                    </div>
+                    
+                    <div class="w-24 text-right">
+                      <span class="font-black text-slate-900 tracking-tighter">{{ (+item.price * item.quantity) | currency }}</span>
+                    </div>
+                    
+                    <button (click)="removeFromCart(i)" class="p-2 text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover/cart:opacity-100">
+                      <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          } @else {
+            <div class="h-full flex flex-col items-center justify-center text-slate-200 py-12">
+               <i class="fa-solid fa-basket-shopping text-6xl mb-4 opacity-20"></i>
+               <p class="font-black text-slate-300 uppercase tracking-widest text-[10px]">El carrito está vacío</p>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Checkout -->
+    <div class="w-full lg:w-96 flex flex-col gap-6">
+      <div class="bg-slate-900 rounded-[2.5rem] p-8 text-white shadow-xl shadow-slate-900/20 flex flex-col gap-8">
+        <div class="space-y-6">
+          <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Resumen de Cobro</h3>
+          
+          <div class="flex items-center justify-between py-4 border-b border-white/10">
+            <span class="text-sm font-bold text-slate-300/80">Subtotal</span>
+            <span class="font-black text-lg tracking-tighter">{{ total | currency }}</span>
+          </div>
+
+          <div class="space-y-4">
+            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Método de Pago</label>
+            <div class="grid grid-cols-2 gap-3">
+               <button 
+                 (click)="setPaymentMethod('Efectivo')"
+                 [class]="paymentMethod === 'Efectivo' ? 'bg-emerald-500 text-white border-emerald-400' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'"
+                 class="px-4 py-3 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all"
+               >Efectivo</button>
+               <button 
+                 (click)="setPaymentMethod('Credito')"
+                 [class]="paymentMethod === 'Credito' ? 'bg-orange-500 text-white border-orange-400' : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'"
+                 class="px-4 py-3 rounded-2xl border text-[10px] font-black uppercase tracking-widest transition-all"
+               >Crédito</button>
+            </div>
+
+
+          </div>
+        </div>
+
+        <div class="mt-auto space-y-6 pt-4 border-t border-white/10">
+          <div class="flex justify-between items-end">
+            <span class="text-[11px] font-black text-slate-400 uppercase tracking-widest">Total a Pagar</span>
+            <span class="text-4xl font-black text-white tracking-tighter">{{ total | currency }}</span>
+          </div>
+
+          @if (errorMessage) {
+            <div class="p-3 bg-red-500/20 border border-red-500/50 rounded-xl text-red-200 text-[10px] font-bold text-center animate-in shake duration-500">
+              <i class="fa-solid fa-triangle-exclamation mr-2"></i> {{ errorMessage }}
+            </div>
+          }
+
+          <button 
+            (click)="submitSale()"
+            [disabled]="isSubmitting || cart.length === 0"
+            class="w-full py-5 bg-white text-slate-900 rounded-[2rem] font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:bg-emerald-50 active:scale-95 disabled:opacity-50 disabled:active:scale-100 transition-all flex items-center justify-center gap-3"
+          >
+            @if (isSubmitting) {
+              <i class="fa-solid fa-circle-notch animate-spin text-lg"></i>
+              Procesando...
+            } @else {
+              <i class="fa-solid fa-cash-register text-lg"></i>
+              Finalizar Venta
+            }
+          </button>
+          
+          <p class="text-[9px] text-slate-500 font-bold text-center uppercase tracking-widest px-4">
+            Al finalizar, se registrará la transacción y se actualizará el stock e historial.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,14 @@ import {ServicesComponent} from './pages/dashboard.component/services.component/
 import {IotComponent} from './pages/dashboard.component/iot.component/iot.component';
 import {NotFoundComponent} from './pages/not-found.component/not-found.component';
 import { ClientsComponent } from './pages/clients.component/clients.component';
+import { ClientDetailsComponent } from './pages/clients.component/client-details.component/client-details.component';
 import {UsersComponent} from './pages/dashboard.component/users.component/users.component';
+
+import { SalesComponent } from './pages/dashboard.component/sales.component/sales.component';
+import { CreateSaleComponent } from './pages/dashboard.component/sales.component/create-sale.component/create-sale.component';
+import { SaleDetailsComponent } from './pages/dashboard.component/sales.component/sale-details.component/sale-details.component';
+
+
 
 export const routes: Routes = [
   {
@@ -57,7 +64,14 @@ export const routes: Routes = [
             {path: 'servicios', component: ServicesComponent},
             {path: 'iot', component: IotComponent},
             {path: 'clients', component: ClientsComponent},
+            {path: 'clients/:id', component: ClientDetailsComponent},
             {path: 'empleados', component: UsersComponent},
+
+            {path: 'ventas', component: SalesComponent},
+            {path: 'ventas/nueva', component: CreateSaleComponent},
+            {path: 'ventas/:id', component: SaleDetailsComponent},
+
+
           ]
         }]
       }
