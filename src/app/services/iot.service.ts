@@ -2,8 +2,8 @@ import { Injectable, NgZone } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 
 /// recordar cambiar a la nueba de ngrok
-const API = 'https://e524-2806-268-9402-538-2982-73c6-dd9c-874f.ngrok-free.app';
-const WS_URL = 'wss://e524-2806-268-9402-538-2982-73c6-dd9c-874f.ngrok-free.app/thermal';
+const API = 'https://56d9-2806-268-9402-538-2982-73c6-dd9c-874f.ngrok-free.app';
+const WS_URL = 'wss://56d9-2806-268-9402-538-2982-73c6-dd9c-874f.ngrok-free.app/thermal';
 
 const W_SENS = 32;
 const H_SENS = 24;

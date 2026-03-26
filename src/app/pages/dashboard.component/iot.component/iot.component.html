@@ -7,12 +7,8 @@
     </div>
 
     <div class="status-bar m-0">
-      <span>WebSocket</span>
       <span id="ws-status" [class.connected]="wsConnected" [class.disconnected]="!wsConnected">
         {{ wsConnected ? 'CONECTADO' : 'DESCONECTADO' }}
-      </span>
-      <span id="last-frame" class="text-gray-500 text-xs">
-        {{ frameCount > 0 ? 'frame #' + frameCount + ' · ' + lastFrameTime : 'sin frames' }}
       </span>
     </div>
   </div>
